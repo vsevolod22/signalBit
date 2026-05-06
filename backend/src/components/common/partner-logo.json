@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_common_partner_logos",
+  "info": {
+    "displayName": "Логотип партнёра",
+    "description": "Логотип партнёра в блоке контактов"
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

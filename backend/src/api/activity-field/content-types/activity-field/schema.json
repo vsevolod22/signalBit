@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "activity_fields",
+  "info": {
+    "singularName": "activity-field",
+    "pluralName": "activity-fields",
+    "displayName": "Направление деятельности",
+    "description": "Редактируемые направления деятельности"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

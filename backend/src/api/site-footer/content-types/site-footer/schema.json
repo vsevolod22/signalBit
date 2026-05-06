@@ -1,0 +1,19 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_footers",
+  "info": {
+    "singularName": "site-footer",
+    "pluralName": "site-footers",
+    "displayName": "Подвал сайта",
+    "description": "Редактируемый текст подвала сайта"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

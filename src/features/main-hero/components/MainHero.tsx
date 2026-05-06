@@ -6,6 +6,7 @@ import '../styles/main.css';
 export function MainHero(): ReactElement {
   return (
     <div className="main">
+      <img className="main_logo" src={HERO_IMAGES.logo} />
       <div className="block_1">
         <div className="descr">
           <h3>Ваш надежный партнер в безопасности</h3>

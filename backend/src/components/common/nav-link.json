@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_common_nav_links",
+  "info": {
+    "displayName": "Ссылка навигации",
+    "description": "Ссылка шапки сайта с номером секции фронтенда"
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "sectionIndex": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}

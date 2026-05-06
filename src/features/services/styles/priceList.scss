@@ -91,11 +91,73 @@
             }
         }
     }
-    .creations .creation_2 .title{
-        font-size: 45px;
-        margin: 30px 0 30px 32px
+}
+
+@media(max-width: 768px){
+    .price{
+        padding: 0;
+        width: 100%;
+        .title{
+            width: calc(100% - 24px);
+            font-size: 20px;
+            line-height: 1.15;
+            margin: 12px 0 8px 12px;
+        }
+        .list{
+            width: calc(100% - 24px);
+            height: auto;
+            margin-left: 12px;
+            flex-direction: column;
+            gap: 0;
+            li{
+                width: 100%;
+                align-items: flex-start;
+                &:nth-child(1), &:nth-child(2){
+                    margin-bottom: 0;
+                }
+                img{
+                    width: 36px;
+                    height: 36px;
+                    flex: 0 0 36px;
+                }
+                .descr{
+                    width: calc(100% - 48px);
+                    margin-left: 12px;
+                    .name{
+                        font-size: 12px;
+                        line-height: 1.2;
+                        margin-bottom: 4px;
+                    }
+                    .text_d{
+                        font-size: 8px;
+                        line-height: 1.35;
+                        margin-bottom: 4px;
+                    }
+                    .text_h{
+                        font-size: 7px;
+                        margin-bottom: 2px;
+                    }
+                    .text_u{
+                        font-size: 7px;
+                        line-height: 1.35;
+                        margin-bottom: 2px;
+                    }
+                }
+            }
+        }
     }
-    .creations .creation_2 .list li span{
-        font-size: 24px;
+}
+
+@media(max-width: 420px){
+    .price{
+        .list{
+            li{
+                flex-direction: row;
+                .descr{
+                    margin-left: 12px;
+                    margin-top: 0;
+                }
+            }
+        }
     }
 }

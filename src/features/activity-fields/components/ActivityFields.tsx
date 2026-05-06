@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 
+import { CourseRegistrationForm } from './CourseRegistrationForm';
 import { ACTIVITY_FIELDS } from '../model/activity-fields-data';
 import '../styles/fieldsOfActivity.css';
 
@@ -16,6 +17,7 @@ export function ActivityFields(): ReactElement {
           </div>
         </div>
       ))}
+      <CourseRegistrationForm />
     </div>
   );
 }

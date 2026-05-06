@@ -14,7 +14,9 @@ export function ProductCanary(): ReactElement {
     <div className="creations">
       <div className="creation_1">
         <div className="descr">
-          <h3 className="title">«Канарейка» для обнаружения аномалий и радиоуправляемых устройств</h3>
+          <h3 className="title">
+            «Канарейка» для обнаружения аномалий и радиоуправляемых устройств
+          </h3>
           <p className="top_text">
             <span className="key_word">
               Это интеллектуальная система детектирования и противодействия беспилотным
@@ -42,7 +44,7 @@ export function ProductCanary(): ReactElement {
                 защищаемого объекта.
               </p>
             </div>
-            <video autoPlay loop muted>
+            <video autoPlay loop muted playsInline>
               <source src={CANARY_VIDEO} type="video/mp4" />
             </video>
           </div>

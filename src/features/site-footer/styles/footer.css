@@ -10,3 +10,19 @@
     font-size: 13px;
     color: #676767
 }
+
+@media(max-width: 768px){
+    .footer{
+        position: static;
+        width: auto;
+        padding: 0;
+        margin: 18px 0 0;
+    }
+    .footer span{
+        display: block;
+        margin-left: 0;
+        font-size: 8px;
+        line-height: 1.35;
+        text-align: center;
+    }
+}

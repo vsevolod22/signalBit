@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_requests",
+  "info": {
+    "singularName": "contact-request",
+    "pluralName": "contact-requests",
+    "displayName": "Заявка обратной связи",
+    "description": "Заявки из формы общих вопросов на сайте"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "fullName": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "contactMethod": {
+      "type": "string",
+      "required": true
+    },
+    "question": {
+      "type": "text",
+      "required": true
+    },
+    "source": {
+      "type": "string",
+      "default": "site"
+    }
+  }
+}

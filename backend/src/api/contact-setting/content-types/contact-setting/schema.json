@@ -1,0 +1,30 @@
+{
+  "kind": "singleType",
+  "collectionName": "contact_settings",
+  "info": {
+    "singularName": "contact-setting",
+    "pluralName": "contact-settings",
+    "displayName": "Настройки контактов",
+    "description": "Медиа и партнёры блока контактов"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "emailIcon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "rightImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "partnerLogos": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.partner-logo"
+    }
+  }
+}

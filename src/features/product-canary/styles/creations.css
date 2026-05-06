@@ -82,6 +82,7 @@
 .creations .creation_2 .title{
     font-weight: 700;
     font-size: 55px;
+    width: calc(100% - 64px);
     margin: 50px 0 50px 32px
 }
 .creations .creation_2 .list{
@@ -193,4 +194,109 @@
     display: flex;
     align-items: center;
     gap: 32px;
+}
+
+@media(max-width: 768px){
+    .creations{
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        display: block;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .creations .creation_1{
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+    .creations .creation_1 .descr{
+        width: 100%;
+        margin: 0;
+        display: contents;
+    }
+    .creations .creation_1 .descr .title{
+        width: calc(100% - 24px);
+        font-size: 20px;
+        line-height: normal;
+        margin: 12px 0 8px 12px;
+        order: 0;
+    }
+    .creations .creation_1 .descr .top_text{
+        width: calc(100% - 24px);
+        margin: 0 0 4px 12px;
+        font-size: 8px;
+        line-height: 1.35;
+        color: black;
+        order: 2;
+    }
+    .creations .creation_1 .descr .img_text{
+        flex-direction: column;
+        align-items: stretch;
+        order: 3;
+    }
+    .creations .creation_1 .descr .img_text_list{
+        width: 100%;
+    }
+    .creations .creation_1 .descr .img_text_list p{
+        width: calc(100% - 24px);
+        margin: 0 0 4px 12px;
+        font-size: 8px;
+        line-height: 1.35;
+        color: black;
+    }
+    .creations .creation_1 .descr video{
+        width: calc(100% - 24px);
+        margin: 8px 12px 0;
+    }
+    .creations .creation_1 .imgs{
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0;
+        margin-top: 0;
+        margin-bottom: 8px;
+        flex-wrap: nowrap;
+        order: 1;
+    }
+    .creations .creation_1 .imgs .top,
+    .creations .creation_1 .imgs .middle,
+    .creations .creation_1 .imgs .bottom{
+        width: auto;
+        height: 77px;
+    }
+    .creations .creation_2{
+        height: auto;
+        margin-top: 0;
+    }
+    .creations .creation_2 .title{
+        width: calc(100% - 24px);
+        font-size: 20px;
+        line-height: normal;
+        margin: 12px 0 8px 12px;
+    }
+    .creations .part2-body{
+        width: calc(100% - 24px);
+        margin-left: 12px;
+        margin-top: 0;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .creations .part2-body .part2-column{
+        width: 100%;
+        gap: 10px;
+    }
+    .creations .part2-column-cont{
+        align-items: center;
+        gap: 12px;
+        font-size: 8px;
+        line-height: 1.35;
+    }
+    .creations .part2-column-cont img{
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
+    }
 }

@@ -13,9 +13,9 @@ export function FlightControllerProduct(): ReactElement {
     <div className="createFC">
       <div className="contSens-part1">
         <div className="column1">
-          <div className="column1-head">
-            <b>Полётный контроллер для беспилотных автоматизированных систем</b>
-          </div>
+          <h3 className="column1-head">
+            Полётный контроллер для беспилотных автоматизированных систем
+          </h3>
           <div className="column1-body">
             <div>
               <b>
@@ -58,9 +58,7 @@ export function FlightControllerProduct(): ReactElement {
         </div>
       </div>
       <div className="contSens">
-        <div className="part2-head">
-          <b>Характерные параметры устройства</b>
-        </div>
+        <h3 className="part2-head">Характерные параметры системы</h3>
         <div className="part2-body">
           <div className="part2-column c1">
             {leftColumn.map((item) => (

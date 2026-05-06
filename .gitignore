@@ -2,3 +2,11 @@
 node_modules
 dist
 .DS_Store
+.env
+backend/.env
+backend/.tmp
+backend/build
+backend/dist
+backend/node_modules
+backend/public/uploads/*
+!backend/public/uploads/.gitkeep

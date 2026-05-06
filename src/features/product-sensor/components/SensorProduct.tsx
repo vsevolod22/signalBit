@@ -14,13 +14,9 @@ export function SensorProduct(): ReactElement {
     <div className="createSensor">
       <div className="contSens-part1">
         <div className="column1">
-          <div className="column1-head">
-            <b>
-              Сенсор для обнаружения
-              <br />
-              радиоуправлемых устройств
-            </b>
-          </div>
+          <h3 className="column1-head">
+            Сенсор для обнаружения радиоуправлемых устройств
+          </h3>
           <div className="column1-body">
             <div>
               <b>
@@ -63,9 +59,7 @@ export function SensorProduct(): ReactElement {
         </div>
       </div>
       <div className="contSens">
-        <div className="part2-head">
-          <b>Характерные параметры устройства</b>
-        </div>
+        <h3 className="part2-head">Характерные параметры системы</h3>
         <div className="part2-body">
           <div className="part2-column c1">
             {leftColumn.map((item) => (

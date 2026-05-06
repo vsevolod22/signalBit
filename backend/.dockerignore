@@ -1,0 +1,9 @@
+node_modules
+build
+dist
+.cache
+.tmp
+.env
+public/uploads
+.strapi
+.strapi-updater.json

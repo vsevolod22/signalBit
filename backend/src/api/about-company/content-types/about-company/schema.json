@@ -1,0 +1,37 @@
+{
+  "kind": "singleType",
+  "collectionName": "about_companies",
+  "info": {
+    "singularName": "about-company",
+    "pluralName": "about-companies",
+    "displayName": "О компании",
+    "description": "Раздел о компании, показатели и официальная информация"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "paragraphs": {
+      "type": "json",
+      "required": true
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.stat-item"
+    },
+    "officialTitle": {
+      "type": "string",
+      "required": true
+    },
+    "officialItems": {
+      "type": "json",
+      "required": true
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

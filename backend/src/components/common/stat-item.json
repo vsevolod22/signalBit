@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_common_stat_items",
+  "info": {
+    "displayName": "Показатель",
+    "description": "Редактируемый показатель компании"
+  },
+  "attributes": {
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "text",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

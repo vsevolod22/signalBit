@@ -7,6 +7,13 @@
 {
     // @include adaptiv-height(190);
     // height: 190px;
+    .name
+    {
+        display: block;
+        @include adaptiv-font(24, 16);
+        margin: 0 0 8px;
+    }
+
     .block-t
     {
         display: flex;
@@ -66,6 +73,15 @@
         flex-direction: column;
         gap: 7px;
     }
+
+    .title_of
+    {
+        width: 100%;
+        font-size: inherit;
+        line-height: inherit;
+        font-weight: 700;
+        margin: 0;
+    }
 }
 
 .container-block
@@ -86,5 +102,102 @@
 .header-AboutUs
 {
     @include adaptiv-font(45, 30);
-    margin-left: 2%;
+    width: 100%;
+    margin: 0 0 3% 2%;
+    font-weight: 700;
 }}
+
+@media(max-width: 768px){
+    .aboutUs{
+        width: 94%;
+        padding: 0;
+        margin: 0 auto;
+        box-sizing: border-box;
+
+        .header-AboutUs{
+            margin-left: 0;
+            font-size: 20px;
+            line-height: normal;
+            margin: 20px 0 16px;
+        }
+
+        .container-block{
+            float: none;
+            width: 100%;
+            margin: 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .block1,
+        .block3,
+        .block4{
+            width: 100%;
+        }
+
+        .block1{
+            order: 2;
+
+            .name{
+                display: block;
+                font-size: 12px;
+                margin: 0 0 4px;
+            }
+        }
+
+        .block2{
+            order: 1;
+
+            img{
+                width: auto;
+                max-width: none;
+                height: 164px;
+            }
+        }
+
+        .block3{
+            order: 3;
+            height: auto;
+            margin-top: 0;
+            gap: 14px;
+            justify-content: flex-start;
+
+            .block3-cont{
+                align-items: flex-start;
+
+                img{
+                    width: auto;
+                    height: 26px;
+                    flex: 0 0 auto;
+                }
+            }
+        }
+
+        .block4{
+            order: 4;
+            height: auto;
+            margin-top: 0;
+            gap: 0;
+
+            .title_of{
+                width: 100%;
+                color: #4d4d4d;
+                font-size: 8px;
+                line-height: normal;
+                font-weight: 700;
+                margin: 0 0 5px;
+                text-align: left;
+            }
+
+            .block4-cont{
+                gap: 0;
+            }
+        }
+
+        .text{
+            font-size: 8px;
+            line-height: 1.35;
+        }
+    }
+}

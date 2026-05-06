@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_product_features",
+  "info": {
+    "displayName": "Характеристика продукта",
+    "description": "Редактируемая характеристика или параметр продукта"
+  },
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

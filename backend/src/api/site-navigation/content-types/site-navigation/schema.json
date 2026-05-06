@@ -1,0 +1,38 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_navigations",
+  "info": {
+    "singularName": "site-navigation",
+    "pluralName": "site-navigations",
+    "displayName": "Навигация сайта",
+    "description": "Подписи шапки сайта и переходы к секциям"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.nav-link"
+    },
+    "productLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.nav-link"
+    },
+    "contactLabel": {
+      "type": "string",
+      "required": true
+    },
+    "contactSectionIndex": {
+      "type": "integer",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

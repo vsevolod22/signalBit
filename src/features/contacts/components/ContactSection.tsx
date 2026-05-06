@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 
+import { ContactRequestForm } from './ContactRequestForm';
 import { CONTACT_IMAGES, PARTNER_LOGOS } from '../model/contacts-data';
 import '../styles/callback.scss';
 
@@ -22,6 +23,7 @@ export function ContactSection(): ReactElement {
           <img className="right_img" src={CONTACT_IMAGES.rightImage} />
         </div>
       </div>
+      <ContactRequestForm />
       <div className="partners">
         <div className="partner_list">
           <h3 className="title">Наши партнеры</h3>

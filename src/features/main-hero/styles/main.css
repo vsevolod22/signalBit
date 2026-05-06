@@ -2,6 +2,10 @@
     margin-top: 60px;
 }
 
+.main .main_logo{
+    display: none;
+}
+
 .main .block_1{
     display: flex;
     justify-content: space-between;
@@ -70,5 +74,81 @@
     }
     .main{
         margin-top: 10px;
+    }
+}
+
+@media(max-width: 768px){
+    .main{
+        margin-top: 0;
+        padding: 0;
+        width: 100%;
+    }
+    .main .main_logo{
+        display: block;
+        width: 248px;
+        height: 39px;
+        margin: 0 auto;
+    }
+    .main .block_1{
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin-top: 6px;
+    }
+    .main .block_1 .descr{
+        width: auto;
+        margin: 0 0 0 12px;
+        flex: 1 1 auto;
+    }
+    .main .block_1 .descr h3{
+        width: 100%;
+        font-size: 20px;
+        line-height: 1.15;
+        margin: 18px 0 0;
+    }
+    .main .block_1 .descr span{
+        display: block;
+        font-size: 8px;
+        line-height: 1.35;
+        margin-top: 8px;
+    }
+    .main .block_1 img{
+        width: 98px;
+        height: 82px;
+        flex: 0 0 98px;
+        margin: 0;
+    }
+    .main .block_2{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: flex-start;
+        margin-top: 8px;
+    }
+    .main .block_2 img{
+        width: 101px;
+        height: 65px;
+        flex: 0 0 101px;
+        margin: 0;
+    }
+    .main .block_2 .descr{
+        display: contents;
+    }
+    .main .block_2 .descr h3{
+        width: calc(100% - 125px);
+        font-size: 20px;
+        line-height: 1.15;
+        text-align: right;
+        margin: 0 12px 0 0;
+        order: 1;
+    }
+    .main .block_2 .descr span{
+        width: 90%;
+        display: block;
+        font-size: 8px;
+        line-height: 1.35;
+        text-align: right;
+        margin: 8px 12px 0 auto;
+        order: 2;
     }
 }

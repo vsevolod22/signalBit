@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course_registrations",
+  "info": {
+    "singularName": "course-registration",
+    "pluralName": "course-registrations",
+    "displayName": "Заявка на курс",
+    "description": "Заявки на образовательные курсы с сайта"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "courseAudience": {
+      "type": "enumeration",
+      "enum": ["children", "adults"],
+      "required": true
+    },
+    "courseName": {
+      "type": "enumeration",
+      "enum": ["Школа пилотирования", "Инженер-оператор БАС 18+"],
+      "required": true
+    },
+    "studentFullName": {
+      "type": "string",
+      "required": true
+    },
+    "studentBirthDate": {
+      "type": "date",
+      "required": true
+    },
+    "studentPhone": {
+      "type": "string",
+      "required": true
+    },
+    "studentSocialLink": {
+      "type": "string",
+      "required": true
+    },
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "parentFullName": {
+      "type": "string"
+    },
+    "parentPhone": {
+      "type": "string"
+    },
+    "parentSocialLink": {
+      "type": "string"
+    },
+    "personalDataConsent": {
+      "type": "boolean",
+      "required": true
+    },
+    "source": {
+      "type": "string",
+      "default": "site"
+    }
+  }
+}

@@ -11,18 +11,14 @@ import '../styles/aboutUs.scss';
 export function AboutCompany(): ReactElement {
   return (
     <div className="aboutUs">
-      <div className="header-AboutUs">
-        <b>
-          Наша миссия – создавать безопасные
-          <br />
-          технологичные решения
-        </b>
-      </div>
+      <h3 className="header-AboutUs">
+        Наша миссия – создавать безопасные
+        <br className="desktop-title-break" />
+        технологичные решения
+      </h3>
       <div className="container-block">
         <div className="block1">
-          <div>
-            <h2>Мы ИТ-компания</h2>
-          </div>
+          <b className="name">Мы ИТ-компания</b>
           <div className="text block-t">
             {ABOUT_COMPANY_PARAGRAPHS.map((paragraph) => (
               <div key={paragraph}>{paragraph}</div>
@@ -41,7 +37,7 @@ export function AboutCompany(): ReactElement {
           ))}
         </div>
         <div className="block4 text">
-          <b>{OFFICIAL_INFO.title}</b>
+          <h3 className="title_of">{OFFICIAL_INFO.title}</h3>
           <div className="block4-cont">
             {OFFICIAL_INFO.items.map((item) => (
               <div key={item}>{item}</div>
