@@ -7,6 +7,8 @@ import { isDesktopUserAgent } from './model/device';
 import './styles/App.css';
 import './styles/mixin.scss';
 
+import { useSiteContentQuery } from '@/shared/api/site-content';
+import { SiteLoader } from '@/shared/ui/SiteLoader';
 import { MobileHomePage } from '@/pages/mobile-home';
 import { SiteFooter } from '@/features/site-footer';
 import { SiteHeader } from '@/features/site-navigation';
@@ -25,6 +27,11 @@ export function App(): ReactElement {
   const [activeSectionIndex, setActiveSectionIndex] =
     useState<DesktopSectionIndex>(DEFAULT_SECTION_INDEX);
   const isDesktop = useMemo(getInitialIsDesktop, []);
+  const siteContentQuery = useSiteContentQuery();
+
+  if (siteContentQuery.isLoading) {
+    return <SiteLoader />;
+  }
 
   const changeSection = (sectionIndex: number): void => {
     if (isDesktopSectionIndex(sectionIndex)) {

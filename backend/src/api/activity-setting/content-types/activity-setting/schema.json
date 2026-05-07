@@ -1,0 +1,31 @@
+{
+  "kind": "singleType",
+  "collectionName": "activity_settings",
+  "info": {
+    "singularName": "activity-setting",
+    "pluralName": "activity-settings",
+    "displayName": "Настройки направлений деятельности",
+    "description": "Заголовок секции и тексты формы образовательных курсов"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "required": true
+    },
+    "educationEyebrow": {
+      "type": "string",
+      "required": true
+    },
+    "educationTitle": {
+      "type": "string",
+      "required": true
+    },
+    "parentFieldsTitle": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

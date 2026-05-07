@@ -23,6 +23,27 @@
     "price": {
       "type": "string"
     },
+    "headline": {
+      "type": "string",
+      "required": true
+    },
+    "leadHighlight": {
+      "type": "text"
+    },
+    "leadText": {
+      "type": "text"
+    },
+    "descriptionBlocks": {
+      "type": "json"
+    },
+    "parametersTitle": {
+      "type": "string",
+      "default": "Характерные параметры системы"
+    },
+    "priceLabel": {
+      "type": "string",
+      "default": "Стоимость продукта"
+    },
     "features": {
       "type": "component",
       "repeatable": true,

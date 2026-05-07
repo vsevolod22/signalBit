@@ -442,6 +442,7 @@ export interface ApiAboutCompanyAboutCompany extends Struct.SingleTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    companyLabel: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -451,12 +452,43 @@ export interface ApiAboutCompanyAboutCompany extends Struct.SingleTypeSchema {
       'api::about-company.about-company'
     > &
       Schema.Attribute.Private;
+    missionTitle: Schema.Attribute.String & Schema.Attribute.Required;
     officialItems: Schema.Attribute.JSON & Schema.Attribute.Required;
     officialTitle: Schema.Attribute.String & Schema.Attribute.Required;
     paragraphs: Schema.Attribute.JSON & Schema.Attribute.Required;
     photo: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
     stats: Schema.Attribute.Component<'common.stat-item', true>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAchievementSettingAchievementSetting
+  extends Struct.SingleTypeSchema {
+  collectionName: 'achievement_settings';
+  info: {
+    description: '\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A \u0441\u0435\u043A\u0446\u0438\u0438 \u0434\u043E\u0441\u0442\u0438\u0436\u0435\u043D\u0438\u0439';
+    displayName: '\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u0434\u043E\u0441\u0442\u0438\u0436\u0435\u043D\u0438\u0439';
+    pluralName: 'achievement-settings';
+    singularName: 'achievement-setting';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::achievement-setting.achievement-setting'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    sectionTitle: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -479,7 +511,7 @@ export interface ApiAchievementAchievement extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     desktopRow: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
-    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -529,6 +561,39 @@ export interface ApiActivityFieldActivityField
   };
 }
 
+export interface ApiActivitySettingActivitySetting
+  extends Struct.SingleTypeSchema {
+  collectionName: 'activity_settings';
+  info: {
+    description: '\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A \u0441\u0435\u043A\u0446\u0438\u0438 \u0438 \u0442\u0435\u043A\u0441\u0442\u044B \u0444\u043E\u0440\u043C\u044B \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u0445 \u043A\u0443\u0440\u0441\u043E\u0432';
+    displayName: '\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0439 \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438';
+    pluralName: 'activity-settings';
+    singularName: 'activity-setting';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    educationEyebrow: Schema.Attribute.String & Schema.Attribute.Required;
+    educationTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::activity-setting.activity-setting'
+    > &
+      Schema.Attribute.Private;
+    parentFieldsTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    sectionTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiContactRequestContactRequest
   extends Struct.CollectionTypeSchema {
   collectionName: 'contact_requests';
@@ -556,7 +621,8 @@ export interface ApiContactRequestContactRequest
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     question: Schema.Attribute.Text & Schema.Attribute.Required;
-    source: Schema.Attribute.String & Schema.Attribute.DefaultTo<'site'>;
+    source: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u0421\u0430\u0439\u0442'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -579,7 +645,12 @@ export interface ApiContactSettingContactSetting
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    emailAddress: Schema.Attribute.Email & Schema.Attribute.Required;
     emailIcon: Schema.Attribute.Media<'images'>;
+    emailLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    formDescription: Schema.Attribute.Text & Schema.Attribute.Required;
+    formEyebrow: Schema.Attribute.String & Schema.Attribute.Required;
+    formTitle: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -587,7 +658,10 @@ export interface ApiContactSettingContactSetting
     > &
       Schema.Attribute.Private;
     partnerLogos: Schema.Attribute.Component<'common.partner-logo', true>;
+    partnersTitle: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    questionTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    responseText: Schema.Attribute.Text & Schema.Attribute.Required;
     rightImage: Schema.Attribute.Media<'images'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -609,7 +683,12 @@ export interface ApiCourseRegistrationCourseRegistration
   };
   attributes: {
     city: Schema.Attribute.String & Schema.Attribute.Required;
-    courseAudience: Schema.Attribute.Enumeration<['children', 'adults']> &
+    courseAudience: Schema.Attribute.Enumeration<
+      [
+        '\u0414\u0435\u0442\u0441\u043A\u0438\u0435 \u043A\u0443\u0440\u0441\u044B',
+        '\u0412\u0437\u0440\u043E\u0441\u043B\u044B\u0435 \u043A\u0443\u0440\u0441\u044B',
+      ]
+    > &
       Schema.Attribute.Required;
     courseName: Schema.Attribute.Enumeration<
       [
@@ -632,7 +711,8 @@ export interface ApiCourseRegistrationCourseRegistration
     parentSocialLink: Schema.Attribute.String;
     personalDataConsent: Schema.Attribute.Boolean & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    source: Schema.Attribute.String & Schema.Attribute.DefaultTo<'site'>;
+    source: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u0421\u0430\u0439\u0442'>;
     studentBirthDate: Schema.Attribute.Date & Schema.Attribute.Required;
     studentFullName: Schema.Attribute.String & Schema.Attribute.Required;
     studentPhone: Schema.Attribute.String & Schema.Attribute.Required;
@@ -690,8 +770,12 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    descriptionBlocks: Schema.Attribute.JSON;
     features: Schema.Attribute.Component<'product.feature', true>;
     gallery: Schema.Attribute.Media<'images', true>;
+    headline: Schema.Attribute.String & Schema.Attribute.Required;
+    leadHighlight: Schema.Attribute.Text;
+    leadText: Schema.Attribute.Text;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -699,7 +783,11 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    parametersTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u0425\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u043D\u044B\u0435 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B \u0441\u0438\u0441\u0442\u0435\u043C\u044B'>;
     price: Schema.Attribute.String;
+    priceLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u0421\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0430'>;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     sortOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
@@ -707,6 +795,38 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     video: Schema.Attribute.Media<'videos'>;
+  };
+}
+
+export interface ApiServiceSettingServiceSetting
+  extends Struct.SingleTypeSchema {
+  collectionName: 'service_settings';
+  info: {
+    description: '\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A \u0438 \u043F\u043E\u0434\u043F\u0438\u0441\u0438 \u0441\u0435\u043A\u0446\u0438\u0438 \u0443\u0441\u043B\u0443\u0433';
+    displayName: '\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u0443\u0441\u043B\u0443\u0433';
+    pluralName: 'service-settings';
+    singularName: 'service-setting';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    costLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service-setting.service-setting'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    sectionTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    technologiesLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1319,13 +1439,16 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::about-company.about-company': ApiAboutCompanyAboutCompany;
+      'api::achievement-setting.achievement-setting': ApiAchievementSettingAchievementSetting;
       'api::achievement.achievement': ApiAchievementAchievement;
       'api::activity-field.activity-field': ApiActivityFieldActivityField;
+      'api::activity-setting.activity-setting': ApiActivitySettingActivitySetting;
       'api::contact-request.contact-request': ApiContactRequestContactRequest;
       'api::contact-setting.contact-setting': ApiContactSettingContactSetting;
       'api::course-registration.course-registration': ApiCourseRegistrationCourseRegistration;
       'api::hero.hero': ApiHeroHero;
       'api::product.product': ApiProductProduct;
+      'api::service-setting.service-setting': ApiServiceSettingServiceSetting;
       'api::service.service': ApiServiceService;
       'api::site-footer.site-footer': ApiSiteFooterSiteFooter;
       'api::site-navigation.site-navigation': ApiSiteNavigationSiteNavigation;

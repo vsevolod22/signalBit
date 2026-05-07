@@ -13,6 +13,14 @@ const commonRequiredFields = [
 const parentRequiredFields = ['parentFullName', 'parentPhone', 'parentSocialLink'] as const;
 const courseAudiences = ['children', 'adults'] as const;
 const courseNames = ['Школа пилотирования', 'Инженер-оператор БАС 18+'] as const;
+const courseNameByAudience = {
+  children: 'Школа пилотирования',
+  adults: 'Инженер-оператор БАС 18+',
+} as const;
+const courseAudienceLabelByValue = {
+  children: 'Детские курсы',
+  adults: 'Взрослые курсы',
+} as const;
 
 type CourseAudience = (typeof courseAudiences)[number];
 type CourseName = (typeof courseNames)[number];
@@ -50,7 +58,7 @@ export default factories.createCoreController(
         parentPhone: normalizeString(body.parentPhone),
         parentSocialLink: normalizeString(body.parentSocialLink),
         personalDataConsent: body.personalDataConsent === true,
-        source: 'site',
+        source: 'Сайт',
       };
 
       const missingCommonField = commonRequiredFields.find((field) => data[field].length === 0);
@@ -65,6 +73,10 @@ export default factories.createCoreController(
 
       if (!isCourseName(data.courseName)) {
         return ctx.badRequest('Invalid course name');
+      }
+
+      if (data.courseName !== courseNameByAudience[data.courseAudience]) {
+        return ctx.badRequest('Course name does not match selected course audience');
       }
 
       if (!data.personalDataConsent) {
@@ -82,9 +94,9 @@ export default factories.createCoreController(
       const entry = await strapi.entityService.create('api::course-registration.course-registration', {
         data: {
           ...data,
-          courseAudience: data.courseAudience,
+          courseAudience: courseAudienceLabelByValue[data.courseAudience],
           courseName: data.courseName,
-        },
+        } as any,
       });
 
       ctx.body = { data: { id: entry.id } };

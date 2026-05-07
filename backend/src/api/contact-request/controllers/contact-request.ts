@@ -18,7 +18,7 @@ export default factories.createCoreController('api::contact-request.contact-requ
       email: normalizeString(body.email),
       contactMethod: normalizeString(body.contactMethod),
       question: normalizeString(body.question),
-      source: 'site',
+      source: 'Сайт',
     };
 
     const missingField = requiredFields.find((field) => data[field].length === 0);

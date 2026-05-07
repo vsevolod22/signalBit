@@ -1,5 +1,6 @@
 import type { MouseEvent, ReactElement } from 'react';
 
+import { getMediaUrl, useSiteContentQuery } from '@/shared/api/site-content';
 import logo from '../assets/logo.png';
 import '../styles/header.scss';
 
@@ -21,6 +22,11 @@ const productLinks = [
 ] as const;
 
 export function SiteHeader({ onSectionChange }: SiteHeaderProps): ReactElement {
+  const { data: siteContent } = useSiteContentQuery();
+  const navigation = siteContent?.siteNavigation;
+  const links = navigation?.links?.length ? navigation.links : navigationLinks;
+  const products = navigation?.productLinks?.length ? navigation.productLinks : productLinks;
+
   const createSectionHandler =
     (sectionIndex: number) =>
     (event: MouseEvent<HTMLAnchorElement | HTMLImageElement | HTMLButtonElement>): void => {
@@ -30,10 +36,10 @@ export function SiteHeader({ onSectionChange }: SiteHeaderProps): ReactElement {
 
   return (
     <div className="header">
-      <img className="logo" src={logo} onClick={createSectionHandler(0)} />
+      <img className="logo" src={getMediaUrl(navigation?.logo, logo)} onClick={createSectionHandler(0)} />
       <div className="modules">
-        {navigationLinks.slice(0, 2).map((link) => (
-          <a href="#" key={link.label} onClick={createSectionHandler(link.sectionIndex)}>
+        {links.slice(0, 2).map((link) => (
+          <a href="#" key={link.label} onClick={createSectionHandler(link.sectionIndex ?? 0)}>
             {link.label}
           </a>
         ))}
@@ -41,22 +47,22 @@ export function SiteHeader({ onSectionChange }: SiteHeaderProps): ReactElement {
         <div className="dropdown">
           <a className="dropbtn">Продукты</a>
           <div className="dropdown-content">
-            {productLinks.map((link) => (
-              <a href="#" key={link.label} onClick={createSectionHandler(link.sectionIndex)}>
+            {products.map((link) => (
+              <a href="#" key={link.label} onClick={createSectionHandler(link.sectionIndex ?? 0)}>
                 {link.label}
               </a>
             ))}
           </div>
         </div>
 
-        {navigationLinks.slice(2).map((link) => (
-          <a href="#" key={link.label} onClick={createSectionHandler(link.sectionIndex)}>
+        {links.slice(2).map((link) => (
+          <a href="#" key={link.label} onClick={createSectionHandler(link.sectionIndex ?? 0)}>
             {link.label}
           </a>
         ))}
       </div>
-      <button className="contact_us" onClick={createSectionHandler(4)}>
-        Свяжитесь с нами
+      <button className="contact_us" onClick={createSectionHandler(navigation?.contactSectionIndex ?? 4)}>
+        {navigation?.contactLabel ?? 'Свяжитесь с нами'}
       </button>
     </div>
   );

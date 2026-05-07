@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "service_settings",
+  "info": {
+    "singularName": "service-setting",
+    "pluralName": "service-settings",
+    "displayName": "Настройки услуг",
+    "description": "Заголовок и подписи секции услуг"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "required": true
+    },
+    "technologiesLabel": {
+      "type": "string",
+      "required": true
+    },
+    "costLabel": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -11,6 +11,38 @@
     "draftAndPublish": false
   },
   "attributes": {
+    "questionTitle": {
+      "type": "string",
+      "required": true
+    },
+    "emailLabel": {
+      "type": "string",
+      "required": true
+    },
+    "emailAddress": {
+      "type": "email",
+      "required": true
+    },
+    "responseText": {
+      "type": "text",
+      "required": true
+    },
+    "formEyebrow": {
+      "type": "string",
+      "required": true
+    },
+    "formTitle": {
+      "type": "string",
+      "required": true
+    },
+    "formDescription": {
+      "type": "text",
+      "required": true
+    },
+    "partnersTitle": {
+      "type": "string",
+      "required": true
+    },
     "emailIcon": {
       "type": "media",
       "multiple": false,

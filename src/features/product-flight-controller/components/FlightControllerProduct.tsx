@@ -1,64 +1,70 @@
 import type { ReactElement } from 'react';
 
+import { findProduct, getMediaUrl, useSiteContentQuery } from '@/shared/api/site-content';
+import { buildProductParameterColumns, getDescriptionBlocks } from '@/shared/lib/product-content';
 import {
   FLIGHT_CONTROLLER_IMAGES,
-  FLIGHT_CONTROLLER_PARAMETER_COLUMNS,
+  FLIGHT_CONTROLLER_PARAMETER_ITEMS,
+  FLIGHT_CONTROLLER_PRICE_ITEM,
 } from '../model/flight-controller-data';
 import '../styles/createFC.scss';
 
+const fallbackDescriptionBlocks = [
+  'Полетный контроллер выполнен с расчётом на дальнейшую интеграцию в БПЛА с различными системами - для этого разработчикам доступны UART-порты для работы с протоколом MAVLink, GPS-приёмниками, другими внешними датчиками/навигационными системами или исполнительными устройствами.',
+  'На плате предусмотрены I2C, SPI порты, что расширяет спектр внешних устройств, которые можно использовать в разработке.',
+  'Для управления БПЛА с данным полётным контроллером можно использовать как ручное управление (различные приёмопередатчики на протоколах S-Bus, CRSF (ELRS), так и внешний компьютер-компаньон.',
+] as const;
+
 export function FlightControllerProduct(): ReactElement {
-  const [leftColumn, rightColumn] = FLIGHT_CONTROLLER_PARAMETER_COLUMNS;
+  const { data: siteContent } = useSiteContentQuery();
+  const product = findProduct(siteContent?.products, 'flight-controller');
+  const [leftColumn, rightColumn] = buildProductParameterColumns(
+    product,
+    FLIGHT_CONTROLLER_PARAMETER_ITEMS,
+    FLIGHT_CONTROLLER_PRICE_ITEM
+  );
+  const descriptionBlocks = getDescriptionBlocks(product, fallbackDescriptionBlocks);
+  const gallery = product?.gallery ?? [];
 
   return (
     <div className="createFC">
       <div className="contSens-part1">
         <div className="column1">
           <h3 className="column1-head">
-            Полётный контроллер для беспилотных автоматизированных систем
+            {product?.headline ?? 'Полётный контроллер для беспилотных автоматизированных систем'}
           </h3>
           <div className="column1-body">
             <div>
               <b>
-                Это электронное устройство, управляющее полетом летательного аппарата, с собственным
-                микропрограммным обеспечением.{' '}
+                {product?.leadHighlight ??
+                  'Это электронное устройство, управляющее полетом летательного аппарата, с собственным микропрограммным обеспечением.'}{' '}
               </b>
-              Контроллер выполнен в модульной архитектуре - инерциальное измерительное устройство
-              вынесено в отдельный виброразвязанный блок, что позволяет улучшить качество
-              стабилизации и навигации.
+              {product?.leadText ??
+                'Контроллер выполнен в модульной архитектуре - инерциальное измерительное устройство вынесено в отдельный виброразвязанный блок, что позволяет улучшить качество стабилизации и навигации.'}
             </div>
             <div className="column1-body-content">
               <div className="column1-body-content-text">
-                <div className="short-text">
-                  Полетный контроллер выполнен с расчётом на дальнейшую интеграцию в БПЛА с
-                  различными системами - для этого разработчикам доступны UART-порты для работы с
-                  протоколом MAVLink, GPS-приёмниками, другими внешними датчиками/навигационными
-                  системами или исполнительными устройствами.
-                </div>
-                <div className="short-text">
-                  На плате предусмотрены I2C, SPI порты, что расширяет спектр внешних устройств,
-                  которые можно использовать в разработке.
-                </div>
-                <div className="short-text">
-                  Для управления БПЛА с данным полётным контроллером можно использовать как ручное
-                  управление (различные приёмопередатчики на протоколах S-Bus, CRSF (ELRS), так и
-                  внешний компьютер-компаньон.
-                </div>
+                {descriptionBlocks.map((block) => (
+                  <div className="short-text" key={block}>
+                    {block}
+                  </div>
+                ))}
               </div>
               <div className="column1-body-content-img">
-                <img src={FLIGHT_CONTROLLER_IMAGES.controller} />
+                <img src={getMediaUrl(gallery[3], FLIGHT_CONTROLLER_IMAGES.controller)} />
               </div>
             </div>
           </div>
         </div>
 
         <div className="column2">
-          <img src={FLIGHT_CONTROLLER_IMAGES.first} />
-          <img src={FLIGHT_CONTROLLER_IMAGES.second} />
-          <img src={FLIGHT_CONTROLLER_IMAGES.third} />
+          <img src={getMediaUrl(gallery[0], FLIGHT_CONTROLLER_IMAGES.first)} />
+          <img src={getMediaUrl(gallery[1], FLIGHT_CONTROLLER_IMAGES.second)} />
+          <img src={getMediaUrl(gallery[2], FLIGHT_CONTROLLER_IMAGES.third)} />
         </div>
       </div>
       <div className="contSens">
-        <h3 className="part2-head">Характерные параметры системы</h3>
+        <h3 className="part2-head">{product?.parametersTitle ?? 'Характерные параметры системы'}</h3>
         <div className="part2-body">
           <div className="part2-column c1">
             {leftColumn.map((item) => (
@@ -67,7 +73,7 @@ export function FlightControllerProduct(): ReactElement {
                 <div>
                   {item.isPrice ? (
                     <>
-                      <b>Стоимость продукта</b>
+                      <b>{product?.priceLabel ?? 'Стоимость продукта'}</b>
                       <br />
                       {item.text}
                     </>

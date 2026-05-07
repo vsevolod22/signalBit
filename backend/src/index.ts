@@ -1,3 +1,5 @@
+import { applyRussianContentManagerLabels } from './admin/content-manager-labels';
+
 const singleTypes = [
   {
     uid: 'api::hero.hero',
@@ -14,6 +16,8 @@ const singleTypes = [
   {
     uid: 'api::about-company.about-company',
     data: {
+      missionTitle: 'Наша миссия – создавать безопасные\nтехнологичные решения',
+      companyLabel: 'Мы ИТ-компания',
       paragraphs: [
         'Занимаемся разработкой безопасных программных и аппаратных решений, а также ИТ-консалтингом в сфере информационной безопасности.',
         'Залог нашего успеха – постоянное стремление к реализации стратегических целей компании.',
@@ -59,11 +63,44 @@ const singleTypes = [
   {
     uid: 'api::contact-setting.contact-setting',
     data: {
+      questionTitle: 'Остались вопросы?',
+      emailLabel: 'Напишите нам на почту',
+      emailAddress: 'sigbit@yandex.ru',
+      responseText:
+        'Мы свяжемся с Вами на следующий рабочий день и ответим на все интересующие вопросы.',
+      formEyebrow: 'Обратная связь',
+      formTitle: 'Расскажите, чем мы можем помочь',
+      formDescription:
+        'Оставьте удобный способ связи и коротко опишите вопрос. Заявка сразу появится в админ-панели Strapi.',
+      partnersTitle: 'Наши партнеры',
       partnerLogos: [
         { name: 'ЮФУ', code: 'sfedu' },
         { name: 'ИКТИБ', code: 'ictis' },
         { name: 'Интегра', code: 'integra' },
       ],
+    },
+  },
+  {
+    uid: 'api::activity-setting.activity-setting',
+    data: {
+      sectionTitle: 'Чем мы занимаемся',
+      educationEyebrow: 'Образование',
+      educationTitle: 'Регистрация на образовательные курсы',
+      parentFieldsTitle: 'Данные родителя для детского курса',
+    },
+  },
+  {
+    uid: 'api::service-setting.service-setting',
+    data: {
+      sectionTitle: 'Что мы предлагаем',
+      technologiesLabel: 'Используемые технологии',
+      costLabel: 'Стоимость',
+    },
+  },
+  {
+    uid: 'api::achievement-setting.achievement-setting',
+    data: {
+      sectionTitle: 'Наши достижения',
     },
   },
 ];
@@ -139,6 +176,18 @@ const collectionTypes = [
         name: 'Канарейка',
         slug: 'canary',
         price: '80 тыс. руб.',
+        headline: '«Канарейка» для обнаружения аномалий и радиоуправляемых устройств',
+        leadHighlight:
+          'Это интеллектуальная система детектирования и противодействия беспилотным автоматизированным системам (БАС) для объектов критической информационной инфраструктуры.',
+        leadText:
+          'Система с помощью сенсора сканирует наиболее популярные диапазоны, в которых работают БАС, и на основе анализа радиочастотного диапазона и спектра определяет тип БАС, который был зафиксирован.',
+        descriptionBlocks: [
+          'Определение конкретного типа БАС позволяет выбрать наилучший сценарий противодействия, а также сделать предположение о том, какую цель преследует нарушитель.',
+          'Модуль противодействия реализует сценарии атак на БАС, чтобы предотвратить приченение вреда объекту критической информационной инфраструктуры.',
+          'Модульность системы позволяет проводить анализ окружающей среды в режиме реального времени, а также своевременно применять контрмеры для повышения защиты и безопасности защищаемого объекта.',
+        ],
+        parametersTitle: 'Характерные параметры системы',
+        priceLabel: 'Стоимость продукта',
         sortOrder: 10,
         features: [
           { text: 'Возможность выявления и классификации БПЛА в радиочастотном диапазоне с повышенной точностью', sortOrder: 10 },
@@ -153,6 +202,19 @@ const collectionTypes = [
         name: 'Сенсор',
         slug: 'sensor',
         price: '7 тыс. руб.',
+        headline: 'Сенсор для обнаружения радиоуправлемых устройств',
+        leadHighlight:
+          'Это программно-аппаратное устройство для детектирования беспилотных автоматизированных систем (БАС) и других радиоуправляемых устройств.',
+        leadText:
+          'Устройство с помощью сенсора анализарует радиочастотный спектр путем прохождения по каждой частоте по несколько итераций в зависимости от наличия сигнала, а алгоритм обнаружения позволяет идентифицировать зафиксированную частоту.',
+        descriptionBlocks: [
+          'Устройство сканирует диапазоны частот 820-920 МГц, 2,4-2,485 ГГц, 5,6-5,9 ГГц.',
+          'На каждом канале проводится обработка сигнала, который отображается как в консоли, так и на столбчатой диаграмме, выводящейся на дисплей.',
+          'При обнаружении сигнала срабатывает зуммер, который издает звуковой сигнал, предупреждающий о наличии активности на данном радиочастотном диапазоне.',
+          'Ключевой особенностью алгоритма анализа радиочастотного спектра является гибкое взаимодействие с пользователем благодаря возможности смены режимов через нажатие кнопок и свето-звуковому сопровождению опасности БАС.',
+        ],
+        parametersTitle: 'Характерные параметры системы',
+        priceLabel: 'Стоимость продукта',
         sortOrder: 20,
         features: [
           { text: 'Возможность сканирования диапазонов частот 820-920 МГц, 2,4-2,485 ГГц, 5,6-5,9 ГГц', sortOrder: 10 },
@@ -167,6 +229,18 @@ const collectionTypes = [
         name: 'Полётный контроллер',
         slug: 'flight-controller',
         price: '7,2 тыс. руб.',
+        headline: 'Полётный контроллер для беспилотных автоматизированных систем',
+        leadHighlight:
+          'Это электронное устройство, управляющее полетом летательного аппарата, с собственным микропрограммным обеспечением.',
+        leadText:
+          'Контроллер выполнен в модульной архитектуре - инерциальное измерительное устройство вынесено в отдельный виброразвязанный блок, что позволяет улучшить качество стабилизации и навигации.',
+        descriptionBlocks: [
+          'Полетный контроллер выполнен с расчётом на дальнейшую интеграцию в БПЛА с различными системами - для этого разработчикам доступны UART-порты для работы с протоколом MAVLink, GPS-приёмниками, другими внешними датчиками/навигационными системами или исполнительными устройствами.',
+          'На плате предусмотрены I2C, SPI порты, что расширяет спектр внешних устройств, которые можно использовать в разработке.',
+          'Для управления БПЛА с данным полётным контроллером можно использовать как ручное управление (различные приёмопередатчики на протоколах S-Bus, CRSF (ELRS), так и внешний компьютер-компаньон.',
+        ],
+        parametersTitle: 'Характерные параметры системы',
+        priceLabel: 'Стоимость продукта',
         sortOrder: 30,
         features: [
           { text: 'Собственное аппаратное и программное решение', sortOrder: 10 },
@@ -179,13 +253,45 @@ const collectionTypes = [
       },
     ],
   },
+  {
+    uid: 'api::achievement.achievement',
+    uniqueField: 'title',
+    items: [
+      { title: 'Достижение 1', desktopRow: 1, mobileRow: 1, sortOrder: 10 },
+      { title: 'Достижение 2', desktopRow: 1, mobileRow: 1, sortOrder: 20 },
+      { title: 'Достижение 3', desktopRow: 1, mobileRow: 2, sortOrder: 30 },
+      { title: 'Достижение 4', desktopRow: 1, mobileRow: 2, sortOrder: 40 },
+      { title: 'Достижение 5', desktopRow: 1, mobileRow: 2, sortOrder: 50 },
+      { title: 'Достижение 6', desktopRow: 2, mobileRow: 3, sortOrder: 60 },
+      { title: 'Достижение 7', desktopRow: 2, mobileRow: 3, sortOrder: 70 },
+    ],
+  },
 ];
+
+function getMissingData(existing, data) {
+  return Object.entries(data).reduce((missingData, [key, value]) => {
+    const existingValue = existing?.[key];
+
+    if (existingValue === undefined || existingValue === null || existingValue === '') {
+      missingData[key] = value;
+    }
+
+    return missingData;
+  }, {});
+}
 
 async function seedSingleType(strapi, uid, data) {
   const existing = await strapi.entityService.findMany(uid, { limit: 1 });
 
   if (!existing) {
     await strapi.entityService.create(uid, { data });
+    return;
+  }
+
+  const missingData = getMissingData(existing, data);
+
+  if (Object.keys(missingData).length > 0) {
+    await strapi.entityService.update(uid, existing.id, { data: missingData });
   }
 }
 
@@ -198,6 +304,13 @@ async function seedCollectionType(strapi, uid, uniqueField, items) {
 
     if (existing.length === 0) {
       await strapi.entityService.create(uid, { data: item });
+      continue;
+    }
+
+    const missingData = getMissingData(existing[0], item);
+
+    if (Object.keys(missingData).length > 0) {
+      await strapi.entityService.update(uid, existing[0].id, { data: missingData });
     }
   }
 }
@@ -205,6 +318,8 @@ async function seedCollectionType(strapi, uid, uniqueField, items) {
 export default {
   register() {},
   async bootstrap({ strapi }) {
+    await applyRussianContentManagerLabels(strapi);
+
     for (const { uid, data } of singleTypes) {
       await seedSingleType(strapi, uid, data);
     }
@@ -212,5 +327,7 @@ export default {
     for (const { uid, uniqueField, items } of collectionTypes) {
       await seedCollectionType(strapi, uid, uniqueField, items);
     }
+
+    await applyRussianContentManagerLabels(strapi);
   },
 };

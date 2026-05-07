@@ -9,10 +9,200 @@
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
     <title>Сигнал БИТ</title>
+    <style>
+      .html-preloader {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+        box-sizing: border-box;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 18%, rgba(41, 37, 240, 0.16), transparent 30%),
+          radial-gradient(circle at 82% 76%, rgba(0, 0, 0, 0.08), transparent 34%),
+          linear-gradient(135deg, #f8f8ff 0%, #ffffff 48%, #eef0ff 100%);
+        color: #111111;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .html-preloader__panel {
+        width: min(760px, 100%);
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 40px;
+        align-items: center;
+        padding: 42px;
+        border: 2px solid #111111;
+        border-radius: 36px;
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: 0 34px 90px rgba(0, 0, 0, 0.14);
+      }
+
+      .html-preloader__radar {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        display: grid;
+        place-items: center;
+      }
+
+      .html-preloader__ring,
+      .html-preloader__sweep {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+      }
+
+      .html-preloader__ring {
+        border: 1px solid rgba(41, 37, 240, 0.22);
+      }
+
+      .html-preloader__ring:nth-child(2) {
+        inset: 34px;
+      }
+
+      .html-preloader__ring:nth-child(3) {
+        inset: 68px;
+      }
+
+      .html-preloader__sweep {
+        background: conic-gradient(
+          from 0deg,
+          rgba(41, 37, 240, 0.34),
+          rgba(41, 37, 240, 0.02) 72deg,
+          transparent 74deg
+        );
+        animation: html-preloader-sweep 1.9s linear infinite;
+      }
+
+      .html-preloader__mark {
+        position: relative;
+        z-index: 1;
+        width: 86px;
+        height: 86px;
+        display: grid;
+        place-items: center;
+        border-radius: 24px;
+        background: #ffffff;
+        color: #2925f0;
+        font-size: 30px;
+        font-weight: 800;
+        box-shadow: 0 18px 46px rgba(41, 37, 240, 0.18);
+      }
+
+      .html-preloader__eyebrow {
+        display: block;
+        margin-bottom: 12px;
+        color: #2925f0;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .html-preloader h1 {
+        margin: 0 0 14px;
+        font-size: clamp(34px, 6vw, 62px);
+        line-height: 0.95;
+      }
+
+      .html-preloader p {
+        max-width: 380px;
+        margin: 0 0 24px;
+        color: #4d4d4d;
+        font-size: 18px;
+        line-height: 1.45;
+      }
+
+      .html-preloader__progress {
+        position: relative;
+        overflow: hidden;
+        width: min(360px, 100%);
+        height: 4px;
+        background: rgba(17, 17, 17, 0.14);
+      }
+
+      .html-preloader__progress span {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 42%;
+        background: #2925f0;
+        animation: html-preloader-progress 1.35s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      }
+
+      @keyframes html-preloader-sweep {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes html-preloader-progress {
+        0% {
+          transform: translateX(-110%);
+        }
+        100% {
+          transform: translateX(250%);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .html-preloader {
+          padding: 18px;
+        }
+
+        .html-preloader__panel {
+          grid-template-columns: 1fr;
+          gap: 24px;
+          padding: 28px;
+          border-radius: 28px;
+          text-align: center;
+        }
+
+        .html-preloader__radar {
+          width: 180px;
+          height: 180px;
+          margin: 0 auto;
+        }
+
+        .html-preloader p {
+          max-width: none;
+          font-size: 15px;
+        }
+
+        .html-preloader__progress {
+          margin: 0 auto;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .html-preloader__sweep,
+        .html-preloader__progress span {
+          animation: none;
+        }
+      }
+    </style>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <noscript>Для работы сайта включите JavaScript.</noscript>
+    <div id="root">
+      <main class="html-preloader" aria-busy="true" aria-live="polite">
+        <section class="html-preloader__panel" aria-label="Загрузка сайта">
+          <div class="html-preloader__radar" aria-hidden="true">
+            <span class="html-preloader__ring"></span>
+            <span class="html-preloader__ring"></span>
+            <span class="html-preloader__ring"></span>
+            <span class="html-preloader__sweep"></span>
+            <span class="html-preloader__mark">SB</span>
+          </div>
+          <div>
+            <span class="html-preloader__eyebrow">SignalBit</span>
+            <h1>Загружаем сайт</h1>
+            <p>Подготавливаем интерфейс и актуальный контент.</p>
+            <div class="html-preloader__progress" aria-hidden="true"><span></span></div>
+          </div>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,0 +1,19 @@
+{
+  "kind": "singleType",
+  "collectionName": "achievement_settings",
+  "info": {
+    "singularName": "achievement-setting",
+    "pluralName": "achievement-settings",
+    "displayName": "Настройки достижений",
+    "description": "Заголовок секции достижений"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

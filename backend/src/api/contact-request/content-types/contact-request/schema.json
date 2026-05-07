@@ -28,7 +28,7 @@
     },
     "source": {
       "type": "string",
-      "default": "site"
+      "default": "Сайт"
     }
   }
 }

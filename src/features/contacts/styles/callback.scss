@@ -64,44 +64,85 @@
     }
 }
 
-.request-form{
+.contact-form-row{
     width: 100%;
-    max-width: 920px;
-    margin: 24px auto 32px;
-    padding: 28px;
-    border: 1px solid #d8d8d8;
-    border-radius: 28px;
-    background: #ffffff;
-    box-sizing: border-box;
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+    display: grid;
+    grid-template-columns: minmax(280px, 0.82fr) minmax(420px, 1.18fr);
+    gap: 42px;
+    align-items: start;
+    margin: 20px 0 38px;
+}
 
-    h3{
-        margin: 0 0 20px;
-        font-size: 32px;
-        line-height: 1.15;
+.contact-form-copy{
+    padding-top: 12px;
+
+    span{
+        display: block;
+        margin-bottom: 10px;
+        color: #4d4d4d;
+        font-size: 18px;
     }
 
-    label{
+    h3{
+        margin: 0 0 18px;
+        font-size: 42px;
+        line-height: 1.08;
+    }
+
+    p{
+        max-width: 520px;
+        margin: 0;
+        color: #4d4d4d;
+        font-size: 20px;
+        line-height: 1.45;
+    }
+}
+
+.contact-request-form{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+    box-sizing: border-box;
+
+    .form-heading{
+        display: none;
+    }
+
+    .form-field{
         display: flex;
         flex-direction: column;
         gap: 8px;
-        margin-bottom: 16px;
         font-size: 16px;
         font-weight: 600;
         color: #1f1f1f;
+
+        span{
+            min-height: 20px;
+        }
+    }
+
+    .wide-field{
+        grid-column: 1 / -1;
     }
 
     input,
-    textarea,
-    select{
+    textarea{
         width: 100%;
-        padding: 14px 16px;
-        border: 1px solid #bdbdbd;
-        border-radius: 16px;
+        min-height: 54px;
+        padding: 14px 0 12px;
+        border: 0;
+        border-bottom: 2px solid #111111;
+        border-radius: 0;
         font: inherit;
         font-weight: 400;
         box-sizing: border-box;
-        background: #ffffff;
+        background: transparent;
+        outline: none;
+
+        &:focus{
+            border-bottom-color: #2925f0;
+        }
     }
 
     textarea{
@@ -109,13 +150,14 @@
     }
 
     button{
+        align-self: end;
         min-width: 180px;
-        padding: 14px 24px;
+        padding: 16px 28px;
         border: none;
-        border-radius: 16px;
+        border-radius: 999px;
         background: #2925f0;
         color: #ffffff;
-        font-size: 18px;
+        font-size: 20px;
         cursor: pointer;
 
         &:disabled{
@@ -125,6 +167,7 @@
     }
 
     .form-status{
+        align-self: center;
         margin: 14px 0 0;
         font-size: 16px;
         font-weight: 600;
@@ -136,6 +179,13 @@
         &.error{
             color: #b42318;
         }
+    }
+
+    .field-error{
+        color: #b42318;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.25;
     }
 }
 
@@ -264,41 +314,73 @@
         }
     }
 
-    .request-form{
+    .contact-form-row{
+        display: block;
         width: calc(100% - 24px);
-        margin: 20px 12px;
-        padding: 16px;
-        border-radius: 18px;
+        margin: 18px 12px 22px;
+    }
 
-        h3{
-            font-size: 18px;
-            margin-bottom: 14px;
+    .contact-form-copy{
+        padding-top: 0;
+
+        span{
+            font-size: 8px;
+            margin-bottom: 4px;
         }
 
-        label{
-            gap: 6px;
-            margin-bottom: 12px;
-            font-size: 12px;
+        h3{
+            font-size: 20px;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        p{
+            max-width: 260px;
+            font-size: 8px;
+            line-height: 1.35;
+            margin-bottom: 14px;
+        }
+    }
+
+    .contact-request-form{
+        display: block;
+
+        .form-field{
+            gap: 3px;
+            margin-bottom: 10px;
+            font-size: 9px;
+
+            span{
+                min-height: 0;
+            }
         }
 
         input,
+        textarea{
+            min-height: 34px;
+            padding: 8px 0 7px;
+            border-bottom-width: 1px;
+            font-size: 10px;
+        }
+
         textarea,
-        select{
-            padding: 10px 12px;
-            border-radius: 12px;
-            font-size: 12px;
+        textarea{
+            min-height: 66px;
         }
 
         button{
-            width: 100%;
+            width: auto;
             min-width: 0;
-            padding: 12px 18px;
-            border-radius: 12px;
-            font-size: 14px;
+            padding: 9px 18px;
+            font-size: 11px;
         }
 
         .form-status{
             font-size: 12px;
+        }
+
+        .field-error{
+            font-size: 9px;
         }
     }
 

@@ -13,7 +13,7 @@
   "attributes": {
     "courseAudience": {
       "type": "enumeration",
-      "enum": ["children", "adults"],
+      "enum": ["Детские курсы", "Взрослые курсы"],
       "required": true
     },
     "courseName": {
@@ -56,7 +56,7 @@
     },
     "source": {
       "type": "string",
-      "default": "site"
+      "default": "Сайт"
     }
   }
 }

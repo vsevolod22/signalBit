@@ -11,6 +11,14 @@
     "draftAndPublish": false
   },
   "attributes": {
+    "missionTitle": {
+      "type": "string",
+      "required": true
+    },
+    "companyLabel": {
+      "type": "string",
+      "required": true
+    },
     "paragraphs": {
       "type": "json",
       "required": true
