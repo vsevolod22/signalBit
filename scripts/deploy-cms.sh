@@ -80,6 +80,7 @@ DATABASE_USERNAME=signalbit
 DATABASE_PASSWORD=$(generate_secret)
 DATABASE_SSL=false
 STRAPI_TELEMETRY_DISABLED=true
+CORS_ORIGINS=http://localhost:5173,http://localhost:4173
 ENV_FILE
 fi
 

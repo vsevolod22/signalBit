@@ -6,6 +6,7 @@
   "scripts": {
     "build": "strapi build",
     "develop": "strapi develop",
+    "import:frontend-media": "node scripts/import-frontend-media.mjs",
     "start": "strapi start",
     "strapi": "strapi"
   },

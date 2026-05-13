@@ -13,6 +13,7 @@ interface ContentManagerConfiguration {
   uid: string;
   type: 'contentType' | 'component';
   labels: Record<string, string>;
+  listFields?: string[];
   mainField?: string;
 }
 
@@ -29,6 +30,7 @@ const configurations: ContentManagerConfiguration[] = [
       rightHand: 'Изображение справа',
       leftHand: 'Изображение слева',
     },
+    listFields: ['id', 'title', 'description', 'secondaryTitle'],
     mainField: 'title',
   },
   {
@@ -43,6 +45,7 @@ const configurations: ContentManagerConfiguration[] = [
       officialItems: 'Реквизиты',
       photo: 'Фото',
     },
+    listFields: ['id', 'missionTitle', 'officialTitle', 'companyLabel'],
     mainField: 'officialTitle',
   },
   {
@@ -55,6 +58,7 @@ const configurations: ContentManagerConfiguration[] = [
       contactSectionIndex: 'Номер секции контактов',
       logo: 'Логотип',
     },
+    listFields: ['id', 'contactLabel', 'contactSectionIndex'],
     mainField: 'contactLabel',
   },
   {
@@ -63,6 +67,7 @@ const configurations: ContentManagerConfiguration[] = [
     labels: {
       text: 'Текст подвала',
     },
+    listFields: ['id', 'text', 'createdAt', 'updatedAt'],
     mainField: 'text',
   },
   {
@@ -81,7 +86,8 @@ const configurations: ContentManagerConfiguration[] = [
       rightImage: 'Изображение справа',
       partnerLogos: 'Логотипы партнёров',
     },
-    mainField: 'partnerLogos',
+    listFields: ['id', 'questionTitle', 'emailAddress', 'partnersTitle'],
+    mainField: 'questionTitle',
   },
   {
     uid: 'api::activity-field.activity-field',
@@ -92,6 +98,7 @@ const configurations: ContentManagerConfiguration[] = [
       image: 'Изображение',
       sortOrder: 'Порядок сортировки',
     },
+    listFields: ['id', 'title', 'description', 'sortOrder'],
     mainField: 'title',
   },
   {
@@ -105,6 +112,7 @@ const configurations: ContentManagerConfiguration[] = [
       image: 'Изображение',
       sortOrder: 'Порядок сортировки',
     },
+    listFields: ['id', 'title', 'technologies', 'cost'],
     mainField: 'title',
   },
   {
@@ -125,6 +133,7 @@ const configurations: ContentManagerConfiguration[] = [
       video: 'Видео',
       sortOrder: 'Порядок сортировки',
     },
+    listFields: ['id', 'name', 'slug', 'price'],
     mainField: 'name',
   },
   {
@@ -136,6 +145,7 @@ const configurations: ContentManagerConfiguration[] = [
       educationTitle: 'Заголовок формы обучения',
       parentFieldsTitle: 'Заголовок полей родителя',
     },
+    listFields: ['id', 'sectionTitle', 'educationEyebrow', 'educationTitle'],
     mainField: 'sectionTitle',
   },
   {
@@ -146,6 +156,7 @@ const configurations: ContentManagerConfiguration[] = [
       technologiesLabel: 'Подпись технологий',
       costLabel: 'Подпись стоимости',
     },
+    listFields: ['id', 'sectionTitle', 'technologiesLabel', 'costLabel'],
     mainField: 'sectionTitle',
   },
   {
@@ -154,6 +165,7 @@ const configurations: ContentManagerConfiguration[] = [
     labels: {
       sectionTitle: 'Заголовок секции',
     },
+    listFields: ['id', 'sectionTitle', 'createdAt', 'updatedAt'],
     mainField: 'sectionTitle',
   },
   {
@@ -166,6 +178,7 @@ const configurations: ContentManagerConfiguration[] = [
       mobileRow: 'Ряд на мобильном',
       sortOrder: 'Порядок сортировки',
     },
+    listFields: ['id', 'title', 'desktopRow', 'mobileRow'],
     mainField: 'title',
   },
   {
@@ -178,6 +191,7 @@ const configurations: ContentManagerConfiguration[] = [
       question: 'Вопрос',
       source: 'Источник',
     },
+    listFields: ['id', 'fullName', 'email', 'contactMethod'],
     mainField: 'fullName',
   },
   {
@@ -197,6 +211,7 @@ const configurations: ContentManagerConfiguration[] = [
       personalDataConsent: 'Согласие на обработку данных',
       source: 'Источник',
     },
+    listFields: ['id', 'courseAudience', 'courseName', 'studentFullName'],
     mainField: 'studentFullName',
   },
   {
@@ -207,6 +222,7 @@ const configurations: ContentManagerConfiguration[] = [
       text: 'Подпись',
       icon: 'Иконка',
     },
+    listFields: ['id', 'value', 'text'],
     mainField: 'value',
   },
   {
@@ -216,6 +232,7 @@ const configurations: ContentManagerConfiguration[] = [
       label: 'Текст ссылки',
       sectionIndex: 'Номер секции',
     },
+    listFields: ['id', 'label', 'sectionIndex'],
     mainField: 'label',
   },
   {
@@ -226,6 +243,7 @@ const configurations: ContentManagerConfiguration[] = [
       code: 'Код партнёра',
       image: 'Логотип',
     },
+    listFields: ['id', 'name', 'code'],
     mainField: 'name',
   },
   {
@@ -236,6 +254,7 @@ const configurations: ContentManagerConfiguration[] = [
       icon: 'Иконка',
       sortOrder: 'Порядок сортировки',
     },
+    listFields: ['id', 'text', 'sortOrder'],
     mainField: 'text',
   },
 ];
@@ -258,8 +277,44 @@ function parseConfiguration(value: string | null | undefined): Record<string, an
   }
 }
 
+function createEditLayout(fields: string[]): Array<Array<{ name: string; size: number }>> {
+  return fields.reduce<Array<Array<{ name: string; size: number }>>>((rows, field, index) => {
+    if (index % 2 === 0) {
+      rows.push([]);
+    }
+
+    rows[rows.length - 1].push({ name: field, size: 6 });
+
+    return rows;
+  }, []);
+}
+
+function filterMetadatas(metadatas: Record<string, any> | undefined, allowedFields: Set<string>) {
+  return Object.fromEntries(
+    Object.entries(metadatas ?? {}).filter(([field]) => allowedFields.has(field))
+  );
+}
+
+function filterEditLayout(
+  editLayout: Array<Array<{ name: string; size: number }>> | undefined,
+  fallbackEditLayout: Array<Array<{ name: string; size: number }>>,
+  allowedFields: Set<string>
+): Array<Array<{ name: string; size: number }>> {
+  if (!Array.isArray(editLayout)) {
+    return fallbackEditLayout;
+  }
+
+  const filteredLayout = editLayout
+    .filter(Array.isArray)
+    .map((row) => row.filter((field) => field?.name && allowedFields.has(field.name)))
+    .filter((row) => row.length > 0);
+
+  return filteredLayout.length > 0 ? filteredLayout : fallbackEditLayout;
+}
+
 function createFallbackConfiguration(configuration: ContentManagerConfiguration): Record<string, any> {
   const fields = Object.keys(configuration.labels);
+  const listFields = configuration.listFields ?? fields.slice(0, 4);
 
   return {
     settings: {
@@ -274,16 +329,8 @@ function createFallbackConfiguration(configuration: ContentManagerConfiguration)
     },
     metadatas: {},
     layouts: {
-      list: fields.slice(0, 4),
-      edit: fields.reduce<Array<Array<{ name: string; size: number }>>>((rows, field, index) => {
-        if (index % 2 === 0) {
-          rows.push([]);
-        }
-
-        rows[rows.length - 1].push({ name: field, size: 6 });
-
-        return rows;
-      }, []),
+      list: listFields,
+      edit: createEditLayout(fields),
     },
     uid: configuration.uid,
     ...(configuration.type === 'component' ? { isComponent: true } : {}),
@@ -294,22 +341,32 @@ function localizeConfiguration(
   currentConfiguration: Record<string, any>,
   configuration: ContentManagerConfiguration
 ): Record<string, any> {
-  const nextConfiguration = {
-    ...createFallbackConfiguration(configuration),
-    ...currentConfiguration,
-    settings: {
-      ...createFallbackConfiguration(configuration).settings,
-      ...currentConfiguration.settings,
-      mainField: configuration.mainField ?? currentConfiguration.settings?.mainField,
-    },
-    metadatas: {
-      ...currentConfiguration.metadatas,
-    },
-  };
-
   const labels = {
     ...systemLabels,
     ...configuration.labels,
+  };
+  const allowedFields = new Set(Object.keys(labels));
+  const fallbackConfiguration = createFallbackConfiguration(configuration);
+
+  const nextConfiguration = {
+    ...fallbackConfiguration,
+    ...currentConfiguration,
+    settings: {
+      ...fallbackConfiguration.settings,
+      ...currentConfiguration.settings,
+      mainField: configuration.mainField ?? currentConfiguration.settings?.mainField,
+      defaultSortBy: configuration.mainField ?? currentConfiguration.settings?.defaultSortBy,
+    },
+    metadatas: {
+      ...filterMetadatas(currentConfiguration.metadatas, allowedFields),
+    },
+    layouts: {
+      ...fallbackConfiguration.layouts,
+      ...currentConfiguration.layouts,
+      // Keep component and media fields out of list views. Strapi admin can try to render component objects as text.
+      list: fallbackConfiguration.layouts.list,
+      edit: filterEditLayout(currentConfiguration.layouts?.edit, fallbackConfiguration.layouts.edit, allowedFields),
+    },
   };
 
   for (const [field, label] of Object.entries(labels)) {

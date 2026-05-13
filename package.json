@@ -26,6 +26,7 @@
     "backend:dev": "pnpm --dir backend develop",
     "backend:build": "pnpm --dir backend build",
     "backend:start": "pnpm --dir backend start",
+    "backend:import-media": "pnpm --dir backend import:frontend-media",
     "deploy:cms": "bash scripts/deploy-cms.sh"
   },
   "devDependencies": {
