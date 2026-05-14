@@ -41,11 +41,14 @@ JWT_SECRET=change_me_jwt_secret
 ENCRYPTION_KEY=change_me_encryption_key
 STRAPI_TELEMETRY_DISABLED=true
 CORS_ORIGINS=http://localhost:5173,http://localhost:4173,https://your-vercel-project.vercel.app
+CORS_ALLOW_VERCEL_PREVIEWS=false
 ```
 
 Replace every `change_me_*` value with a strong secret. `APP_KEYS` must contain four comma-separated secrets.
 
 `CORS_ORIGINS` is a comma-separated allowlist. Add the final Vercel production domain and any preview domains that should be allowed to call Strapi.
+
+Set `CORS_ALLOW_VERCEL_PREVIEWS=true` only if you want to allow all `*.vercel.app` preview deployments during testing.
 
 In Vercel, add this frontend variable:
 

@@ -1,14 +1,3 @@
-const systemLabels = {
-  id: 'ID',
-  documentId: 'Технический ID документа',
-  createdAt: 'Создано',
-  updatedAt: 'Обновлено',
-  publishedAt: 'Опубликовано',
-  createdBy: 'Создал',
-  updatedBy: 'Обновил',
-  locale: 'Локаль',
-} as const;
-
 interface ContentManagerConfiguration {
   uid: string;
   type: 'contentType' | 'component';
@@ -289,29 +278,6 @@ function createEditLayout(fields: string[]): Array<Array<{ name: string; size: n
   }, []);
 }
 
-function filterMetadatas(metadatas: Record<string, any> | undefined, allowedFields: Set<string>) {
-  return Object.fromEntries(
-    Object.entries(metadatas ?? {}).filter(([field]) => allowedFields.has(field))
-  );
-}
-
-function filterEditLayout(
-  editLayout: Array<Array<{ name: string; size: number }>> | undefined,
-  fallbackEditLayout: Array<Array<{ name: string; size: number }>>,
-  allowedFields: Set<string>
-): Array<Array<{ name: string; size: number }>> {
-  if (!Array.isArray(editLayout)) {
-    return fallbackEditLayout;
-  }
-
-  const filteredLayout = editLayout
-    .filter(Array.isArray)
-    .map((row) => row.filter((field) => field?.name && allowedFields.has(field.name)))
-    .filter((row) => row.length > 0);
-
-  return filteredLayout.length > 0 ? filteredLayout : fallbackEditLayout;
-}
-
 function createFallbackConfiguration(configuration: ContentManagerConfiguration): Record<string, any> {
   const fields = Object.keys(configuration.labels);
   const listFields = configuration.listFields ?? fields.slice(0, 4);
@@ -341,32 +307,21 @@ function localizeConfiguration(
   currentConfiguration: Record<string, any>,
   configuration: ContentManagerConfiguration
 ): Record<string, any> {
-  const labels = {
-    ...systemLabels,
-    ...configuration.labels,
-  };
-  const allowedFields = new Set(Object.keys(labels));
+  const labels = configuration.labels;
   const fallbackConfiguration = createFallbackConfiguration(configuration);
 
   const nextConfiguration = {
     ...fallbackConfiguration,
-    ...currentConfiguration,
     settings: {
       ...fallbackConfiguration.settings,
       ...currentConfiguration.settings,
-      mainField: configuration.mainField ?? currentConfiguration.settings?.mainField,
-      defaultSortBy: configuration.mainField ?? currentConfiguration.settings?.defaultSortBy,
+      mainField: fallbackConfiguration.settings.mainField,
+      defaultSortBy: fallbackConfiguration.settings.defaultSortBy,
     },
-    metadatas: {
-      ...filterMetadatas(currentConfiguration.metadatas, allowedFields),
-    },
-    layouts: {
-      ...fallbackConfiguration.layouts,
-      ...currentConfiguration.layouts,
-      // Keep component and media fields out of list views. Strapi admin can try to render component objects as text.
-      list: fallbackConfiguration.layouts.list,
-      edit: filterEditLayout(currentConfiguration.layouts?.edit, fallbackConfiguration.layouts.edit, allowedFields),
-    },
+    metadatas: {},
+    // Do not preserve old layouts from the database: transferred/stale Strapi Cloud layouts can reference
+    // removed component fields and crash the admin with "attributes" errors.
+    layouts: fallbackConfiguration.layouts,
   };
 
   for (const [field, label] of Object.entries(labels)) {

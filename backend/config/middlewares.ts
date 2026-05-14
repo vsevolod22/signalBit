@@ -1,20 +1,46 @@
-export default ({ env }) => [
-  'strapi::logger',
-  'strapi::errors',
-  'strapi::security',
-  {
-    name: 'strapi::cors',
-    config: {
-      origin: env.array('CORS_ORIGINS', ['http://localhost:5173', 'http://localhost:4173']),
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
-      keepHeaderOnError: true,
+export default ({ env }) => {
+  const normalizeOrigin = (origin: string) => origin.replace(/\/+$/, '');
+  const allowedOrigins = env
+    .array('CORS_ORIGINS', ['http://localhost:5173', 'http://localhost:4173'])
+    .map(normalizeOrigin);
+  const allowVercelPreviews = env.bool('CORS_ALLOW_VERCEL_PREVIEWS', false);
+
+  return [
+    'strapi::logger',
+    'strapi::errors',
+    'strapi::security',
+    {
+      name: 'strapi::cors',
+      config: {
+        origin: (ctx) => {
+          const requestOrigin = ctx.request.header.origin;
+
+          if (!requestOrigin) {
+            return '';
+          }
+
+          const normalizedRequestOrigin = normalizeOrigin(requestOrigin);
+
+          if (allowedOrigins.includes('*') || allowedOrigins.includes(normalizedRequestOrigin)) {
+            return normalizedRequestOrigin;
+          }
+
+          if (allowVercelPreviews && /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(normalizedRequestOrigin)) {
+            return normalizedRequestOrigin;
+          }
+
+          return '';
+        },
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+        headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
+        keepHeaderOnError: true,
+      },
     },
-  },
-  'strapi::poweredBy',
-  'strapi::query',
-  'strapi::body',
-  'strapi::session',
-  'strapi::favicon',
-  'strapi::public',
-];
+    'strapi::poweredBy',
+    'strapi::query',
+    'strapi::body',
+    'strapi::session',
+    'strapi::favicon',
+    'strapi::public',
+  ];
+};

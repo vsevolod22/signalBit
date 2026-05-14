@@ -81,6 +81,7 @@ DATABASE_PASSWORD=$(generate_secret)
 DATABASE_SSL=false
 STRAPI_TELEMETRY_DISABLED=true
 CORS_ORIGINS=http://localhost:5173,http://localhost:4173
+CORS_ALLOW_VERCEL_PREVIEWS=false
 ENV_FILE
 fi
 
