@@ -1,0 +1,100 @@
+.development-shell {
+  --route-gap-after: 42px;
+  border-radius: 24px;
+  padding-top: 82px;
+}
+
+.development-shell > h2 {
+  position: absolute;
+  top: -8px;
+  right: 32px;
+  background: var(--paper);
+  padding-left: 18px;
+}
+
+.development-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.development-card {
+  position: relative;
+  display: grid;
+  min-height: 147px;
+  grid-template-columns: minmax(0, 1fr) 282px;
+  gap: 20px;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--teal);
+  color: #ffffff;
+  padding: 20px;
+  isolation: isolate;
+}
+
+.development-card::after {
+  position: absolute;
+  inset: -40% -18% auto 48%;
+  z-index: -1;
+  height: 175%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  content: '';
+  transform: rotate(18deg);
+}
+
+.development-card:nth-child(1),
+.development-card:nth-child(4) {
+  background: #c8d9d9;
+  color: var(--ink);
+}
+
+.development-card:nth-child(2) {
+  background: #087c81;
+}
+
+.development-card:nth-child(3) {
+  background: #0a7b82;
+}
+
+.development-card h3 {
+  max-width: 370px;
+  margin: 0 0 8px;
+  font-size: clamp(20px, 1.7vw, 27px);
+  font-weight: 950;
+  line-height: 0.95;
+}
+
+.development-card p {
+  max-width: 430px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.12;
+}
+
+.development-card aside {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  border: 2px dashed currentColor;
+  border-radius: 18px;
+  padding: 18px 24px;
+  font-size: 11px;
+  line-height: 1.1;
+}
+
+.development-card aside b {
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .development-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .development-card {
+    grid-template-columns: 1fr;
+  }
+}

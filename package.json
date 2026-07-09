@@ -5,8 +5,10 @@
   "type": "module",
   "packageManager": "pnpm@10.10.0",
   "dependencies": {
+    "@react-spring/web": "^10.1.2",
     "@tanstack/react-query": "^5.100.9",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.40.0",
     "react": "^18.2.0",
     "react-datepicker": "^9.1.0",
     "react-dom": "^18.2.0",
@@ -15,8 +17,11 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:frontend": "vite --config frontend/vite.config.ts --host 127.0.0.1 --port 5174",
     "start": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:frontend": "tsc -p frontend/tsconfig.json --noEmit && vite build --config frontend/vite.config.ts",
+    "preview:frontend": "vite preview --config frontend/vite.config.ts --host 127.0.0.1 --port 4174",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",

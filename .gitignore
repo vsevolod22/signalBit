@@ -1,6 +1,7 @@
 .agents
 node_modules
 dist
+dist-frontend
 .DS_Store
 .env
 backend/.env

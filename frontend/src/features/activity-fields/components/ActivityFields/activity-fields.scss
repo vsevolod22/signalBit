@@ -1,0 +1,105 @@
+.services-shell > h2 {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  background: var(--paper);
+  padding-right: 16px;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 46px;
+}
+
+.activity-card {
+  position: relative;
+  min-height: 247px;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 24px 20px 18px;
+  isolation: isolate;
+}
+
+.activity-card::after {
+  position: absolute;
+  inset: 10% -30% -34% 12%;
+  z-index: -1;
+  border-radius: 48%;
+  background: rgba(255, 255, 255, 0.22);
+  content: '';
+  transform: rotate(-21deg);
+}
+
+.activity-card img {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 92px;
+  opacity: 0.18;
+}
+
+.activity-card h3,
+.activity-card p,
+.activity-number {
+  position: relative;
+  z-index: 1;
+}
+
+.activity-card h3 {
+  margin: 58px 0 10px;
+  font-size: clamp(20px, 1.8vw, 27px);
+  font-weight: 900;
+  line-height: 0.92;
+}
+
+.activity-card p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.06;
+}
+
+.activity-number {
+  display: block;
+  font-size: 50px;
+  font-weight: 1000;
+  line-height: 0.9;
+}
+
+.activity-card:nth-child(1) {
+  background: #075f78;
+  color: #ffffff;
+}
+
+.activity-card:nth-child(2) {
+  background: #c2d5d2;
+  color: var(--ink);
+}
+
+.activity-card:nth-child(3) {
+  background: #228b87;
+  color: #ffffff;
+}
+
+.activity-card:nth-child(4) {
+  background: #c4d6df;
+  color: var(--ink);
+}
+
+@media (max-width: 1180px) {
+  .activity-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 620px) {
+  .activity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-card {
+    min-height: 210px;
+  }
+}

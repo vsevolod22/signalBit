@@ -1,0 +1,41 @@
+.about-achievements {
+  margin-top: 42px;
+}
+
+.about-achievements h3 {
+  margin: 0 0 38px;
+  font-size: clamp(38px, 4.7vw, 60px);
+  font-weight: 1000;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 28px 48px;
+  align-items: end;
+}
+
+.achievement-grid figure {
+  margin: 0;
+}
+
+.achievement-grid img {
+  width: 100%;
+  max-height: 315px;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .achievement-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+@media (max-width: 620px) {
+  .achievement-grid {
+    grid-template-columns: 1fr;
+  }
+}
