@@ -1,69 +1,27 @@
 import type { ReactElement } from 'react';
-import { motion } from 'framer-motion';
 
-import { landingEase, revealViewport, ROUTE_CONNECTOR_PATHS } from '@/shared/lib/landing-motion';
 import './section-route.scss';
-
-interface AnimatedRoutePathProps {
-  delay?: number;
-  path: string;
-}
-
-function AnimatedRoutePath({ delay = 0, path }: AnimatedRoutePathProps): ReactElement {
-  return (
-    <motion.path
-      className="route-path"
-      d={path}
-      initial={{ opacity: 0, strokeDashoffset: 0 }}
-      whileInView={{ opacity: 1, strokeDashoffset: [0, -56] }}
-      viewport={revealViewport}
-      transition={{
-        opacity: { duration: 0.45, ease: landingEase, delay },
-        strokeDashoffset: { duration: 3.6, ease: 'linear', repeat: Infinity },
-      }}
-    />
-  );
-}
 
 interface SectionRouteProps {
   className: string;
   path: string;
 }
 
-export function SectionRoute({ className, path }: SectionRouteProps): ReactElement {
+export function SectionRoute({ className }: SectionRouteProps): ReactElement {
   return (
-    <motion.svg
-      className={`section-route ${className}`}
-      viewBox="0 0 1000 1000"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={revealViewport}
-      transition={{ duration: 0.5, ease: landingEase }}
-    >
-      <AnimatedRoutePath path={path} />
-    </motion.svg>
+    <div className={`section-route ${className}`} aria-hidden="true">
+      <span className="route-segment route-segment--top" />
+      <span className="route-segment route-segment--right" />
+      <span className="route-segment route-segment--bottom" />
+      <span className="route-segment route-segment--left" />
+    </div>
   );
 }
 
 interface RouteConnectorProps {
-  side: keyof typeof ROUTE_CONNECTOR_PATHS;
+  side: 'left' | 'right';
 }
 
 export function RouteConnector({ side }: RouteConnectorProps): ReactElement {
-  return (
-    <motion.svg
-      className={`route-connector route-connector--${side}`}
-      viewBox="0 0 1000 100"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={revealViewport}
-      transition={{ duration: 0.5, ease: landingEase }}
-    >
-      <AnimatedRoutePath path={ROUTE_CONNECTOR_PATHS[side]} delay={0.12} />
-    </motion.svg>
-  );
+  return <div className={`route-connector route-connector--${side}`} aria-hidden="true" />;
 }

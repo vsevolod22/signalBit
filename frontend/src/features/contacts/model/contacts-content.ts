@@ -1,8 +1,8 @@
 import contactDrone from '../assets/contact-drone.png';
-import emailIcon from '../assets/email.png';
-import logoIctis from '../assets/logo_ictis.png';
-import logoIntegra from '../assets/logo_integra.png';
-import logoSfedu from '../assets/logo_sfedu.png';
+import emailIcon from '../assets/email-icon.png';
+import logoIctis from '../assets/ictis-logo.png';
+import logoIntegra from '../assets/integra-logo.png';
+import logoSfedu from '../assets/sfedu-logo.png';
 
 import type { SiteContent } from '@/shared/model/site-content.types';
 

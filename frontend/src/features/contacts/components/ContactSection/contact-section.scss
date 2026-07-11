@@ -1,17 +1,14 @@
 .contacts-shell {
-  display: grid;
-  grid-template-columns: minmax(0, 540px) 1fr;
-  min-height: 360px;
-  align-items: center;
+  min-height: 560px;
   overflow: visible;
   border-radius: 24px 24px 0 24px;
-  padding: 58px 32px 46px;
+  padding: clamp(54px, 5vw, 74px) 32px 50px;
 }
 
 .contacts-shell::after {
   position: absolute;
-  left: 10px;
-  bottom: -8px;
+  left: -11px;
+  bottom: -12px;
   z-index: 3;
   width: 42px;
   height: 32px;
@@ -20,9 +17,17 @@
   transform: scaleX(-1);
 }
 
+.contacts-content {
+  display: grid;
+  grid-template-columns: minmax(290px, 0.78fr) minmax(500px, 1.22fr);
+  gap: clamp(30px, 4vw, 58px);
+  align-items: start;
+}
+
 .contacts-copy {
   position: relative;
   z-index: 3;
+  padding-top: 18px;
 }
 
 .contacts-copy h2 {
@@ -36,7 +41,7 @@
   margin: 0 0 14px;
   font-size: 17px;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.45;
 }
 
 .email-line {
@@ -48,7 +53,7 @@
 
 .email-line img {
   width: 26px;
-  height: 22px;
+  height: auto;
 }
 
 .email-line a {
@@ -80,25 +85,38 @@
 }
 
 .contacts-drone {
-  justify-self: end;
-  width: min(760px, 58vw);
+  position: absolute;
+  right: -48px;
+  bottom: 16px;
+  z-index: 2;
+  width: min(600px, 44vw);
   max-width: none;
-  transform: translate(66px, 10px);
+  opacity: 0.12;
+  pointer-events: none;
 }
 
-@media (max-width: 900px) {
-  .contacts-shell {
+@media (max-width: 1100px) {
+  .contacts-content {
     grid-template-columns: 1fr;
   }
 
   .contacts-drone {
-    width: 100%;
-    transform: translateX(10%);
+    width: min(620px, 76vw);
   }
 }
 
 @media (max-width: 620px) {
   .contacts-shell {
-    padding: 56px 18px 34px;
+    padding: 56px 18px 42px;
+  }
+
+  .partners div {
+    gap: 24px;
+  }
+
+  .contacts-drone {
+    right: -80px;
+    bottom: 24%;
+    width: 520px;
   }
 }

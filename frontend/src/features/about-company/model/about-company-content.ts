@@ -1,4 +1,4 @@
-import aboutPhoto from '../assets/photo1.png';
+import aboutPhoto from '../assets/drone-system-demonstration.png';
 
 import type { SiteContent } from '@/shared/model/site-content.types';
 

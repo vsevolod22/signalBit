@@ -1,10 +1,10 @@
-import achievement1 from '../assets/d1.jpg';
-import achievement2 from '../assets/d2.jpg';
-import achievement3 from '../assets/d3.jpg';
-import achievement4 from '../assets/d4.jpg';
-import achievement5 from '../assets/d5.jpg';
-import achievement6 from '../assets/d6.jpg';
-import achievement7 from '../assets/d7.jpg';
+import achievement1 from '../assets/achievement-certificate-01.png';
+import achievement2 from '../assets/achievement-certificate-02.png';
+import achievement3 from '../assets/achievement-certificate-03.png';
+import achievement4 from '../assets/achievement-certificate-04.png';
+import achievement5 from '../assets/achievement-certificate-05.png';
+import achievement6 from '../assets/achievement-certificate-06.png';
+import achievement7 from '../assets/achievement-certificate-07.png';
 import achievementPremierLeague from '../assets/achievement-premier-league.png';
 
 import type { SiteContent } from '@/shared/model/site-content.types';

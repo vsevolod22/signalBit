@@ -16,7 +16,7 @@ export function Achievements(): ReactElement {
       <motion.div className="achievement-grid" variants={pageSectionVariants}>
         {content.achievements.map((achievement) => (
           <motion.figure key={achievement.image} variants={cardRevealVariants} whileHover={{ y: -8, scale: 1.02 }}>
-            <img src={achievement.image} alt={achievement.title} loading="lazy" />
+            <img src={achievement.image} alt={achievement.title} loading="lazy" decoding="async" />
           </motion.figure>
         ))}
       </motion.div>

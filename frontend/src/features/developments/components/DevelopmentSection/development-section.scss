@@ -1,15 +1,18 @@
-.development-shell {
-  --route-gap-after: 42px;
+.section-shell.development-shell {
+  --route-gap-after: 22px;
   border-radius: 24px;
-  padding-top: 82px;
+  padding-top: 54px;
 }
 
-.development-shell > h2 {
-  position: absolute;
-  top: -8px;
-  right: 32px;
-  background: var(--paper);
-  padding-left: 18px;
+.section-shell.development-shell > h2 {
+  position: relative;
+  top: auto;
+  right: auto;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 38px auto;
+  background: transparent;
+  padding: 0;
 }
 
 .development-grid {
@@ -90,6 +93,10 @@
 }
 
 @media (max-width: 900px) {
+  .section-shell.development-shell > h2 {
+    margin-bottom: 30px;
+  }
+
   .development-grid {
     grid-template-columns: 1fr;
   }

@@ -5,7 +5,7 @@ export const SECTION_ROUTE_PATHS = {
   development: 'M 0 0 V 970 Q 0 1000 30 1000 H 970',
   products: 'M 1000 0 V 970 Q 1000 1000 970 1000 H 30',
   about: 'M 0 0 V 970 Q 0 1000 30 1000 H 970',
-  contacts: 'M 998 0 V 966 Q 998 998 966 998 H 12',
+  contacts: 'M 1000 0 V 970 Q 1000 1000 970 1000 H 30',
 } as const;
 
 export const ROUTE_CONNECTOR_PATHS = {

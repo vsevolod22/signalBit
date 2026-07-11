@@ -21,7 +21,7 @@ function ActivityCardView({ card, tone }: ActivityCardViewProps): ReactElement {
       transition={{ duration: 0.3, ease: landingEase }}
     >
       <span className="activity-number">{card.number}</span>
-      {card.image !== undefined && <img src={card.image} alt="" aria-hidden="true" />}
+      {card.image !== undefined && <img src={card.image} alt="" aria-hidden="true" loading="lazy" decoding="async" />}
       <h3>{card.title}</h3>
       <p>{card.description}</p>
     </motion.article>

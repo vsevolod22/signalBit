@@ -1,9 +1,16 @@
-.services-shell > h2 {
-  position: absolute;
-  top: -22px;
-  left: 0;
-  background: var(--paper);
-  padding-right: 16px;
+.section-shell.services-shell {
+  padding-top: 54px;
+}
+
+.section-shell.services-shell > h2 {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 38px;
+  background: transparent;
+  padding: 0;
 }
 
 .activity-grid {
@@ -57,7 +64,7 @@
   margin: 0;
   font-size: 12px;
   font-weight: 650;
-  line-height: 1.06;
+  line-height: 1.4;
 }
 
 .activity-number {
@@ -95,6 +102,10 @@
 }
 
 @media (max-width: 620px) {
+  .section-shell.services-shell > h2 {
+    margin-bottom: 30px;
+  }
+
   .activity-grid {
     grid-template-columns: 1fr;
   }

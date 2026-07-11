@@ -2,20 +2,20 @@
   --route-gap-after: 22px;
   border-radius: 0 24px 24px 24px;
   isolation: isolate;
-  margin: 42px 0 22px;
+  margin: 42px 32px 22px;
   overflow: visible;
   padding: 54px 0 44px;
 }
 
 .products-route {
-  right: auto;
-  left: 32px;
-  width: calc(100% - 64px);
+  right: 0;
+  left: 0;
+  width: 100%;
 }
 
 .products-shell .route-connector--left {
-  left: 32px;
-  width: calc(100% - 64px);
+  left: 0;
+  width: 3px;
 }
 
 .products-shell > h2 {
@@ -255,6 +255,8 @@
 
 @media (max-width: 900px) {
   .products-shell {
+    margin-right: 18px;
+    margin-left: 18px;
     padding-right: 16px;
     padding-left: 16px;
   }

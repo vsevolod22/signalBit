@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { PropsWithChildren, ReactElement } from 'react';
 
 import { loadSiteContent } from '@/shared/api/site-content';
-import { DEFAULT_SITE_CONTENT } from '@/shared/model/site-content';
+import { DEFAULT_SITE_CONTENT } from '@/app/model/default-site-content';
 import type { SiteContent } from '@/shared/model/site-content';
 
 type SiteContentSource = 'mock' | 'strapi';
@@ -21,7 +21,7 @@ export function SiteContentProvider({ children }: PropsWithChildren): ReactEleme
   useEffect(() => {
     let isMounted = true;
 
-    loadSiteContent().then((loadedContent) => {
+    loadSiteContent(DEFAULT_SITE_CONTENT).then((loadedContent) => {
       if (!isMounted) {
         return;
       }

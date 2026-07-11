@@ -1,17 +1,17 @@
-import canaryBottom from '../assets/canary/bottom.png';
-import canaryMiddle from '../assets/canary/middle.png';
-import canaryTop from '../assets/canary/top.png';
-import controllerImage from '../assets/flight-controller/fc1.png';
-import controllerFirst from '../assets/flight-controller/img1.png';
-import controllerSecond from '../assets/flight-controller/img2.png';
-import controllerThird from '../assets/flight-controller/img3.png';
-import sensorFirst from '../assets/sensor/img1.png';
-import sensorSecond from '../assets/sensor/img2.png';
-import sensorThird from '../assets/sensor/img3.png';
-import servicePrice1 from '../assets/shared/price1.png';
-import servicePrice2 from '../assets/shared/price2.png';
-import servicePrice3 from '../assets/shared/price3.png';
-import servicePrice4 from '../assets/shared/price4.png';
+import canaryBottom from '../assets/canary/canary-bottom-view.png';
+import canaryMiddle from '../assets/canary/canary-middle-view.png';
+import canaryTop from '../assets/canary/canary-top-view.png';
+import controllerImage from '../assets/flight-controller/controller-board-detail.png';
+import controllerFirst from '../assets/flight-controller/controller-gallery-01.png';
+import controllerSecond from '../assets/flight-controller/controller-gallery-02.png';
+import controllerThird from '../assets/flight-controller/controller-gallery-03.png';
+import sensorFirst from '../assets/sensor/sensor-gallery-01.png';
+import sensorSecond from '../assets/sensor/sensor-gallery-02.png';
+import sensorThird from '../assets/sensor/sensor-gallery-03.png';
+import servicePrice1 from '../assets/shared/service-product-01.png';
+import servicePrice2 from '../assets/shared/service-product-02.png';
+import servicePrice3 from '../assets/shared/service-product-03.png';
+import servicePrice4 from '../assets/shared/service-product-04.png';
 
 import type { SiteContent } from '@/shared/model/site-content.types';
 

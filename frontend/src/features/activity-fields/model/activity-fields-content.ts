@@ -1,6 +1,6 @@
-import activityNewProducts from '../assets/new_products.png';
-import activityResearch from '../assets/research.png';
-import activityTeaching from '../assets/teaching.png';
+import activityNewProducts from '../assets/product-development-icon.png';
+import activityResearch from '../assets/research-icon.png';
+import activityTeaching from '../assets/training-icon.png';
 
 import type { SiteContent } from '@/shared/model/site-content.types';
 

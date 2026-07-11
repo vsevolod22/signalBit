@@ -44,7 +44,14 @@ export function AboutCompany({ children }: PropsWithChildren): ReactElement {
           </motion.dl>
         </motion.div>
         <motion.figure className="about-photo" variants={cardRevealVariants} whileHover={{ y: -6 }}>
-          <img src={content.about.photo} alt="Демонстрация беспилотной системы СИГНАЛ-БИТ" />
+          <img
+            src={content.about.photo}
+            alt="Демонстрация беспилотной системы СИГНАЛ-БИТ"
+            width="424"
+            height="277"
+            loading="lazy"
+            decoding="async"
+          />
           <figcaption>
             <b>{content.about.officialTitle}</b>
             {content.about.officialItems.map((item) => (

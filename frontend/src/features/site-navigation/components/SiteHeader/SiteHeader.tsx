@@ -12,12 +12,12 @@ export function SiteHeader(): ReactElement {
     <motion.header
       className="site-header"
       aria-label="Главная навигация"
-      initial={{ opacity: 0, y: -18 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.64, ease: landingEase }}
     >
       <motion.a className="brand" href="#top" aria-label="СИГНАЛ-БИТ" whileHover={{ scale: 1.02 }}>
-        <img src={content.navigation.logo} alt="СИГНАЛ-БИТ" />
+        <img src={content.navigation.logo} alt="СИГНАЛ-БИТ — безопасность и робототехника" width="3091" height="484" />
       </motion.a>
       <motion.nav className="nav-links" initial="hidden" animate="visible" variants={pageSectionVariants}>
         {content.navigation.links.map((link) => (

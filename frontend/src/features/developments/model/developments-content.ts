@@ -1,7 +1,7 @@
-import servicePrice1 from '../assets/price1.png';
-import servicePrice2 from '../assets/price2.png';
-import servicePrice3 from '../assets/price3.png';
-import servicePrice4 from '../assets/price4.png';
+import servicePrice1 from '../assets/development-service-01.png';
+import servicePrice2 from '../assets/development-service-02.png';
+import servicePrice3 from '../assets/development-service-03.png';
+import servicePrice4 from '../assets/development-service-04.png';
 
 import type { SiteContent } from '@/shared/model/site-content.types';
 

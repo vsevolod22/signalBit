@@ -1,7 +1,6 @@
-import { DEFAULT_SITE_CONTENT } from '@/shared/model/site-content';
 import type { DevelopmentCard, MediaContent, ProductCard, SiteContent } from '@/shared/model/site-content';
 
-export const STRAPI_API_URL = import.meta.env.VITE_STRAPI_API_URL ?? 'http://localhost:1337';
+export const STRAPI_API_URL: string | undefined = import.meta.env.VITE_STRAPI_API_URL;
 
 interface CmsActivityField {
   title?: string;
@@ -74,42 +73,46 @@ export function getMediaUrl(media: MediaContent | null | undefined, fallback: st
     return media.url;
   }
 
+  if (STRAPI_API_URL === undefined) {
+    return fallback;
+  }
+
   return `${STRAPI_API_URL}${media.url}`;
 }
 
-function mapActivityFields(fields: CmsActivityField[] | undefined): SiteContent['activityCards'] {
+function mapActivityFields(fields: CmsActivityField[] | undefined, fallback: SiteContent): SiteContent['activityCards'] {
   if (!fields?.length) {
-    return DEFAULT_SITE_CONTENT.activityCards;
+    return fallback.activityCards;
   }
 
   return fields.slice(0, 4).map((field, index) => ({
     number: String(index + 1).padStart(2, '0'),
-    title: field.title ?? DEFAULT_SITE_CONTENT.activityCards[index]?.title ?? '',
-    description: field.description ?? DEFAULT_SITE_CONTENT.activityCards[index]?.description ?? '',
-    image: getMediaUrl(field.image, DEFAULT_SITE_CONTENT.activityCards[index]?.image ?? ''),
+    title: field.title ?? fallback.activityCards[index]?.title ?? '',
+    description: field.description ?? fallback.activityCards[index]?.description ?? '',
+    image: getMediaUrl(field.image, fallback.activityCards[index]?.image ?? ''),
   }));
 }
 
-function mapDevelopments(items: CmsDevelopment[] | undefined): DevelopmentCard[] {
+function mapDevelopments(items: CmsDevelopment[] | undefined, fallback: SiteContent): DevelopmentCard[] {
   if (!items?.length) {
-    return DEFAULT_SITE_CONTENT.developments;
+    return fallback.developments;
   }
 
   return items.slice(0, 4).map((item, index) => ({
-    title: item.title ?? DEFAULT_SITE_CONTENT.developments[index]?.title ?? '',
-    description: item.description ?? DEFAULT_SITE_CONTENT.developments[index]?.description ?? '',
-    technologies: item.technologies ?? DEFAULT_SITE_CONTENT.developments[index]?.technologies ?? '',
-    cost: item.cost ?? DEFAULT_SITE_CONTENT.developments[index]?.cost ?? '',
-    image: getMediaUrl(item.image, DEFAULT_SITE_CONTENT.developments[index]?.image ?? ''),
+    title: item.title ?? fallback.developments[index]?.title ?? '',
+    description: item.description ?? fallback.developments[index]?.description ?? '',
+    technologies: item.technologies ?? fallback.developments[index]?.technologies ?? '',
+    cost: item.cost ?? fallback.developments[index]?.cost ?? '',
+    image: getMediaUrl(item.image, fallback.developments[index]?.image ?? ''),
   }));
 }
 
-function mapProducts(products: CmsProduct[] | undefined): ProductCard[] {
+function mapProducts(products: CmsProduct[] | undefined, fallback: SiteContent): ProductCard[] {
   if (!products?.length) {
-    return DEFAULT_SITE_CONTENT.products;
+    return fallback.products;
   }
 
-  return DEFAULT_SITE_CONTENT.products.map((fallbackProduct) => {
+  return fallback.products.map((fallbackProduct) => {
     const cmsProduct = products.find((product) => product.slug === fallbackProduct.slug);
 
     if (cmsProduct === undefined) {
@@ -129,49 +132,49 @@ function mapProducts(products: CmsProduct[] | undefined): ProductCard[] {
   });
 }
 
-function mergeCmsContent(cms: CmsSiteContent): SiteContent {
+function mergeCmsContent(cms: CmsSiteContent, fallback: SiteContent): SiteContent {
   const about = cms.aboutCompany;
   const contacts = cms.contactSetting;
 
   return {
-    ...DEFAULT_SITE_CONTENT,
+    ...fallback,
     navigation: {
-      ...DEFAULT_SITE_CONTENT.navigation,
-      logo: getMediaUrl(cms.siteNavigation?.logo, DEFAULT_SITE_CONTENT.navigation.logo),
-      contactLabel: cms.siteNavigation?.contactLabel ?? DEFAULT_SITE_CONTENT.navigation.contactLabel,
+      ...fallback.navigation,
+      logo: getMediaUrl(cms.siteNavigation?.logo, fallback.navigation.logo),
+      contactLabel: cms.siteNavigation?.contactLabel ?? fallback.navigation.contactLabel,
     },
-    activityCards: mapActivityFields(cms.activityFields),
-    developments: mapDevelopments(cms.services),
-    products: mapProducts(cms.products),
+    activityCards: mapActivityFields(cms.activityFields, fallback),
+    developments: mapDevelopments(cms.services, fallback),
+    products: mapProducts(cms.products, fallback),
     about: {
-      ...DEFAULT_SITE_CONTENT.about,
-      title: about?.missionTitle ?? DEFAULT_SITE_CONTENT.about.title,
-      paragraphs: about?.paragraphs?.length ? about.paragraphs : DEFAULT_SITE_CONTENT.about.paragraphs,
-      photo: getMediaUrl(about?.photo, DEFAULT_SITE_CONTENT.about.photo),
-      officialTitle: about?.officialTitle ?? DEFAULT_SITE_CONTENT.about.officialTitle,
-      officialItems: about?.officialItems?.length ? about.officialItems : DEFAULT_SITE_CONTENT.about.officialItems,
+      ...fallback.about,
+      title: about?.missionTitle ?? fallback.about.title,
+      paragraphs: about?.paragraphs?.length ? about.paragraphs : fallback.about.paragraphs,
+      photo: getMediaUrl(about?.photo, fallback.about.photo),
+      officialTitle: about?.officialTitle ?? fallback.about.officialTitle,
+      officialItems: about?.officialItems?.length ? about.officialItems : fallback.about.officialItems,
       stats: about?.stats?.length
         ? about.stats.map((stat, index) => ({
-            value: stat.value ?? DEFAULT_SITE_CONTENT.about.stats[index]?.value ?? '',
-            label: stat.text ?? DEFAULT_SITE_CONTENT.about.stats[index]?.label ?? '',
+            value: stat.value ?? fallback.about.stats[index]?.value ?? '',
+            label: stat.text ?? fallback.about.stats[index]?.label ?? '',
           }))
-        : DEFAULT_SITE_CONTENT.about.stats,
+        : fallback.about.stats,
     },
     contacts: {
-      ...DEFAULT_SITE_CONTENT.contacts,
-      title: contacts?.questionTitle ?? DEFAULT_SITE_CONTENT.contacts.title,
-      emailLabel: contacts?.emailLabel ?? DEFAULT_SITE_CONTENT.contacts.emailLabel,
-      emailAddress: contacts?.emailAddress ?? DEFAULT_SITE_CONTENT.contacts.emailAddress,
-      responseText: contacts?.responseText ?? DEFAULT_SITE_CONTENT.contacts.responseText,
-      partnersTitle: contacts?.partnersTitle ?? DEFAULT_SITE_CONTENT.contacts.partnersTitle,
-      emailIcon: getMediaUrl(contacts?.emailIcon, DEFAULT_SITE_CONTENT.contacts.emailIcon),
-      heroImage: getMediaUrl(contacts?.rightImage, DEFAULT_SITE_CONTENT.contacts.heroImage),
+      ...fallback.contacts,
+      title: contacts?.questionTitle ?? fallback.contacts.title,
+      emailLabel: contacts?.emailLabel ?? fallback.contacts.emailLabel,
+      emailAddress: contacts?.emailAddress ?? fallback.contacts.emailAddress,
+      responseText: contacts?.responseText ?? fallback.contacts.responseText,
+      partnersTitle: contacts?.partnersTitle ?? fallback.contacts.partnersTitle,
+      emailIcon: getMediaUrl(contacts?.emailIcon, fallback.contacts.emailIcon),
+      heroImage: getMediaUrl(contacts?.rightImage, fallback.contacts.heroImage),
       partners: contacts?.partnerLogos?.length
         ? contacts.partnerLogos.map((partner, index) => ({
-            name: partner.name ?? DEFAULT_SITE_CONTENT.contacts.partners[index]?.name ?? '',
-            image: getMediaUrl(partner.image, DEFAULT_SITE_CONTENT.contacts.partners[index]?.image ?? ''),
+            name: partner.name ?? fallback.contacts.partners[index]?.name ?? '',
+            image: getMediaUrl(partner.image, fallback.contacts.partners[index]?.image ?? ''),
           }))
-        : DEFAULT_SITE_CONTENT.contacts.partners,
+        : fallback.contacts.partners,
     },
   };
 }
@@ -200,17 +203,21 @@ async function fetchCmsContent(): Promise<CmsSiteContent> {
   }
 }
 
-export async function loadSiteContent(): Promise<LoadedSiteContent> {
+export async function loadSiteContent(fallback: SiteContent): Promise<LoadedSiteContent> {
+  if (STRAPI_API_URL === undefined) {
+    return { content: fallback, source: 'mock' };
+  }
+
   try {
     const cmsContent = await fetchCmsContent();
 
     return {
-      content: mergeCmsContent(cmsContent),
+      content: mergeCmsContent(cmsContent, fallback),
       source: 'strapi',
     };
   } catch {
     return {
-      content: DEFAULT_SITE_CONTENT,
+      content: fallback,
       source: 'mock',
     };
   }

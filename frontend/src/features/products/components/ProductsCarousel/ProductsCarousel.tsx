@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import type { KeyboardEvent, ReactElement } from 'react';
 import { animated, config, to, useReducedMotion, useSpring } from '@react-spring/web';
 import { motion } from 'framer-motion';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
+import { useProductCarouselStore } from '@/features/products/model/product-carousel-store';
 import type { ProductCard } from '@/shared/model/site-content';
 import { fadeUpVariants, pageSectionVariants, revealViewport, SECTION_ROUTE_PATHS } from '@/shared/lib/landing-motion';
 import { RouteConnector, SectionRoute } from '@/shared/ui/section-route';
@@ -17,7 +18,7 @@ function ProductImages({ product }: ProductImagesProps): ReactElement {
   return (
     <div className="product-images">
       {product.images.slice(0, 3).map((image, index) => (
-        <img src={image} alt="" aria-hidden="true" key={`${product.slug}-${index}`} />
+        <img src={image} alt="" aria-hidden="true" decoding="async" loading="lazy" key={`${product.slug}-${index}`} />
       ))}
     </div>
   );
@@ -106,7 +107,8 @@ function ProductCardView({ isVisible, offset, product, placement, onSelect }: Pr
 
 export function ProductsCarousel(): ReactElement {
   const { content } = useSiteContent();
-  const [activeProductIndex, setActiveProductIndex] = useState(0);
+  const activeProductIndex = useProductCarouselStore((state) => state.activeProductIndex);
+  const setActiveProductIndex = useProductCarouselStore((state) => state.selectProduct);
   const carouselProducts = useMemo(() => {
     return content.products
       .map((product, index) => {
@@ -140,11 +142,11 @@ export function ProductsCarousel(): ReactElement {
   };
 
   const selectPreviousProduct = (): void => {
-    setActiveProductIndex((currentIndex) => (currentIndex - 1 + content.products.length) % content.products.length);
+    setActiveProductIndex((activeProductIndex - 1 + content.products.length) % content.products.length);
   };
 
   const selectNextProduct = (): void => {
-    setActiveProductIndex((currentIndex) => (currentIndex + 1) % content.products.length);
+    setActiveProductIndex((activeProductIndex + 1) % content.products.length);
   };
 
   return (
@@ -197,7 +199,7 @@ export function ProductsCarousel(): ReactElement {
           <span aria-hidden="true">›</span>
           <span className="sr-only">Следующий продукт</span>
         </motion.button>
-        <div className="carousel-dots" role="tablist" aria-label="Выбор продукта">
+        <div className="carousel-dots" aria-label="Выбор продукта">
           {content.products.map((product, index) => (
             <motion.button
               className={index === activeProductIndex ? 'is-active' : undefined}
@@ -205,7 +207,7 @@ export function ProductsCarousel(): ReactElement {
               key={product.slug}
               onClick={() => selectProduct(index)}
               aria-label={`Показать ${product.title}`}
-              aria-selected={index === activeProductIndex}
+              aria-current={index === activeProductIndex ? 'true' : undefined}
               whileHover={{ scale: 1.22 }}
               whileTap={{ scale: 0.9 }}
             />

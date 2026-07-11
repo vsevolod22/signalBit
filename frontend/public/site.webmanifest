@@ -1,0 +1,17 @@
+{
+  "name": "СИГНАЛ-БИТ",
+  "short_name": "СИГНАЛ-БИТ",
+  "description": "Безопасные программные и аппаратные решения для беспилотных авиационных систем.",
+  "lang": "ru",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#075d73",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "400x400",
+      "type": "image/png"
+    }
+  ]
+}
