@@ -1,7 +1,7 @@
 export default ({ env }) => {
   const normalizeOrigin = (origin: string) => origin.replace(/\/+$/, '');
   const allowedOrigins = env
-    .array('CORS_ORIGINS', ['http://localhost:5173', 'http://localhost:4173'])
+    .array('CORS_ORIGINS', ['http://localhost:5174', 'http://localhost:4174'])
     .map(normalizeOrigin);
   const allowVercelPreviews = env.bool('CORS_ALLOW_VERCEL_PREVIEWS', false);
 
@@ -31,7 +31,7 @@ export default ({ env }) => {
 
           return '';
         },
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+        methods: ['GET', 'POST', 'HEAD', 'OPTIONS'],
         headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
         keepHeaderOnError: true,
       },

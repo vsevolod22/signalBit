@@ -1,18 +1,5 @@
 import type { Variants } from 'framer-motion';
 
-export const SECTION_ROUTE_PATHS = {
-  services: 'M 0 0 H 970 Q 1000 0 1000 30 V 970 Q 1000 1000 970 1000 H 30',
-  development: 'M 0 0 V 970 Q 0 1000 30 1000 H 970',
-  products: 'M 1000 0 V 970 Q 1000 1000 970 1000 H 30',
-  about: 'M 0 0 V 970 Q 0 1000 30 1000 H 970',
-  contacts: 'M 1000 0 V 970 Q 1000 1000 970 1000 H 30',
-} as const;
-
-export const ROUTE_CONNECTOR_PATHS = {
-  left: 'M 30 0 Q 0 0 0 30 V 100',
-  right: 'M 970 0 Q 1000 0 1000 30 V 100',
-} as const;
-
 export const landingEase = [0.22, 1, 0.36, 1] as const;
 export const revealViewport = { once: true, amount: 0.22 } as const;
 
@@ -67,5 +54,26 @@ export const mediaFadeVariants: Variants = {
     opacity: 1,
     filter: 'blur(0px)',
     transition: { duration: 0.9, ease: landingEase, delay: 0.12 },
+  },
+};
+
+export const headerEntranceVariants: Variants = {
+  hidden: { opacity: 0, y: -12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.64, ease: landingEase },
+  },
+};
+
+export const scrollCueVariants: Variants = {
+  hidden: { opacity: 0, y: -8 },
+  visible: {
+    opacity: 1,
+    y: [0, 8, 0],
+    transition: {
+      opacity: { duration: 0.45, delay: 0.9 },
+      y: { duration: 1.9, repeat: Infinity, ease: 'easeInOut' },
+    },
   },
 };

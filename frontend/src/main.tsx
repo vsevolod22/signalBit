@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 
 import { App } from './App';
+import { AppProviders } from './app/providers/AppProviders';
 
 const rootElement = document.getElementById('root');
 
@@ -11,7 +12,9 @@ if (rootElement === null) {
 
 const application = (
   <StrictMode>
-    <App />
+    <AppProviders>
+      <App />
+    </AppProviders>
   </StrictMode>
 );
 

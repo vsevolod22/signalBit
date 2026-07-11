@@ -1,99 +1,32 @@
-.section-route {
+.section-route,
+.route-connector {
   position: absolute;
-  inset: 0;
   z-index: 1;
   display: block;
   overflow: visible;
   pointer-events: none;
-  --route-dash: 12px;
-  --route-gap: 12px;
-  --route-stroke: 3px;
 }
 
-.route-segment {
-  position: absolute;
-  display: none;
-  background-repeat: repeat;
-}
-
-.route-segment--top,
-.route-segment--bottom {
-  right: 0;
-  left: 0;
-  height: var(--route-stroke);
-  background-image: radial-gradient(
-    ellipse calc(var(--route-dash) / 2) calc(var(--route-stroke) / 2) at
-      calc(var(--route-dash) / 2) calc(var(--route-stroke) / 2),
-    var(--line) 99%,
-    transparent 100%
-  );
-  background-size: calc(var(--route-dash) + var(--route-gap)) var(--route-stroke);
-}
-
-.route-segment--top {
-  top: 0;
-}
-
-.route-segment--bottom {
-  bottom: 0;
-}
-
-.route-segment--left,
-.route-segment--right {
-  top: 0;
-  bottom: 0;
-  width: var(--route-stroke);
-  background-image: radial-gradient(
-    ellipse calc(var(--route-stroke) / 2) calc(var(--route-dash) / 2) at
-      calc(var(--route-stroke) / 2) calc(var(--route-dash) / 2),
-    var(--line) 99%,
-    transparent 100%
-  );
-  background-size: var(--route-stroke) calc(var(--route-dash) + var(--route-gap));
-}
-
-.route-segment--left {
-  left: 0;
-}
-
-.route-segment--right {
-  right: 0;
-}
-
-.services-route .route-segment--top,
-.services-route .route-segment--right,
-.services-route .route-segment--bottom,
-.development-route .route-segment--left,
-.development-route .route-segment--bottom,
-.products-route .route-segment--right,
-.products-route .route-segment--bottom,
-.about-route .route-segment--left,
-.about-route .route-segment--bottom,
-.contacts-route .route-segment--right,
-.contacts-route .route-segment--bottom {
-  display: block;
+.section-route {
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .route-connector {
-  position: absolute;
   top: 100%;
-  z-index: 1;
-  width: 3px;
-  height: var(--route-gap-after, 22px);
-  background-image: radial-gradient(
-    ellipse 1.5px 6px at 1.5px 6px,
-    var(--line) 99%,
-    transparent 100%
-  );
-  background-size: 3px 24px;
-  pointer-events: none;
-}
-
-.route-connector--left {
   left: 0;
+  width: 100%;
+  height: var(--route-gap-after, 22px);
 }
 
-.route-connector--right {
-  right: 0;
-  left: auto;
+.section-route .route-path,
+.route-connector .route-path {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2px;
+  stroke-dasharray: 14 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }

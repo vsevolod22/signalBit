@@ -2,7 +2,10 @@ import type { PropsWithChildren, ReactElement } from 'react';
 import { motion } from 'framer-motion';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
-import { fadeUpVariants, mediaFadeVariants, pageSectionVariants, revealViewport, SECTION_ROUTE_PATHS } from '@/shared/lib/landing-motion';
+import { fadeUpVariants, mediaFadeVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
+import { AnimatedSection } from '@/shared/ui/animated-section/AnimatedSection';
+import { AnimatedSectionHeading } from '@/shared/ui/animated-section/AnimatedSectionHeading';
+import { EmailLink } from '@/shared/ui/link/EmailLink';
 import { SectionRoute } from '@/shared/ui/section-route';
 import './contact-section.scss';
 
@@ -10,25 +13,19 @@ export function ContactSection({ children }: PropsWithChildren): ReactElement {
   const { content } = useSiteContent();
 
   return (
-    <motion.section
+    <AnimatedSection
       className="section-shell contacts-shell"
       id="contacts"
-      aria-labelledby="contacts-title"
-      initial="hidden"
-      whileInView="visible"
-      viewport={revealViewport}
-      variants={pageSectionVariants}
+      ariaLabelledBy="contacts-title"
     >
-      <SectionRoute className="contacts-route" path={SECTION_ROUTE_PATHS.contacts} />
+      <SectionRoute className="contacts-route" />
       <motion.div className="contacts-content" variants={pageSectionVariants}>
         <motion.div className="contacts-copy" variants={pageSectionVariants}>
-          <motion.h2 id="contacts-title" variants={fadeUpVariants}>
-            {content.contacts.title}
-          </motion.h2>
+          <AnimatedSectionHeading id="contacts-title">{content.contacts.title}</AnimatedSectionHeading>
           <motion.p className="email-line" variants={fadeUpVariants}>
             <span>{content.contacts.emailLabel}</span>
             <img src={content.contacts.emailIcon} alt="" aria-hidden="true" width="100" height="76" />
-            <a href={`mailto:${content.contacts.emailAddress}`}>{content.contacts.emailAddress}</a>
+            <EmailLink email={content.contacts.emailAddress} />
           </motion.p>
           <motion.p variants={fadeUpVariants}>{content.contacts.responseText}</motion.p>
           <motion.div className="partners" aria-label={content.contacts.partnersTitle} variants={pageSectionVariants}>
@@ -51,6 +48,6 @@ export function ContactSection({ children }: PropsWithChildren): ReactElement {
         decoding="async"
         variants={mediaFadeVariants}
       />
-    </motion.section>
+    </AnimatedSection>
   );
 }

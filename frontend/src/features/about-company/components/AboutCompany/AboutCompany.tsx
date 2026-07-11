@@ -2,7 +2,10 @@ import type { PropsWithChildren, ReactElement } from 'react';
 import { motion } from 'framer-motion';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
-import { cardRevealVariants, fadeUpVariants, pageSectionVariants, revealViewport, SECTION_ROUTE_PATHS } from '@/shared/lib/landing-motion';
+import { cardRevealVariants, fadeUpVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
+import { CARD_HOVER } from '@/shared/lib/motion-presets';
+import { AnimatedSection } from '@/shared/ui/animated-section/AnimatedSection';
+import { AnimatedSectionHeading } from '@/shared/ui/animated-section/AnimatedSectionHeading';
 import { RouteConnector, SectionRoute } from '@/shared/ui/section-route';
 import './about-company.scss';
 
@@ -10,20 +13,14 @@ export function AboutCompany({ children }: PropsWithChildren): ReactElement {
   const { content } = useSiteContent();
 
   return (
-    <motion.section
+    <AnimatedSection
       className="section-shell about-shell"
       id="about"
-      aria-labelledby="about-title"
-      initial="hidden"
-      whileInView="visible"
-      viewport={revealViewport}
-      variants={pageSectionVariants}
+      ariaLabelledBy="about-title"
     >
-      <SectionRoute className="about-route" path={SECTION_ROUTE_PATHS.about} />
+      <SectionRoute className="about-route" />
       <RouteConnector side="right" />
-      <motion.h2 id="about-label" variants={fadeUpVariants}>
-        О нас
-      </motion.h2>
+      <AnimatedSectionHeading id="about-label">О нас</AnimatedSectionHeading>
       <motion.div className="about-grid" variants={pageSectionVariants}>
         <motion.div className="about-copy" variants={pageSectionVariants}>
           <motion.h3 id="about-title" variants={fadeUpVariants}>
@@ -43,7 +40,7 @@ export function AboutCompany({ children }: PropsWithChildren): ReactElement {
             ))}
           </motion.dl>
         </motion.div>
-        <motion.figure className="about-photo" variants={cardRevealVariants} whileHover={{ y: -6 }}>
+        <motion.figure className="about-photo" variants={cardRevealVariants} whileHover={CARD_HOVER.aboutPhoto}>
           <img
             src={content.about.photo}
             alt="Демонстрация беспилотной системы СИГНАЛ-БИТ"
@@ -61,6 +58,6 @@ export function AboutCompany({ children }: PropsWithChildren): ReactElement {
         </motion.figure>
       </motion.div>
       {children}
-    </motion.section>
+    </AnimatedSection>
   );
 }

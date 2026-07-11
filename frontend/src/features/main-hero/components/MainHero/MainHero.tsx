@@ -2,7 +2,8 @@ import type { ReactElement } from 'react';
 import { motion } from 'framer-motion';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
-import { fadeUpVariants, heroImageVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
+import { fadeUpVariants, heroImageVariants, pageSectionVariants, scrollCueVariants } from '@/shared/lib/landing-motion';
+import { MotionLink } from '@/shared/ui/link/MotionLink';
 import './main-hero.scss';
 
 export function MainHero(): ReactElement {
@@ -30,18 +31,17 @@ export function MainHero(): ReactElement {
           {...{ fetchpriority: 'high' }}
         />
       </motion.div>
-      <motion.a
+      <MotionLink
         className="scroll-cue"
         href="#services"
         aria-label="Перейти к сервисам"
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: [0, 8, 0] }}
-        transition={{ opacity: { duration: 0.45, delay: 0.9 }, y: { duration: 1.9, repeat: Infinity, ease: 'easeInOut' } }}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.95 }}
+        initial="hidden"
+        animate="visible"
+        variants={scrollCueVariants}
+        interaction="scrollCue"
       >
         <img src={content.hero.arrowImage} alt="" width="184" height="92" />
-      </motion.a>
+      </MotionLink>
     </motion.section>
   );
 }

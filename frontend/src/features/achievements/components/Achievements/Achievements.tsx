@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
 import { cardRevealVariants, fadeUpVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
+import { CARD_HOVER } from '@/shared/lib/motion-presets';
 import './achievements.scss';
 
 export function Achievements(): ReactElement {
@@ -15,7 +16,7 @@ export function Achievements(): ReactElement {
       </motion.h3>
       <motion.div className="achievement-grid" variants={pageSectionVariants}>
         {content.achievements.map((achievement) => (
-          <motion.figure key={achievement.image} variants={cardRevealVariants} whileHover={{ y: -8, scale: 1.02 }}>
+          <motion.figure key={achievement.image} variants={cardRevealVariants} whileHover={CARD_HOVER.achievement}>
             <img src={achievement.image} alt={achievement.title} loading="lazy" decoding="async" />
           </motion.figure>
         ))}

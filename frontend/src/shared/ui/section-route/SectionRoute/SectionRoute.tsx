@@ -1,27 +1,48 @@
 import type { ReactElement } from 'react';
 
+import { useElementSize } from '@/shared/ui/section-route/hooks/useElementSize';
+import {
+  createConnectorPath,
+  createSectionPath,
+  getViewBoxSize,
+  hasRenderableSize,
+} from '@/shared/ui/section-route/model/route-paths';
+import type { ConnectorSide } from '@/shared/ui/section-route/model/route-paths';
+
 import './section-route.scss';
 
-interface SectionRouteProps {
-  className: string;
-  path: string;
-}
+export function SectionRoute({ className }: { className: string }): ReactElement {
+  const [routeRef, size] = useElementSize();
+  const routePath = createSectionPath(className, size.width, size.height);
+  const canRenderPath = hasRenderableSize(size);
 
-export function SectionRoute({ className }: SectionRouteProps): ReactElement {
   return (
-    <div className={`section-route ${className}`} aria-hidden="true">
-      <span className="route-segment route-segment--top" />
-      <span className="route-segment route-segment--right" />
-      <span className="route-segment route-segment--bottom" />
-      <span className="route-segment route-segment--left" />
-    </div>
+    <svg
+      ref={routeRef}
+      className={`section-route ${className}`}
+      viewBox={`0 0 ${getViewBoxSize(size.width)} ${getViewBoxSize(size.height)}`}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      {canRenderPath && <path className="route-path" d={routePath} />}
+    </svg>
   );
 }
 
-interface RouteConnectorProps {
-  side: 'left' | 'right';
-}
+export function RouteConnector({ side }: { side: ConnectorSide }): ReactElement {
+  const [connectorRef, size] = useElementSize();
+  const path = createConnectorPath(side, size);
+  const canRenderPath = hasRenderableSize(size);
 
-export function RouteConnector({ side }: RouteConnectorProps): ReactElement {
-  return <div className={`route-connector route-connector--${side}`} aria-hidden="true" />;
+  return (
+    <svg
+      ref={connectorRef}
+      className={`route-connector route-connector--${side}`}
+      viewBox={`0 0 ${getViewBoxSize(size.width)} ${getViewBoxSize(size.height)}`}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      {canRenderPath && <path className="route-path" d={path} />}
+    </svg>
+  );
 }

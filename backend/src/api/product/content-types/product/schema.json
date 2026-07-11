@@ -33,8 +33,24 @@
     "leadText": {
       "type": "text"
     },
+    "lead": {
+      "type": "text"
+    },
+    "bodyBlocks": {
+      "type": "json"
+    },
     "descriptionBlocks": {
       "type": "json"
+    },
+    "priceNote": {
+      "type": "string"
+    },
+    "ctaLabel": {
+      "type": "string"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
     },
     "parametersTitle": {
       "type": "string",

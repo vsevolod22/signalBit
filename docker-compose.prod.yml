@@ -33,6 +33,8 @@ services:
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:?TRANSFER_TOKEN_SALT is required}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
       ENCRYPTION_KEY: ${ENCRYPTION_KEY:?ENCRYPTION_KEY is required}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5174,http://localhost:4174}
+      CORS_ALLOW_VERCEL_PREVIEWS: ${CORS_ALLOW_VERCEL_PREVIEWS:-false}
       DATABASE_CLIENT: postgres
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432

@@ -22,8 +22,10 @@ export interface ProductCard {
   slug: string;
   title: string;
   lead: string;
+  body?: string[];
   description: string[];
   price: string;
+  priceNote?: string;
   images: string[];
   cta?: string;
   featured?: boolean;

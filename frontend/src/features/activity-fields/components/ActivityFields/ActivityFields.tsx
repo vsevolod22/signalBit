@@ -3,7 +3,10 @@ import { motion } from 'framer-motion';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
 import type { ActivityCard } from '@/shared/model/site-content';
-import { cardRevealVariants, fadeUpVariants, landingEase, pageSectionVariants, revealViewport, SECTION_ROUTE_PATHS } from '@/shared/lib/landing-motion';
+import { cardRevealVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
+import { CARD_HOVER, CARD_TRANSITION } from '@/shared/lib/motion-presets';
+import { AnimatedSection } from '@/shared/ui/animated-section/AnimatedSection';
+import { AnimatedSectionHeading } from '@/shared/ui/animated-section/AnimatedSectionHeading';
 import { RouteConnector, SectionRoute } from '@/shared/ui/section-route';
 import './activity-fields.scss';
 
@@ -17,8 +20,8 @@ function ActivityCardView({ card, tone }: ActivityCardViewProps): ReactElement {
     <motion.article
       className={`activity-card activity-card--${tone}`}
       variants={cardRevealVariants}
-      whileHover={{ y: -8, scale: 1.015 }}
-      transition={{ duration: 0.3, ease: landingEase }}
+      whileHover={CARD_HOVER.activity}
+      transition={CARD_TRANSITION.activity}
     >
       <span className="activity-number">{card.number}</span>
       {card.image !== undefined && <img src={card.image} alt="" aria-hidden="true" loading="lazy" decoding="async" />}
@@ -32,25 +35,22 @@ export function ActivityFields(): ReactElement {
   const { content } = useSiteContent();
 
   return (
-    <motion.section
+    <AnimatedSection
       className="section-shell services-shell"
       id="services"
-      aria-labelledby="services-title"
-      initial="hidden"
-      whileInView="visible"
-      viewport={revealViewport}
-      variants={pageSectionVariants}
+      ariaLabelledBy="services-title"
     >
-      <SectionRoute className="services-route" path={SECTION_ROUTE_PATHS.services} />
+      <SectionRoute className="services-route" />
       <RouteConnector side="left" />
-      <motion.h2 id="services-title" variants={fadeUpVariants}>
-        {content.activityTitle}
-      </motion.h2>
+      <AnimatedSectionHeading id="services-title">{content.activityTitle}</AnimatedSectionHeading>
       <motion.div className="activity-grid" variants={pageSectionVariants}>
-        {content.activityCards.map((card, index) => (
-          <ActivityCardView card={card} key={card.number} tone={index % 2 === 0 ? 'dark' : 'light'} />
-        ))}
+        {content.activityCards.map((card, index) => {
+          const isEvenCard = index % 2 === 0;
+          const cardTone = isEvenCard ? 'dark' : 'light';
+
+          return <ActivityCardView card={card} key={card.number} tone={cardTone} />;
+        })}
       </motion.div>
-    </motion.section>
+    </AnimatedSection>
   );
 }

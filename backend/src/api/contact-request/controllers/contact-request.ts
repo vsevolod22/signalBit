@@ -1,14 +1,9 @@
 import { factories } from '@strapi/strapi';
 
+import { FORM_REQUEST_SOURCE } from '../../../shared/forms';
+import { getRequestData, normalizeString } from '../../../shared/request-data';
+
 const requiredFields = ['fullName', 'contactMethod', 'question'] as const;
-
-function getRequestData(ctx) {
-  return ctx.request.body?.data ?? ctx.request.body ?? {};
-}
-
-function normalizeString(value: unknown): string {
-  return typeof value === 'string' ? value.trim() : '';
-}
 
 export default factories.createCoreController('api::contact-request.contact-request', ({ strapi }) => ({
   async submit(ctx) {
@@ -18,7 +13,7 @@ export default factories.createCoreController('api::contact-request.contact-requ
       email: normalizeString(body.email),
       contactMethod: normalizeString(body.contactMethod),
       question: normalizeString(body.question),
-      source: 'Сайт',
+      source: FORM_REQUEST_SOURCE,
     };
 
     const missingField = requiredFields.find((field) => data[field].length === 0);

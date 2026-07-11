@@ -1,5 +1,8 @@
 import { factories } from '@strapi/strapi';
 
+import { FORM_REQUEST_SOURCE } from '../../../shared/forms';
+import { getRequestData, normalizeString } from '../../../shared/request-data';
+
 const commonRequiredFields = [
   'courseAudience',
   'courseName',
@@ -25,20 +28,12 @@ const courseAudienceLabelByValue = {
 type CourseAudience = (typeof courseAudiences)[number];
 type CourseName = (typeof courseNames)[number];
 
-function getRequestData(ctx) {
-  return ctx.request.body?.data ?? ctx.request.body ?? {};
-}
-
-function normalizeString(value: unknown): string {
-  return typeof value === 'string' ? value.trim() : '';
-}
-
 function isCourseAudience(value: string): value is CourseAudience {
-  return courseAudiences.includes(value as CourseAudience);
+  return value === 'children' || value === 'adults';
 }
 
 function isCourseName(value: string): value is CourseName {
-  return courseNames.includes(value as CourseName);
+  return value === 'Школа пилотирования' || value === 'Инженер-оператор БАС 18+';
 }
 
 export default factories.createCoreController(
@@ -58,7 +53,7 @@ export default factories.createCoreController(
         parentPhone: normalizeString(body.parentPhone),
         parentSocialLink: normalizeString(body.parentSocialLink),
         personalDataConsent: body.personalDataConsent === true,
-        source: 'Сайт',
+        source: FORM_REQUEST_SOURCE,
       };
 
       const missingCommonField = commonRequiredFields.find((field) => data[field].length === 0);
@@ -75,7 +70,9 @@ export default factories.createCoreController(
         return ctx.badRequest('Invalid course name');
       }
 
-      if (data.courseName !== courseNameByAudience[data.courseAudience]) {
+      const expectedCourseName = courseNameByAudience[data.courseAudience];
+      const isCourseSelectionMismatch = data.courseName !== expectedCourseName;
+      if (isCourseSelectionMismatch) {
         return ctx.badRequest('Course name does not match selected course audience');
       }
 
@@ -83,7 +80,8 @@ export default factories.createCoreController(
         return ctx.badRequest('Personal data consent is required');
       }
 
-      if (data.courseAudience === 'children') {
+      const isChildrenCourse = data.courseAudience === 'children';
+      if (isChildrenCourse) {
         const missingParentField = parentRequiredFields.find((field) => data[field].length === 0);
 
         if (missingParentField) {
@@ -96,7 +94,7 @@ export default factories.createCoreController(
           ...data,
           courseAudience: courseAudienceLabelByValue[data.courseAudience],
           courseName: data.courseName,
-        } as any,
+        },
       });
 
       ctx.body = { data: { id: entry.id } };

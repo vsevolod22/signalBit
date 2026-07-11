@@ -6,6 +6,6 @@ interface ProductCarouselState {
 }
 
 export const useProductCarouselStore = create<ProductCarouselState>((set) => ({
-  activeProductIndex: 0,
+  activeProductIndex: 1,
   selectProduct: (index) => set({ activeProductIndex: index }),
 }));

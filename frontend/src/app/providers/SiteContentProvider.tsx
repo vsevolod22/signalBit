@@ -1,41 +1,39 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
 import type { PropsWithChildren, ReactElement } from 'react';
 
-import { loadSiteContent } from '@/shared/api/site-content';
 import { DEFAULT_SITE_CONTENT } from '@/app/model/default-site-content';
+import { useSiteContentQuery } from '@/app/api/site-content';
 import type { SiteContent } from '@/shared/model/site-content';
 
 type SiteContentSource = 'mock' | 'strapi';
 
 interface SiteContentContextValue {
   content: SiteContent;
+  error: Error | null;
   source: SiteContentSource;
 }
 
 const SiteContentContext = createContext<SiteContentContextValue | null>(null);
 
+function getContentSource(isCmsContentLoaded: boolean): SiteContentSource {
+  return isCmsContentLoaded ? 'strapi' : 'mock';
+}
+
+function getQueryError(error: unknown): Error | null {
+  return error instanceof Error ? error : null;
+}
+
 export function SiteContentProvider({ children }: PropsWithChildren): ReactElement {
-  const [content, setContent] = useState<SiteContent>(DEFAULT_SITE_CONTENT);
-  const [source, setSource] = useState<SiteContentSource>('mock');
+  const siteContentQuery = useSiteContentQuery(DEFAULT_SITE_CONTENT);
+  const content = siteContentQuery.data ?? DEFAULT_SITE_CONTENT;
+  const error = getQueryError(siteContentQuery.error);
+  const source = getContentSource(siteContentQuery.isSuccess);
 
-  useEffect(() => {
-    let isMounted = true;
-
-    loadSiteContent(DEFAULT_SITE_CONTENT).then((loadedContent) => {
-      if (!isMounted) {
-        return;
-      }
-
-      setContent(loadedContent.content);
-      setSource(loadedContent.source);
-    });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  return <SiteContentContext.Provider value={{ content, source }}>{children}</SiteContentContext.Provider>;
+  return (
+    <SiteContentContext.Provider value={{ content, error, source }}>
+      {children}
+    </SiteContentContext.Provider>
+  );
 }
 
 export function useSiteContent(): SiteContentContextValue {

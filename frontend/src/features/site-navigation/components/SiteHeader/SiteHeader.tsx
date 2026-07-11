@@ -2,7 +2,8 @@ import type { ReactElement } from 'react';
 import { motion } from 'framer-motion';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
-import { fadeUpVariants, landingEase, pageSectionVariants } from '@/shared/lib/landing-motion';
+import { fadeUpVariants, headerEntranceVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
+import { MotionLink } from '@/shared/ui/link/MotionLink';
 import './site-header.scss';
 
 export function SiteHeader(): ReactElement {
@@ -13,22 +14,22 @@ export function SiteHeader(): ReactElement {
       className="site-header"
       aria-label="Главная навигация"
       initial={false}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.64, ease: landingEase }}
+      animate="visible"
+      variants={headerEntranceVariants}
     >
-      <motion.a className="brand" href="#top" aria-label="СИГНАЛ-БИТ" whileHover={{ scale: 1.02 }}>
+      <MotionLink className="brand" href="#top" aria-label="СИГНАЛ-БИТ" interaction="brand">
         <img src={content.navigation.logo} alt="СИГНАЛ-БИТ — безопасность и робототехника" width="3091" height="484" />
-      </motion.a>
+      </MotionLink>
       <motion.nav className="nav-links" initial="hidden" animate="visible" variants={pageSectionVariants}>
         {content.navigation.links.map((link) => (
-          <motion.a href={link.href} key={link.href} variants={fadeUpVariants} whileHover={{ y: -2 }}>
+          <MotionLink href={link.href} key={link.href} variants={fadeUpVariants} interaction="lift">
             {link.label}
-          </motion.a>
+          </MotionLink>
         ))}
       </motion.nav>
-      <motion.a className="contact-link" href="#contacts" whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+      <MotionLink className="contact-link" href="#contacts" interaction="cta">
         {content.navigation.contactLabel}
-      </motion.a>
+      </MotionLink>
     </motion.header>
   );
 }

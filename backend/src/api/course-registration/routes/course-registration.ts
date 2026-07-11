@@ -1,12 +1,12 @@
+import { HTTP_METHOD, PUBLIC_ROUTE_CONFIG } from '../../../shared/http';
+
 export default {
   routes: [
     {
-      method: 'POST',
+      method: HTTP_METHOD.POST,
       path: '/course-registrations/submit',
       handler: 'course-registration.submit',
-      config: {
-        auth: false,
-      },
+      config: PUBLIC_ROUTE_CONFIG,
     },
   ],
 };
