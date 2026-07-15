@@ -14,6 +14,7 @@ interface SiteContentDto {
   contactSetting: RecordValue | null;
   hero: RecordValue | null;
   products: RecordValue[];
+  seoSetting: RecordValue | null;
   serviceSetting: RecordValue | null;
   services: RecordValue[];
   siteFooter: RecordValue | null;
@@ -38,6 +39,7 @@ const singleTypes = {
   activitySetting: 'api::activity-setting.activity-setting',
   serviceSetting: 'api::service-setting.service-setting',
   achievementSetting: 'api::achievement-setting.achievement-setting',
+  seoSetting: 'api::seo-setting.seo-setting',
 } as const;
 
 const collectionTypes = {
@@ -159,7 +161,16 @@ function selectMedia(record: RecordValue | null, fields: string[]): RecordValue 
     return dto;
   }
 
-  for (const field of ['logo', 'rightHand', 'leftHand', 'photo', 'emailIcon', 'rightImage', 'image']) {
+  for (const field of [
+    'logo',
+    'rightHand',
+    'leftHand',
+    'photo',
+    'emailIcon',
+    'rightImage',
+    'image',
+    'socialImage',
+  ]) {
     if (field in record) {
       dto[field] = mediaValue(record[field]) ?? null;
     }
@@ -214,26 +225,45 @@ function selectContactSetting(record: RecordValue | null): RecordValue | null {
   return dto;
 }
 
-async function getSingleType(strapi: StrapiInstance, uid: string): Promise<unknown> {
-  return strapi.entityService.findMany(uid, { populate: '*' });
+async function getSingleType(strapi: StrapiInstance, uid: string, populate: unknown = '*'): Promise<unknown> {
+  return strapi.entityService.findMany(uid, { populate });
 }
 
 async function getCollectionType(strapi: StrapiInstance, uid: string): Promise<unknown> {
   return strapi.entityService.findMany(uid, { populate: '*', sort: { sortOrder: 'asc' } });
 }
 
-export default {
-  async find(ctx: { body?: unknown }, { strapi }: { strapi: StrapiInstance }): Promise<void> {
+export default ({ strapi }: { strapi: StrapiInstance }) => ({
+  async find(ctx: { body?: unknown }): Promise<void> {
     try {
-      const [hero, aboutCompany, siteNavigation, siteFooter, contactSetting, activitySetting, serviceSetting, achievementSetting, activityFields, services, products, achievements] = await Promise.all([
+      const [
+        hero,
+        aboutCompany,
+        siteNavigation,
+        siteFooter,
+        contactSetting,
+        activitySetting,
+        serviceSetting,
+        achievementSetting,
+        seoSetting,
+        activityFields,
+        services,
+        products,
+        achievements,
+      ] = await Promise.all([
         getSingleType(strapi, singleTypes.hero),
         getSingleType(strapi, singleTypes.aboutCompany),
         getSingleType(strapi, singleTypes.siteNavigation),
         getSingleType(strapi, singleTypes.siteFooter),
-        getSingleType(strapi, singleTypes.contactSetting),
+        getSingleType(strapi, singleTypes.contactSetting, {
+          emailIcon: true,
+          rightImage: true,
+          partnerLogos: { populate: { image: true } },
+        }),
         getSingleType(strapi, singleTypes.activitySetting),
         getSingleType(strapi, singleTypes.serviceSetting),
         getSingleType(strapi, singleTypes.achievementSetting),
+        getSingleType(strapi, singleTypes.seoSetting),
         getCollectionType(strapi, collectionTypes.activityFields),
         getCollectionType(strapi, collectionTypes.services),
         getCollectionType(strapi, collectionTypes.products),
@@ -249,6 +279,19 @@ export default {
         activitySetting: select(asRecord(activitySetting), ['sectionTitle']),
         serviceSetting: select(asRecord(serviceSetting), ['sectionTitle']),
         achievementSetting: select(asRecord(achievementSetting), ['sectionTitle']),
+        seoSetting: selectMedia(asRecord(seoSetting), [
+          'metaTitle',
+          'metaDescription',
+          'keywords',
+          'canonicalUrl',
+          'robots',
+          'socialTitle',
+          'socialDescription',
+          'organizationName',
+          'legalName',
+          'organizationDescription',
+          'organizationAddress',
+        ]),
         activityFields: selectCollection(asRecords(activityFields), ['title', 'description', 'sortOrder'], ['image']),
         services: selectCollection(asRecords(services), ['title', 'description', 'technologies', 'cost', 'sortOrder'], ['image']),
         products: selectProducts(asRecords(products)),
@@ -261,4 +304,4 @@ export default {
       throw error;
     }
   },
-};
+});

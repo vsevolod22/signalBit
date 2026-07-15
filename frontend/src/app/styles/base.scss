@@ -1,35 +1,12 @@
+@use '@/shared/styles' as shared;
+
 :root {
-  color: #0a0a0a;
-  background: #ffffff;
-  font-family: Arial, Helvetica, sans-serif;
+  @include shared.custom-properties;
+  background: shared.color(paper);
+  color: shared.color(ink);
+  font-family: shared.$font-family-body;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --ink: #0a0a0a;
-  --paper: #ffffff;
-  --teal: #087f80;
-  --deep-teal: #075d73;
-  --light-teal: #bdd4d4;
-  --ice: #c7d9e3;
-  --mist: #d6e1e0;
-  --line: #111111;
-  --max-page: 1440px;
-  --accent-light: #a8e0dc;
-  --text-muted: #455354;
-  --text-on-dark-muted: #d5e3e2;
-  --error: #ff7b7b;
-  --error-light: #ffb9b9;
-  --page-gutter: clamp(18px, 2.25vw, 32px);
-  --space-xs: 8px;
-  --space-sm: 12px;
-  --space-md: 18px;
-  --space-lg: 28px;
-  --space-xl: 42px;
-  --space-2xl: clamp(36px, 5vw, 72px);
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-xl: 28px;
-  --focus-ring: 3px solid #f0a229;
-  --transition-fast: 160ms ease;
 }
 
 * {
@@ -42,11 +19,11 @@ html {
 }
 
 body {
-  margin: 0;
+  overflow-x: clip;
   min-width: 320px;
+  margin: 0;
   background: var(--paper);
   line-height: 1.5;
-  overflow-x: clip;
 }
 
 a {
@@ -77,43 +54,42 @@ button {
 
 .sr-only {
   position: absolute;
+  overflow: hidden;
   width: 1px;
   height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
 }
 
 .landing-page {
   position: relative;
+  overflow: visible;
   width: min(100%, var(--max-page));
   margin: 0 auto;
-  overflow-x: clip;
   background: var(--paper);
+}
+
+@media (max-width: 1439px) {
+  .landing-page {
+    overflow-x: clip;
+  }
 }
 
 h1,
 h2,
 h3,
-.activity-number,
-.stats-list dt {
+.services__number,
+.about__stats dt {
   font-family: 'Arial Black', Arial, Helvetica, sans-serif;
 }
 
 .section-shell {
-  position: relative;
-  isolation: isolate;
-  margin: 0 32px 22px;
-  border-radius: 0 24px 24px 24px;
-  padding: 70px 32px 34px;
+  @include shared.section-shell;
 }
 
 .site-footer {
-  display: flex;
+  @include shared.flex(center, space-between, var(--space-md));
   min-height: 84px;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
   margin: 0 var(--page-gutter);
   border-top: 1px solid var(--line);
   padding: var(--space-lg) 0;
@@ -126,6 +102,9 @@ h3,
 }
 
 .site-footer a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -136,7 +115,7 @@ h3,
 }
 
 .section-shell > h2,
-.about-shell > h2 {
+.about > h2 {
   z-index: 6;
   margin: 0;
   font-size: clamp(42px, 4.8vw, 62px);
@@ -157,10 +136,24 @@ h3,
   }
 }
 
+@media (max-width: 480px) {
+  .section-shell {
+    margin-right: 12px;
+    margin-left: 12px;
+    padding: 48px 12px 22px;
+    border-radius: 0 18px 18px 18px;
+  }
+
+  .site-footer {
+    margin-right: 12px;
+    margin-left: 12px;
+  }
+}
+
 @media (max-width: 620px) {
   .section-shell > h2,
-  .about-achievements h3,
-  .about-shell > h2 {
+  .achievements h3,
+  .about > h2 {
     font-size: 34px;
   }
 

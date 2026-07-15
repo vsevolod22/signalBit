@@ -40,7 +40,12 @@ export default ({ env }) => {
     'strapi::query',
     'strapi::body',
     'strapi::session',
-    'strapi::favicon',
+    {
+      name: 'strapi::favicon',
+      config: {
+        path: '../frontend/public/favicon.ico',
+      },
+    },
     'strapi::public',
   ];
 };

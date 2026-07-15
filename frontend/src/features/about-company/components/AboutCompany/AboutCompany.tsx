@@ -1,5 +1,5 @@
-import type { PropsWithChildren, ReactElement } from 'react';
 import { motion } from 'framer-motion';
+import type { ReactElement } from 'react';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
 import { cardRevealVariants, fadeUpVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
@@ -9,20 +9,16 @@ import { AnimatedSectionHeading } from '@/shared/ui/animated-section/AnimatedSec
 import { RouteConnector, SectionRoute } from '@/shared/ui/section-route';
 import './about-company.scss';
 
-export function AboutCompany({ children }: PropsWithChildren): ReactElement {
+export function AboutCompany(): ReactElement {
   const { content } = useSiteContent();
 
   return (
-    <AnimatedSection
-      className="section-shell about-shell"
-      id="about"
-      ariaLabelledBy="about-title"
-    >
-      <SectionRoute className="about-route" />
-      <RouteConnector side="right" />
+    <AnimatedSection className="section-shell about" id="about" ariaLabelledBy="about-title">
+      <SectionRoute className="about__route" variant="right-to-left" />
+      <RouteConnector side="left" />
       <AnimatedSectionHeading id="about-label">О нас</AnimatedSectionHeading>
-      <motion.div className="about-grid" variants={pageSectionVariants}>
-        <motion.div className="about-copy" variants={pageSectionVariants}>
+      <motion.div className="about__grid" variants={pageSectionVariants}>
+        <motion.div className="about__copy" variants={pageSectionVariants}>
           <motion.h3 id="about-title" variants={fadeUpVariants}>
             {content.about.title}
           </motion.h3>
@@ -31,7 +27,7 @@ export function AboutCompany({ children }: PropsWithChildren): ReactElement {
               {paragraph}
             </motion.p>
           ))}
-          <motion.dl className="stats-list" variants={pageSectionVariants}>
+          <motion.dl className="about__stats" variants={pageSectionVariants}>
             {content.about.stats.map((stat) => (
               <motion.div key={stat.label} variants={cardRevealVariants}>
                 <dt>{stat.value}</dt>
@@ -40,7 +36,7 @@ export function AboutCompany({ children }: PropsWithChildren): ReactElement {
             ))}
           </motion.dl>
         </motion.div>
-        <motion.figure className="about-photo" variants={cardRevealVariants} whileHover={CARD_HOVER.aboutPhoto}>
+        <motion.figure className="about__photo" variants={cardRevealVariants} whileHover={CARD_HOVER.aboutPhoto}>
           <img
             src={content.about.photo}
             alt="Демонстрация беспилотной системы СИГНАЛ-БИТ"
@@ -57,7 +53,6 @@ export function AboutCompany({ children }: PropsWithChildren): ReactElement {
           </figcaption>
         </motion.figure>
       </motion.div>
-      {children}
     </AnimatedSection>
   );
 }

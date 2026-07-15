@@ -18,15 +18,58 @@ export interface DevelopmentCard {
   image?: string;
 }
 
+export interface EducationProgramDetail {
+  label: string;
+  value: string;
+}
+
+export interface EducationOutcomeSegment {
+  emphasized?: boolean;
+  text: string;
+}
+
+export interface EducationProgramOutcome {
+  segments: EducationOutcomeSegment[];
+}
+
+export interface EducationProgram {
+  title: string;
+  subtitle: string;
+  details: EducationProgramDetail[];
+  directions: string[];
+  outcomes: EducationProgramOutcome[];
+  image: string;
+  theme: 'dark' | 'light';
+}
+
+export interface EducationContent {
+  title: string;
+  programs: EducationProgram[];
+  ctaLabel: string;
+  introTitle: string;
+  introText: string;
+  stats: StatItem[];
+}
+
+export interface ProductKitItem {
+  title: string;
+  description?: string;
+}
+
 export interface ProductCard {
   slug: string;
   title: string;
+  variant?: string;
   lead: string;
   body?: string[];
   description: string[];
   price: string;
   priceNote?: string;
   images: string[];
+  imageLabels?: string[];
+  kit?: ProductKitItem[];
+  specs?: string[];
+  theme?: 'deep' | 'teal' | 'ice' | 'sage';
   cta?: string;
   featured?: boolean;
 }
@@ -41,7 +84,23 @@ export interface PartnerLogo {
   image: string;
 }
 
+export interface SeoContent {
+  title: string;
+  description: string;
+  keywords: string;
+  canonicalUrl?: string;
+  robots: string;
+  socialTitle: string;
+  socialDescription: string;
+  socialImage: string;
+  organizationName: string;
+  legalName: string;
+  organizationDescription: string;
+  organizationAddress: string;
+}
+
 export interface SiteContent {
+  seo: SeoContent;
   navigation: {
     logo: string;
     links: Array<{ label: string; href: string }>;
@@ -59,7 +118,9 @@ export interface SiteContent {
   activityCards: ActivityCard[];
   developmentTitle: string;
   developments: DevelopmentCard[];
+  education: EducationContent;
   productsTitle: string;
+  productsNote: string;
   products: ProductCard[];
   about: {
     title: string;

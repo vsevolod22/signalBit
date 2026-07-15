@@ -1,7 +1,6 @@
 import { z } from 'zod';
-
+import { getOptionalMediaUrl } from '@/shared/api/strapi-client';
 import { optionalSortOrderSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
-import { getMediaUrl } from '@/shared/api/strapi-client';
 import { sortByOrder } from '@/shared/lib/content-mapping';
 import type { SiteContent } from '@/shared/model/site-content';
 
@@ -36,6 +35,6 @@ export function mapDevelopmentsContent(
     description: item.description ?? fallback[index]?.description ?? '',
     technologies: item.technologies ?? fallback[index]?.technologies ?? '',
     cost: item.cost ?? fallback[index]?.cost ?? '',
-    image: getMediaUrl(item.image, fallback[index]?.image ?? '', apiUrl),
+    image: getOptionalMediaUrl(item.image, fallback[index]?.image, apiUrl),
   }));
 }

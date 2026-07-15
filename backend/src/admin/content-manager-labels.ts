@@ -6,7 +6,41 @@ interface ContentManagerConfiguration {
   mainField?: string;
 }
 
+const systemFieldLabels: Record<string, string> = {
+  id: 'ID',
+  documentId: 'ID документа',
+  createdAt: 'Создано',
+  updatedAt: 'Обновлено',
+  publishedAt: 'Опубликовано',
+  createdBy: 'Создал',
+  updatedBy: 'Обновил',
+  publishedBy: 'Опубликовал',
+  locale: 'Локаль',
+  localizations: 'Локализации',
+  strapi_assignee: 'Ответственный',
+};
+
 const configurations: ContentManagerConfiguration[] = [
+  {
+    uid: 'api::seo-setting.seo-setting',
+    type: 'contentType',
+    labels: {
+      metaTitle: 'Заголовок страницы',
+      metaDescription: 'Описание страницы',
+      keywords: 'Ключевые слова',
+      canonicalUrl: 'Канонический адрес',
+      robots: 'Индексация robots',
+      socialTitle: 'Заголовок для соцсетей',
+      socialDescription: 'Описание для соцсетей',
+      socialImage: 'Изображение для соцсетей',
+      organizationName: 'Название организации',
+      legalName: 'Юридическое название',
+      organizationDescription: 'Описание организации',
+      organizationAddress: 'Адрес организации',
+    },
+    listFields: ['metaTitle', 'metaDescription', 'robots'],
+    mainField: 'metaTitle',
+  },
   {
     uid: 'api::hero.hero',
     type: 'contentType',
@@ -112,9 +146,14 @@ const configurations: ContentManagerConfiguration[] = [
       slug: 'Код продукта',
       price: 'Цена',
       headline: 'Заголовок продукта',
+      lead: 'Вводный текст',
       leadHighlight: 'Выделенный вводный текст',
       leadText: 'Основной вводный текст',
+      bodyBlocks: 'Основные текстовые блоки',
       descriptionBlocks: 'Блоки описания',
+      priceNote: 'Примечание к цене',
+      ctaLabel: 'Текст кнопки',
+      featured: 'Выделенный продукт',
       parametersTitle: 'Заголовок характеристик',
       priceLabel: 'Подпись цены',
       features: 'Характеристики',
@@ -280,7 +319,8 @@ function createEditLayout(fields: string[]): Array<Array<{ name: string; size: n
 
 function createFallbackConfiguration(configuration: ContentManagerConfiguration): Record<string, any> {
   const fields = Object.keys(configuration.labels);
-  const listFields = configuration.listFields ?? fields.slice(0, 4);
+  const knownFields = new Set(fields);
+  const listFields = (configuration.listFields ?? fields.slice(0, 4)).filter((field) => knownFields.has(field));
 
   return {
     settings: {
@@ -309,6 +349,8 @@ function localizeConfiguration(
 ): Record<string, any> {
   const labels = configuration.labels;
   const fallbackConfiguration = createFallbackConfiguration(configuration);
+  const metadataLabels =
+    configuration.type === 'contentType' ? { ...systemFieldLabels, ...labels } : { id: 'ID', ...labels };
 
   const nextConfiguration = {
     ...fallbackConfiguration,
@@ -318,21 +360,24 @@ function localizeConfiguration(
       mainField: fallbackConfiguration.settings.mainField,
       defaultSortBy: fallbackConfiguration.settings.defaultSortBy,
     },
-    metadatas: {},
+    metadatas: {
+      ...(currentConfiguration.metadatas ?? {}),
+    },
     // Do not preserve old layouts from the database: transferred/stale Strapi Cloud layouts can reference
     // removed component fields and crash the admin with "attributes" errors.
     layouts: fallbackConfiguration.layouts,
   };
 
-  for (const [field, label] of Object.entries(labels)) {
+  for (const [field, label] of Object.entries(metadataLabels)) {
     const metadata = nextConfiguration.metadatas[field] ?? {};
+    const isSystemField = !Object.prototype.hasOwnProperty.call(labels, field);
 
     nextConfiguration.metadatas[field] = {
       ...metadata,
       edit: {
         description: '',
         placeholder: '',
-        visible: true,
+        visible: !isSystemField,
         editable: true,
         ...metadata.edit,
         label,

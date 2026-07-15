@@ -1,7 +1,6 @@
 import { z } from 'zod';
-
-import { optionalSortOrderSchema, optionalStringListSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import { getMediaUrl } from '@/shared/api/strapi-client';
+import { optionalSortOrderSchema, optionalStringListSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import { nonEmptyStrings, sortByOrder } from '@/shared/lib/content-mapping';
 import type { ProductCard } from '@/shared/model/site-content';
 
@@ -35,12 +34,6 @@ export const productsCmsSchema = z
 export type ProductsCmsDto = z.infer<typeof productsCmsSchema>;
 type ProductCmsDto = NonNullable<ProductsCmsDto>[number];
 
-const LANDING_PRODUCT_SLUGS = ['canary', 'flight-controller', 'sensor'] as const;
-
-function isLandingProductSlug(slug: string | undefined): slug is (typeof LANDING_PRODUCT_SLUGS)[number] {
-  return slug === 'canary' || slug === 'flight-controller' || slug === 'sensor';
-}
-
 function getFeatureDescriptions(product: ProductCmsDto): string[] | undefined {
   return sortByOrder(product.features)?.flatMap((feature) => {
     const featureText = feature.text?.trim();
@@ -53,9 +46,7 @@ function getProductLead(product: ProductCmsDto, fallbackLead: string): string {
     return product.lead;
   }
 
-  const leadParts = [product.leadHighlight, product.leadText].filter(
-    (part): part is string => Boolean(part?.trim()),
-  );
+  const leadParts = [product.leadHighlight, product.leadText].filter((part): part is string => Boolean(part?.trim()));
   return leadParts.join(' ') || fallbackLead;
 }
 
@@ -99,9 +90,7 @@ function mapProduct(product: ProductCmsDto, fallback: ProductCard, apiUrl?: stri
     priceNote: product.priceNote ?? fallback.priceNote,
     cta: product.ctaLabel ?? fallback.cta,
     featured: product.featured ?? fallback.featured,
-    images: fallback.images.map((fallbackImage, index) =>
-      getMediaUrl(product.gallery?.[index], fallbackImage, apiUrl),
-    ),
+    images: fallback.images.map((fallbackImage, index) => getMediaUrl(product.gallery?.[index], fallbackImage, apiUrl)),
   };
 }
 
@@ -118,7 +107,7 @@ interface ProductMappingContext {
 }
 
 function mapOrderedProduct(
-  slug: (typeof LANDING_PRODUCT_SLUGS)[number],
+  slug: string,
   fallbackIndex: number,
   context: ProductMappingContext,
 ): OrderedProduct | undefined {
@@ -148,7 +137,9 @@ export function mapProductsContent(
 ): ProductCard[] {
   const fallbackBySlug = new Map(fallbackProducts.map((product) => [product.slug, product]));
   const cmsBySlug = new Map(
-    (products ?? []).filter((product) => isLandingProductSlug(product.slug)).map((product) => [product.slug, product]),
+    (products ?? [])
+      .filter((product) => product.slug !== undefined && fallbackBySlug.has(product.slug))
+      .map((product) => [product.slug, product]),
   );
   const mappingContext: ProductMappingContext = {
     apiUrl,
@@ -157,9 +148,8 @@ export function mapProductsContent(
     fallbackProductCount: fallbackProducts.length,
   };
 
-  return LANDING_PRODUCT_SLUGS.map((slug, fallbackIndex) =>
-    mapOrderedProduct(slug, fallbackIndex, mappingContext),
-  )
+  return fallbackProducts
+    .map((product, fallbackIndex) => mapOrderedProduct(product.slug, fallbackIndex, mappingContext))
     .filter(isOrderedProduct)
     .sort((first, second) => first.sortOrder - second.sortOrder)
     .map(({ product }) => product);

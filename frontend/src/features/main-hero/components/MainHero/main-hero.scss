@@ -1,16 +1,18 @@
+@use '@/shared/styles' as shared;
+
 .hero {
+  @include shared.grid(minmax(0, 760px) minmax(420px, 1fr), 0, center);
   position: relative;
-  display: grid;
-  min-height: 500px;
-  grid-template-columns: minmax(0, 760px) minmax(420px, 1fr);
-  align-items: center;
   overflow: hidden;
+  min-height: 500px;
   padding: 30px 0 96px 32px;
 }
 
-.hero-copy {
-  position: relative;
-  z-index: 2;
+.hero {
+  &__copy {
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .hero h1 {
@@ -21,11 +23,13 @@
   text-transform: uppercase;
 }
 
-.hero-subtitle {
-  margin: 10px 0 74px;
-  font-size: clamp(24px, 3.1vw, 38px);
-  font-weight: 500;
-  line-height: 1;
+.hero {
+  &__subtitle {
+    margin: 10px 0 74px;
+    font-size: clamp(24px, 3.1vw, 38px);
+    font-weight: 500;
+    line-height: 1;
+  }
 }
 
 .hero h2 {
@@ -36,59 +40,74 @@
   line-height: 0.98;
 }
 
-.hero-copy > p:not(.hero-subtitle) {
-  max-width: 780px;
-  margin: 0;
-  font-size: clamp(16px, 1.4vw, 21px);
-  font-weight: 600;
-  line-height: 1.35;
+.hero {
+  &__copy > p:not(.hero__subtitle) {
+    max-width: 780px;
+    margin: 0;
+    font-size: clamp(16px, 1.4vw, 21px);
+    font-weight: 400;
+    line-height: 1.35;
+  }
 }
 
-.hero-media {
-  position: relative;
-  width: 100%;
-  min-width: 0;
-  min-height: 420px;
+.hero {
+  &__media {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 420px;
+  }
 }
 
-.hero-media img {
-  position: absolute;
-  right: -112px;
-  bottom: 54px;
-  width: min(760px, 58vw);
-  height: auto;
-  max-width: none;
+.hero {
+  &__media img {
+    position: absolute;
+    right: -112px;
+    bottom: 54px;
+    width: min(760px, 58vw);
+    max-width: none;
+    height: auto;
+  }
 }
 
-.scroll-cue {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  width: 142px;
-  height: 72px;
-  transform: translateX(-50%);
+.hero {
+  &__scroll-cue {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    width: 142px;
+    height: 72px;
+    transform: translateX(-50%);
+  }
 }
 
-.scroll-cue img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.hero {
+  &__scroll-cue img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 @media (max-width: 1180px) {
   .hero {
-    grid-template-columns: minmax(0, 1fr);
     padding-right: 32px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
   }
 
-  .hero-media {
-    min-height: 320px;
+  .hero {
+    &__media {
+      min-height: 320px;
+    }
   }
 
-  .hero-media img {
-    right: -54px;
-    bottom: 22px;
-    width: min(640px, 72vw);
+  .hero {
+    &__media img {
+      right: -54px;
+      bottom: 22px;
+      width: min(640px, 72vw);
+    }
   }
 }
 
@@ -98,36 +117,98 @@
     padding: 28px 18px 86px;
   }
 
-  .hero-subtitle {
-    margin-bottom: 40px;
+  .hero {
+    &__subtitle {
+      margin-bottom: 40px;
+    }
   }
 
-  .hero-media {
-    min-height: 260px;
+  .hero {
+    &__media {
+      min-height: 260px;
+    }
   }
 
-  .hero-media img {
-    right: -18px;
-    width: min(520px, 86vw);
+  .hero {
+    &__media img {
+      right: -18px;
+      width: min(520px, 86vw);
+    }
   }
 }
 
 @media (max-width: 620px) {
   .hero h1 {
-    font-size: clamp(42px, 14vw, 58px);
-    overflow-wrap: anywhere;
+    font-size: clamp(40px, 12vw, 58px);
+    letter-spacing: -0.035em;
   }
 
-  .hero-subtitle {
-    font-size: 24px;
+  .hero {
+    &__subtitle {
+      font-size: 24px;
+    }
   }
 
   .hero h2 {
     font-size: clamp(27px, 9vw, 34px);
   }
 
-  .hero-media img {
-    right: -18px;
-    width: min(500px, 96vw);
+  .hero {
+    &__media img {
+      right: -18px;
+      width: min(500px, 96vw);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 22px 12px 72px;
+  }
+
+  .hero h1 {
+    font-size: clamp(37px, 11.5vw, 48px);
+  }
+
+  .hero {
+    &__subtitle {
+      margin-top: 8px;
+      margin-bottom: 32px;
+      font-size: 22px;
+    }
+  }
+
+  .hero h2 {
+    margin-bottom: 16px;
+    font-size: clamp(26px, 8.5vw, 32px);
+  }
+
+  .hero {
+    &__copy > p:not(.hero__subtitle) {
+      font-size: 15px;
+      line-height: 1.45;
+    }
+  }
+
+  .hero {
+    &__media {
+      min-height: 210px;
+    }
+  }
+
+  .hero {
+    &__media img {
+      right: -14px;
+      bottom: 14px;
+      width: min(500px, 102vw);
+    }
+  }
+
+  .hero {
+    &__scroll-cue {
+      bottom: 10px;
+      width: 112px;
+      height: 58px;
+    }
   }
 }

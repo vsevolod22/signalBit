@@ -1,8 +1,9 @@
-import type { MediaContent } from '@/shared/model/site-content';
-import { ACCEPT_JSON_HEADERS, HTTP_METHOD, JSON_HEADERS } from '@/shared/api/http';
 import type { HttpMethod } from '@/shared/api/http';
+import { ACCEPT_JSON_HEADERS, HTTP_METHOD, JSON_HEADERS } from '@/shared/api/http';
+import type { MediaContent } from '@/shared/model/site-content';
 
 export const STRAPI_API_URL = normalizeApiUrl(import.meta.env.VITE_STRAPI_API_URL);
+const STRAPI_REQUEST_TIMEOUT_MS = 4_000;
 
 export class StrapiHttpError extends Error {
   public constructor(public readonly status: number) {
@@ -49,14 +50,14 @@ function buildAbsoluteMediaUrl(apiUrl: string, mediaUrl: string): string {
   return `${apiUrl}${normalizedMediaPath}`;
 }
 
-export function getMediaUrl(
+export function getOptionalMediaUrl(
   media: MediaContent | null | undefined,
-  fallback: string,
+  fallback?: string,
   apiUrl = STRAPI_API_URL,
-): string {
+): string | undefined {
   const mediaUrl = media?.url;
   if (typeof mediaUrl !== 'string' || mediaUrl.length === 0) {
-    return fallback;
+    return fallback || undefined;
   }
 
   if (/^https?:\/\//i.test(mediaUrl)) {
@@ -64,14 +65,45 @@ export function getMediaUrl(
   }
 
   if (apiUrl === undefined) {
-    return fallback;
+    return fallback || undefined;
   }
 
   return buildAbsoluteMediaUrl(apiUrl, mediaUrl);
 }
 
+export function getMediaUrl(media: MediaContent | null | undefined, fallback: string, apiUrl = STRAPI_API_URL): string {
+  return getOptionalMediaUrl(media, fallback, apiUrl) ?? fallback;
+}
+
 function isAbortError(error: unknown): boolean {
   return error instanceof DOMException && error.name === 'AbortError';
+}
+
+interface RequestSignalContext {
+  cleanup: () => void;
+  signal: AbortSignal;
+}
+
+function createRequestSignal(parentSignal: AbortSignal | undefined): RequestSignalContext {
+  const controller = new AbortController();
+  const abortFromParent = (): void => controller.abort(parentSignal?.reason);
+  const timeout = setTimeout(() => {
+    controller.abort(new DOMException('Strapi request timed out.', 'TimeoutError'));
+  }, STRAPI_REQUEST_TIMEOUT_MS);
+
+  if (parentSignal?.aborted === true) {
+    abortFromParent();
+  } else {
+    parentSignal?.addEventListener('abort', abortFromParent, { once: true });
+  }
+
+  return {
+    signal: controller.signal,
+    cleanup: () => {
+      clearTimeout(timeout);
+      parentSignal?.removeEventListener('abort', abortFromParent);
+    },
+  };
 }
 
 export async function requestStrapi(path: string, options: StrapiRequestOptions = {}): Promise<Response> {
@@ -82,15 +114,21 @@ export async function requestStrapi(path: string, options: StrapiRequestOptions 
   }
 
   try {
+    const requestSignal = createRequestSignal(signal);
     const hasBody = body !== undefined;
     const headers = hasBody ? JSON_HEADERS : ACCEPT_JSON_HEADERS;
     const serializedBody = hasBody ? JSON.stringify(body) : undefined;
-    const response = await fetch(`${apiUrl}${path}`, {
-      method,
-      signal,
-      headers,
-      body: serializedBody,
-    });
+    let response: Response;
+    try {
+      response = await fetch(`${apiUrl}${path}`, {
+        method,
+        signal: requestSignal.signal,
+        headers,
+        body: serializedBody,
+      });
+    } finally {
+      requestSignal.cleanup();
+    }
 
     if (!response.ok) {
       throw new StrapiHttpError(response.status);

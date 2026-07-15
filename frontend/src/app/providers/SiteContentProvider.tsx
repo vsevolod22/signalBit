@@ -1,16 +1,17 @@
-import { createContext, useContext } from 'react';
 import type { PropsWithChildren, ReactElement } from 'react';
-
-import { DEFAULT_SITE_CONTENT } from '@/app/model/default-site-content';
+import { createContext, useContext } from 'react';
 import { useSiteContentQuery } from '@/app/api/site-content';
+import { DEFAULT_SITE_CONTENT } from '@/app/model/default-site-content';
 import type { SiteContent } from '@/shared/model/site-content';
 
 type SiteContentSource = 'mock' | 'strapi';
+type SiteContentStatus = 'fallback' | 'loading' | 'ready';
 
 interface SiteContentContextValue {
   content: SiteContent;
   error: Error | null;
   source: SiteContentSource;
+  status: SiteContentStatus;
 }
 
 const SiteContentContext = createContext<SiteContentContextValue | null>(null);
@@ -28,11 +29,11 @@ export function SiteContentProvider({ children }: PropsWithChildren): ReactEleme
   const content = siteContentQuery.data ?? DEFAULT_SITE_CONTENT;
   const error = getQueryError(siteContentQuery.error);
   const source = getContentSource(siteContentQuery.isSuccess);
+  const isLoading = siteContentQuery.isPending && siteContentQuery.fetchStatus === 'fetching';
+  const status: SiteContentStatus = isLoading ? 'loading' : siteContentQuery.isSuccess ? 'ready' : 'fallback';
 
   return (
-    <SiteContentContext.Provider value={{ content, error, source }}>
-      {children}
-    </SiteContentContext.Provider>
+    <SiteContentContext.Provider value={{ content, error, source, status }}>{children}</SiteContentContext.Provider>
   );
 }
 

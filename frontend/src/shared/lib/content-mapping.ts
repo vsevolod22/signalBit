@@ -8,7 +8,6 @@ export function sortByOrder<T extends { sortOrder?: number }>(items: T[] | undef
   return items
     ?.slice()
     .sort(
-      (first, second) =>
-        (first.sortOrder ?? Number.MAX_SAFE_INTEGER) - (second.sortOrder ?? Number.MAX_SAFE_INTEGER),
+      (first, second) => (first.sortOrder ?? Number.MAX_SAFE_INTEGER) - (second.sortOrder ?? Number.MAX_SAFE_INTEGER),
     );
 }

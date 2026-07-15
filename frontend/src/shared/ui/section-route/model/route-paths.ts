@@ -6,17 +6,16 @@ export interface ElementSize {
 }
 
 export type ConnectorSide = 'left' | 'right';
+export type SectionRouteVariant = 'left-to-right' | 'right-to-left' | 'wrap-right';
 
-export function createSectionPath(className: string, width: number, height: number): string {
+export function createSectionPath(variant: SectionRouteVariant, width: number, height: number): string {
   const radius = Math.min(ROUTE_RADIUS, width / 2, height / 2);
-  const isServicesRoute = className.includes('services-route');
-  const isLeftOpeningRoute = className.includes('development-route') || className.includes('about-route');
 
-  if (isServicesRoute) {
+  if (variant === 'wrap-right') {
     return `M 0 0 H ${width - radius} Q ${width} 0 ${width} ${radius} V ${height - radius} Q ${width} ${height} ${width - radius} ${height} H ${radius}`;
   }
 
-  if (isLeftOpeningRoute) {
+  if (variant === 'left-to-right') {
     return `M 0 0 V ${height - radius} Q 0 ${height} ${radius} ${height} H ${width - radius}`;
   }
 
@@ -24,12 +23,15 @@ export function createSectionPath(className: string, width: number, height: numb
 }
 
 export function createConnectorPath(side: ConnectorSide, size: ElementSize): string {
-  const radius = Math.min(ROUTE_RADIUS, size.width / 2, size.height);
+  const horizontalInset = Math.min(ROUTE_RADIUS, size.width / 2);
+  const horizontalControlInset = horizontalInset * 0.45;
+  const verticalControlInset = size.height * 0.45;
+
   if (side === 'left') {
-    return `M ${radius} 0 Q 0 0 0 ${radius} V ${size.height}`;
+    return `M ${horizontalInset} 0 C ${horizontalControlInset} 0 0 ${verticalControlInset} 0 ${size.height}`;
   }
 
-  return `M ${size.width - radius} 0 Q ${size.width} 0 ${size.width} ${radius} V ${size.height}`;
+  return `M ${size.width - horizontalInset} 0 C ${size.width - horizontalControlInset} 0 ${size.width} ${verticalControlInset} ${size.width} ${size.height}`;
 }
 
 export function getViewBoxSize(dimension: number): number {

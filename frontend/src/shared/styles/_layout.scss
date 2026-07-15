@@ -1,0 +1,39 @@
+@mixin flex($align: stretch, $justify: flex-start, $gap: 0, $direction: row, $wrap: nowrap) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+  flex-flow: $direction $wrap;
+}
+
+@mixin inline-flex($align: center, $justify: center, $gap: 0) {
+  display: inline-flex;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+@mixin grid($columns: 1fr, $gap: 0, $align: stretch) {
+  display: grid;
+  grid-template-columns: $columns;
+  align-items: $align;
+  gap: $gap;
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  inset: 0;
+}
+
+@mixin center-content {
+  display: grid;
+  place-items: center;
+}
+
+@mixin section-shell {
+  position: relative;
+  isolation: isolate;
+  margin: 0 32px 22px;
+  padding: 70px 32px 34px;
+  border-radius: 0 24px 24px;
+}

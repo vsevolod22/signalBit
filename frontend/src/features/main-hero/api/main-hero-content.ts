@@ -1,7 +1,6 @@
 import { z } from 'zod';
-
-import { strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import { getMediaUrl } from '@/shared/api/strapi-client';
+import { strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import type { SiteContent } from '@/shared/model/site-content';
 
 export const heroCmsSchema = z

@@ -1,7 +1,6 @@
 import { z } from 'zod';
-
-import { strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import { getMediaUrl } from '@/shared/api/strapi-client';
+import { strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import type { SiteContent } from '@/shared/model/site-content';
 
 export const siteNavigationCmsSchema = z
@@ -25,9 +24,16 @@ function mapNavigationLinks(
     return fallback;
   }
 
+  const educationLinkIndex = fallback.findIndex((link) => link.href === '#education');
+  const cmsHasEducationLink = educationLinkIndex < 0 || cmsLinks.length >= fallback.length;
+
   return fallback.map((fallbackLink, index) => ({
     ...fallbackLink,
-    label: cmsLinks[index]?.label ?? fallbackLink.label,
+    label:
+      fallbackLink.href === '#education' && !cmsHasEducationLink
+        ? fallbackLink.label
+        : (cmsLinks[index > educationLinkIndex && !cmsHasEducationLink ? index - 1 : index]?.label ??
+          fallbackLink.label),
   }));
 }
 

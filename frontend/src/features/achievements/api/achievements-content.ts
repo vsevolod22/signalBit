@@ -1,7 +1,6 @@
 import { z } from 'zod';
-
-import { optionalSortOrderSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import { getMediaUrl } from '@/shared/api/strapi-client';
+import { optionalSortOrderSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import { sortByOrder } from '@/shared/lib/content-mapping';
 import type { SiteContent } from '@/shared/model/site-content';
 

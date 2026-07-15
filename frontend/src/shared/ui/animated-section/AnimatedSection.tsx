@@ -1,7 +1,7 @@
-import type { PropsWithChildren, ReactElement } from 'react';
 import { motion } from 'framer-motion';
+import type { PropsWithChildren, ReactElement } from 'react';
 
-import { pageSectionVariants, revealViewport } from '@/shared/lib/landing-motion';
+import { revealViewport, sectionRevealVariants } from '@/shared/lib/landing-motion';
 
 interface AnimatedSectionProps extends PropsWithChildren {
   ariaLabelledBy: string;
@@ -18,7 +18,7 @@ export function AnimatedSection({ ariaLabelledBy, children, className, id }: Ani
       initial="hidden"
       whileInView="visible"
       viewport={revealViewport}
-      variants={pageSectionVariants}
+      variants={sectionRevealVariants}
     >
       {children}
     </motion.section>

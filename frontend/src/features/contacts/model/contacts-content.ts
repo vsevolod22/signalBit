@@ -1,10 +1,9 @@
+import type { SiteContent } from '@/shared/model/site-content.types';
 import contactDrone from '../assets/contact-drone.png';
 import emailIcon from '../assets/email-icon.png';
 import logoIctis from '../assets/ictis-logo.png';
 import logoIntegra from '../assets/integra-logo.png';
 import logoSfedu from '../assets/sfedu-logo.png';
-
-import type { SiteContent } from '@/shared/model/site-content.types';
 
 export const DEFAULT_CONTACTS_CONTENT: SiteContent['contacts'] = {
   title: 'Остались вопросы?',

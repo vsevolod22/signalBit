@@ -3,5 +3,5 @@ export const QUERY_CACHE_TIME = {
   DEFAULT_GARBAGE_COLLECTION: 10 * 60_000,
 } as const;
 
-export const QUERY_RETRY_LIMIT = 1;
+export const QUERY_RETRY_LIMIT = 2;
 export const MUTATION_RETRY_LIMIT = 0;

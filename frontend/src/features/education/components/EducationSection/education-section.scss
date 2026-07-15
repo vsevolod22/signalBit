@@ -1,0 +1,261 @@
+@use '@/shared/styles' as shared;
+
+.section-shell.education {
+  --route-gap-after: 22px;
+  padding-top: 54px;
+}
+
+.section-shell.education > h2 {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 24px;
+  padding: 0;
+  background: var(--paper);
+  font-size: 50px;
+  line-height: 0.82;
+}
+
+.education {
+  &__programs {
+    @include shared.grid(repeat(2, minmax(0, 1fr)), 18px);
+  }
+
+  &__card {
+    position: relative;
+    display: flex;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 468px;
+    padding: 24px;
+    flex-direction: column;
+    border-radius: 30px;
+  }
+
+  &__card::after {
+    content: '';
+    position: absolute;
+    inset: -16% -18% auto 24%;
+    z-index: -1;
+    height: 130%;
+    border-radius: 46%;
+    background: rgba(255, 255, 255, 0.14);
+    transform: rotate(-18deg);
+  }
+
+  &__card--dark {
+    background: #00536a;
+    color: #ffffff;
+  }
+
+  &__card--light {
+    background: #bcceda;
+    color: var(--ink);
+  }
+
+  &__card-header h3 {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(26px, 2.5vw, 38px);
+    font-weight: 800;
+    line-height: 0.95;
+  }
+
+  &__card-header p {
+    margin: 2px 0 18px;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  &__details {
+    display: grid;
+    margin: 0 0 18px;
+    gap: 2px;
+    font-size: 12px;
+    line-height: 1.12;
+  }
+
+  &__details div {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__details dt {
+    font-weight: 800;
+  }
+
+  &__details dd {
+    margin: 0;
+  }
+
+  &__curriculum {
+    @include shared.grid(minmax(0, 42%) minmax(0, 1fr), 18px, center);
+  }
+
+  &__curriculum > img {
+    width: 100%;
+    height: 180px;
+    border-radius: 0;
+    object-fit: cover;
+  }
+
+  &__directions {
+    @include shared.grid(24px minmax(0, 1fr), 10px, center);
+  }
+
+  &__directions > strong {
+    font-size: 17px;
+    line-height: 1;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  &__directions ol {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+    list-style: none;
+    counter-reset: education-direction;
+    font-size: 12px;
+    line-height: 1.05;
+  }
+
+  &__directions li {
+    counter-increment: education-direction;
+  }
+
+  &__directions li::before {
+    content: counter(education-direction, decimal-leading-zero) ' ';
+    font-weight: 900;
+  }
+
+  &__outcomes {
+    display: grid;
+    margin: 18px 0 14px;
+    padding: 0;
+    gap: 2px;
+    list-style: none;
+    font-size: 12px;
+    line-height: 1.12;
+  }
+
+  &__outcomes strong {
+    font-weight: 800;
+  }
+
+  &__cta {
+    display: flex;
+    width: 172px;
+    min-height: 44px;
+    margin: auto auto 0;
+    padding: 8px 20px;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed currentColor;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  &__summary {
+    margin-top: 24px;
+  }
+
+  &__summary h3 {
+    max-width: 950px;
+    margin: 0 0 12px;
+    font-size: clamp(30px, 3.2vw, 45px);
+    line-height: 0.92;
+  }
+
+  &__summary > p {
+    max-width: 1340px;
+    margin: 0 0 18px;
+    font-size: 16px;
+    line-height: 1.15;
+  }
+
+  &__summary dl {
+    display: grid;
+    margin: 0;
+    gap: 6px;
+  }
+
+  &__summary dl > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__summary dt {
+    flex: 0 0 auto;
+    color: #00536a;
+    font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+    font-size: 50px;
+    font-weight: 900;
+    line-height: 0.9;
+  }
+
+  &__summary dd {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 1100px) {
+  .education {
+    &__programs {
+      grid-template-columns: 1fr;
+    }
+
+    &__card {
+      min-height: auto;
+    }
+  }
+}
+
+@media (max-width: 620px) {
+  .section-shell.education > h2 {
+    font-size: clamp(32px, 10vw, 42px);
+    line-height: 0.9;
+  }
+
+  .education {
+    &__card {
+      padding: 20px 18px;
+      border-radius: 24px;
+    }
+
+    &__card-header p {
+      font-size: 17px;
+    }
+
+    &__curriculum {
+      grid-template-columns: 1fr;
+    }
+
+    &__curriculum > img {
+      height: 210px;
+    }
+
+    &__directions {
+      grid-template-columns: 1fr;
+    }
+
+    &__directions > strong {
+      writing-mode: horizontal-tb;
+      transform: none;
+    }
+
+    &__summary dt {
+      font-size: 42px;
+    }
+
+    &__summary dd {
+      font-size: 14px;
+    }
+  }
+}

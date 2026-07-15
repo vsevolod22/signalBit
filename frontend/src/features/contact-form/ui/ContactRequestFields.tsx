@@ -5,13 +5,18 @@ import type { ContactFormValues } from '@/features/contact-form/model/contact-fo
 import { ContactFieldError, FIELD_ERROR_ID, getErrorDescriptionId } from '@/features/contact-form/ui/ContactFieldError';
 
 export function ContactRequestFields(): ReactElement {
-  const { register, formState: { errors } } = useFormContext<ContactFormValues>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<ContactFormValues>();
 
   return (
     <>
-      <div className="form-row">
-        <div className="form-field">
-          <label htmlFor="contact-phone">Телефон <span>(необязательно)</span></label>
+      <div className="contact__row">
+        <div className="contact__field">
+          <label htmlFor="contact-phone">
+            Телефон <span>(необязательно)</span>
+          </label>
           <input
             id="contact-phone"
             type="tel"
@@ -23,7 +28,7 @@ export function ContactRequestFields(): ReactElement {
           />
           <ContactFieldError id={FIELD_ERROR_ID.phone} message={errors.phone?.message} />
         </div>
-        <div className="form-field">
+        <div className="contact__field">
           <label htmlFor="contact-subject">Тема обращения</label>
           <input
             id="contact-subject"
@@ -36,7 +41,7 @@ export function ContactRequestFields(): ReactElement {
           <ContactFieldError id={FIELD_ERROR_ID.subject} message={errors.subject?.message} />
         </div>
       </div>
-      <div className="form-field">
+      <div className="contact__field">
         <label htmlFor="contact-message">Сообщение</label>
         <textarea
           id="contact-message"

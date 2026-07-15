@@ -1,0 +1,27 @@
+@use 'sass:map';
+
+$breakpoints: (
+  mobile: 480px,
+  phone: 620px,
+  tablet: 900px,
+  laptop: 1180px,
+  desktop: 1440px,
+);
+
+@mixin down($breakpoint) {
+  $width: map.get($breakpoints, $breakpoint);
+
+  @if not $width {
+    @error 'Unknown breakpoint: #{$breakpoint}';
+  }
+
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

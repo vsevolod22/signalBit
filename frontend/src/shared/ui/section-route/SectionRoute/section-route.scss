@@ -20,13 +20,14 @@
   height: var(--route-gap-after, 22px);
 }
 
-.section-route .route-path,
-.route-connector .route-path {
+.section-route .section-route__path,
+.route-connector .section-route__path {
   fill: none;
   stroke: var(--line);
   stroke-width: 2px;
-  stroke-dasharray: 14 14;
+  stroke-dasharray: 10 10;
   stroke-linecap: round;
   stroke-linejoin: round;
+  shape-rendering: geometricprecision;
   vector-effect: non-scaling-stroke;
 }

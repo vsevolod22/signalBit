@@ -1,107 +1,168 @@
-.section-shell.development-shell {
+@use '@/shared/styles' as shared;
+
+.section-shell.developments {
   --route-gap-after: 22px;
-  border-radius: 24px;
   padding-top: 54px;
+  border-radius: 24px;
 }
 
-.section-shell.development-shell > h2 {
+.section-shell.developments > h2 {
   position: relative;
   top: auto;
   right: auto;
   width: max-content;
   max-width: 100%;
   margin: 0 0 38px auto;
-  background: transparent;
   padding: 0;
+  background: transparent;
 }
 
-.development-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+.developments {
+  &__grid {
+    @include shared.grid(repeat(2, minmax(0, 1fr)), 18px);
+  }
 }
 
-.development-card {
-  position: relative;
-  display: grid;
-  min-height: 147px;
-  grid-template-columns: minmax(0, 1fr) 282px;
-  gap: 20px;
-  align-items: stretch;
-  overflow: hidden;
-  border-radius: 18px;
-  background: var(--teal);
-  color: #ffffff;
-  padding: 20px;
-  isolation: isolate;
+.developments {
+  &__card {
+    @include shared.grid(minmax(0, 1fr) 282px, 20px, stretch);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 147px;
+    padding: 20px;
+    border-radius: 18px;
+    background: var(--teal);
+    color: #ffffff;
+  }
 }
 
-.development-card::after {
-  position: absolute;
-  inset: -40% -18% auto 48%;
-  z-index: -1;
-  height: 175%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
-  content: '';
-  transform: rotate(18deg);
+.developments {
+  &__card::after {
+    content: '';
+    position: absolute;
+    inset: -40% -18% auto 48%;
+    z-index: -1;
+    height: 175%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    transform: rotate(18deg);
+  }
 }
 
-.development-card:nth-child(1),
-.development-card:nth-child(4) {
-  background: #c8d9d9;
-  color: var(--ink);
+.developments {
+  &__card:nth-child(1),
+  &__card:nth-child(4) {
+    background: #c8d9d9;
+    color: var(--ink);
+  }
 }
 
-.development-card:nth-child(2) {
-  background: #087c81;
+.developments {
+  &__card:nth-child(2) {
+    background: #087c81;
+  }
 }
 
-.development-card:nth-child(3) {
-  background: #0a7b82;
+.developments {
+  &__card:nth-child(3) {
+    background: #0a7b82;
+  }
 }
 
-.development-card h3 {
-  max-width: 370px;
-  margin: 0 0 8px;
-  font-size: clamp(20px, 1.7vw, 27px);
-  font-weight: 950;
-  line-height: 0.95;
+.developments {
+  &__card h3 {
+    max-width: 370px;
+    margin: 0 0 8px;
+    font-size: clamp(20px, 1.7vw, 27px);
+    font-weight: 950;
+    line-height: 0.95;
+  }
 }
 
-.development-card p {
-  max-width: 430px;
-  margin: 0;
-  font-size: 12px;
-  font-weight: 650;
-  line-height: 1.12;
+.developments {
+  &__card p {
+    max-width: 430px;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.12;
+  }
 }
 
-.development-card aside {
-  display: grid;
-  align-content: center;
-  gap: 6px;
-  border: 2px dashed currentColor;
-  border-radius: 18px;
-  padding: 18px 24px;
-  font-size: 11px;
-  line-height: 1.1;
+.developments {
+  &__card aside {
+    display: grid;
+    padding: 18px 24px;
+    align-content: center;
+    gap: 6px;
+    border: 2px dashed currentColor;
+    border-radius: 18px;
+    font-size: 11px;
+    line-height: 1.1;
+  }
 }
 
-.development-card aside b {
-  font-size: 12px;
+.developments {
+  &__card aside b {
+    font-size: 12px;
+  }
 }
 
-@media (max-width: 900px) {
-  .section-shell.development-shell > h2 {
+@media (max-width: 1180px) {
+  .section-shell.developments > h2 {
     margin-bottom: 30px;
   }
 
-  .development-grid {
-    grid-template-columns: 1fr;
+  .developments {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .developments {
+    &__card {
+      padding: 18px;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
   }
 
-  .development-card {
-    grid-template-columns: 1fr;
+  .developments {
+    &__card aside {
+      padding: 14px 18px;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .section-shell.developments {
+    padding-top: 46px;
+  }
+
+  .section-shell.developments > h2 {
+    margin-bottom: 24px;
+  }
+
+  .developments {
+    &__card {
+      padding: 16px;
+      border-radius: 16px;
+    }
+  }
+
+  .developments {
+    &__card h3 {
+      font-size: 21px;
+    }
+  }
+
+  .developments {
+    &__card aside {
+      padding: 13px 14px;
+      border-radius: 14px;
+    }
   }
 }

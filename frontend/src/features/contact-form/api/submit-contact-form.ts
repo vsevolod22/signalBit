@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-
-import { contactFormSchema } from '@/features/contact-form/model/contact-form-schema';
 import type { ContactFormValues } from '@/features/contact-form/model/contact-form-schema';
+import { contactFormSchema } from '@/features/contact-form/model/contact-form-schema';
 import { HTTP_METHOD } from '@/shared/api/http';
 import { requestStrapi, STRAPI_API_URL } from '@/shared/api/strapi-client';
 import { STRAPI_ENDPOINT } from '@/shared/api/strapi-endpoints';
@@ -36,7 +35,10 @@ function toContactRequestPayload(values: ContactFormValues): ContactRequestPaylo
   };
 }
 
-export async function submitContactForm(values: ContactFormValues, apiUrl = STRAPI_API_URL): Promise<ContactFormSubmissionResult> {
+export async function submitContactForm(
+  values: ContactFormValues,
+  apiUrl = STRAPI_API_URL,
+): Promise<ContactFormSubmissionResult> {
   const validatedValues = contactFormSchema.parse(values);
 
   if (apiUrl === undefined) {

@@ -20,8 +20,9 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: QUERY_CACHE_TIME.DEFAULT_STALE,
-      gcTime: QUERY_CACHE_TIME.DEFAULT_GARBAGE_COLLECTION,
+      gcTime: typeof window === 'undefined' ? Number.POSITIVE_INFINITY : QUERY_CACHE_TIME.DEFAULT_GARBAGE_COLLECTION,
       retry: shouldRetryQuery,
+      retryDelay: (attemptIndex) => Math.min(400 * 2 ** attemptIndex, 1_600),
       refetchOnMount: false,
       refetchOnReconnect: true,
       refetchOnWindowFocus: false,

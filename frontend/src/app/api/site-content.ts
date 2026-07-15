@@ -2,13 +2,29 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { aboutCompanyCmsSchema, mapAboutCompanyContent } from '@/features/about-company/api/about-company-content';
-import { achievementSettingCmsSchema, achievementsCmsSchema, mapAchievementsContent } from '@/features/achievements/api/achievements-content';
-import { activityFieldsCmsSchema, activitySettingCmsSchema, mapActivityFieldsContent } from '@/features/activity-fields/api/activity-fields-content';
+import {
+  achievementSettingCmsSchema,
+  achievementsCmsSchema,
+  mapAchievementsContent,
+} from '@/features/achievements/api/achievements-content';
+import {
+  activityFieldsCmsSchema,
+  activitySettingCmsSchema,
+  mapActivityFieldsContent,
+} from '@/features/activity-fields/api/activity-fields-content';
 import { contactsCmsSchema, mapContactsContent } from '@/features/contacts/api/contacts-content';
-import { mapDevelopmentsContent, servicesCmsSchema, serviceSettingCmsSchema } from '@/features/developments/api/developments-content';
+import {
+  mapDevelopmentsContent,
+  serviceSettingCmsSchema,
+  servicesCmsSchema,
+} from '@/features/developments/api/developments-content';
 import { heroCmsSchema, mapHeroContent } from '@/features/main-hero/api/main-hero-content';
 import { mapProductsContent, productsCmsSchema } from '@/features/products/api/products-content';
-import { mapSiteNavigationContent, siteNavigationCmsSchema } from '@/features/site-navigation/api/site-navigation-content';
+import { mapSeoContent, seoSettingCmsSchema } from '@/features/seo';
+import {
+  mapSiteNavigationContent,
+  siteNavigationCmsSchema,
+} from '@/features/site-navigation/api/site-navigation-content';
 import { fetchStrapiJson, STRAPI_API_URL } from '@/shared/api/strapi-client';
 import { STRAPI_ENDPOINT } from '@/shared/api/strapi-endpoints';
 import type { SiteContent } from '@/shared/model/site-content';
@@ -17,6 +33,7 @@ export const siteContentResponseSchema = z.object({
   data: z
     .object({
       hero: heroCmsSchema,
+      seoSetting: seoSettingCmsSchema,
       aboutCompany: aboutCompanyCmsSchema,
       siteNavigation: siteNavigationCmsSchema,
       contactSetting: contactsCmsSchema,
@@ -48,6 +65,7 @@ export const siteContentKeys = {
 export function mapSiteContent(cms: StrapiSiteContentDto, fallback: SiteContent, apiUrl = STRAPI_API_URL): SiteContent {
   return {
     ...fallback,
+    seo: mapSeoContent(cms?.seoSetting, fallback.seo, apiUrl),
     navigation: mapSiteNavigationContent(cms?.siteNavigation, fallback.navigation, apiUrl),
     hero: mapHeroContent(cms?.hero, fallback.hero, apiUrl),
     activityTitle: cms?.activitySetting?.sectionTitle ?? fallback.activityTitle,

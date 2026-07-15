@@ -3,6 +3,16 @@ import type { Variants } from 'framer-motion';
 export const landingEase = [0.22, 1, 0.36, 1] as const;
 export const revealViewport = { once: true, amount: 0.22 } as const;
 
+export const sectionRevealVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.06,
+    },
+  },
+};
+
 export const pageSectionVariants: Variants = {
   hidden: { opacity: 0, y: 36 },
   visible: {

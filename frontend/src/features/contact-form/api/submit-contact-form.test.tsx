@@ -42,7 +42,10 @@ describe('contact form mutation', () => {
   });
 
   it('surfaces a failed mutation so the form can retain the entered values', async () => {
-    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(new Response(null, { status: 500 }))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.resolve(new Response(null, { status: 500 }))),
+    );
     const { result } = renderHook(() => useContactFormMutation(CMS_URL), { wrapper: createQueryWrapper() });
 
     result.current.mutate(validValues);

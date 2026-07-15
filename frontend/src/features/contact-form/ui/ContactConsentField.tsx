@@ -5,10 +5,13 @@ import type { ContactFormValues } from '@/features/contact-form/model/contact-fo
 import { ContactFieldError, FIELD_ERROR_ID, getErrorDescriptionId } from '@/features/contact-form/ui/ContactFieldError';
 
 export function ContactConsentField(): ReactElement {
-  const { register, formState: { errors } } = useFormContext<ContactFormValues>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<ContactFormValues>();
 
   return (
-    <div className="form-consent">
+    <div className="contact__consent">
       <input
         id="contact-consent"
         type="checkbox"

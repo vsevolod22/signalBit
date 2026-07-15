@@ -19,7 +19,7 @@ export function ContactFieldError({ id, message }: { id: string; message?: strin
   }
 
   return (
-    <span className="form-error" id={id} role="alert">
+    <span className="contact__error" id={id} role="alert">
       {message}
     </span>
   );

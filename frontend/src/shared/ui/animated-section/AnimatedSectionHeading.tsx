@@ -1,5 +1,5 @@
-import type { PropsWithChildren, ReactElement } from 'react';
 import { motion } from 'framer-motion';
+import type { PropsWithChildren, ReactElement } from 'react';
 
 import { fadeUpVariants } from '@/shared/lib/landing-motion';
 

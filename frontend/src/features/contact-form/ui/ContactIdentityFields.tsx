@@ -5,11 +5,14 @@ import type { ContactFormValues } from '@/features/contact-form/model/contact-fo
 import { ContactFieldError, FIELD_ERROR_ID, getErrorDescriptionId } from '@/features/contact-form/ui/ContactFieldError';
 
 export function ContactIdentityFields(): ReactElement {
-  const { register, formState: { errors } } = useFormContext<ContactFormValues>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<ContactFormValues>();
 
   return (
-    <div className="form-row">
-      <div className="form-field">
+    <div className="contact__row">
+      <div className="contact__field">
         <label htmlFor="contact-name">Имя</label>
         <input
           id="contact-name"
@@ -21,7 +24,7 @@ export function ContactIdentityFields(): ReactElement {
         />
         <ContactFieldError id={FIELD_ERROR_ID.name} message={errors.name?.message} />
       </div>
-      <div className="form-field">
+      <div className="contact__field">
         <label htmlFor="contact-email">Email</label>
         <input
           id="contact-email"

@@ -1,0 +1,69 @@
+@use 'sass:map';
+
+$colors: (
+  ink: #0a0a0a,
+  paper: #ffffff,
+  teal: #087f80,
+  deep-teal: #075d73,
+  light-teal: #bdd4d4,
+  ice: #c7d9e3,
+  mist: #d6e1e0,
+  line: #111111,
+  accent-light: #a8e0dc,
+  text-muted: #455354,
+  text-on-dark-muted: #d5e3e2,
+  error: #ff7b7b,
+  error-light: #ffb9b9,
+  focus: #16a6ad,
+);
+
+$spaces: (
+  xs: 8px,
+  sm: 12px,
+  md: 18px,
+  lg: 28px,
+  xl: 42px,
+);
+
+$radii: (
+  sm: 12px,
+  md: 20px,
+  xl: 28px,
+);
+
+$font-family-body: Arial, Helvetica, sans-serif;
+$font-family-heading: 'Arial Black', Arial, Helvetica, sans-serif;
+$max-page-width: 1440px;
+$transition-fast: 160ms ease;
+
+@function color($name) {
+  @return map.get($colors, $name);
+}
+
+@function space($name) {
+  @return map.get($spaces, $name);
+}
+
+@function radius($name) {
+  @return map.get($radii, $name);
+}
+
+@mixin custom-properties {
+  @each $name, $value in $colors {
+    --#{'' + $name}: #{$value};
+  }
+
+  @each $name, $value in $spaces {
+    --space-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $radii {
+    --radius-#{$name}: #{$value};
+  }
+
+  --max-page: #{$max-page-width};
+  --page-gutter: clamp(18px, 2.25vw, 32px);
+  --space-2xl: clamp(36px, 5vw, 72px);
+  --focus-ring: 3px solid #{color(focus)};
+  --transition-fast: #{$transition-fast};
+}

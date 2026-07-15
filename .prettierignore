@@ -1,0 +1,5 @@
+backend
+dist
+dist-frontend
+dist-frontend-ssr
+node_modules

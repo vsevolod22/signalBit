@@ -9,13 +9,13 @@ const CMS_URL = 'https://cms.example.test';
 describe('products content mapper', () => {
   it('uses fallback values for fields omitted by Strapi', () => {
     const [product] = mapProductsContent(
-      [{ slug: 'canary', headline: 'Новый заголовок', price: '99 тыс. руб.' }],
+      [{ slug: 'sokol', headline: 'Новый заголовок', price: '99 тыс. руб.' }],
       DEFAULT_SITE_CONTENT.products,
       CMS_URL,
     );
 
     expect(product).toMatchObject({
-      slug: 'canary',
+      slug: 'sokol',
       title: 'Новый заголовок',
       price: '99 тыс. руб.',
       lead: DEFAULT_SITE_CONTENT.products[0].lead,
@@ -26,15 +26,16 @@ describe('products content mapper', () => {
   it('keeps only landing products and orders them by sortOrder', () => {
     const products = mapProductsContent(
       [
-        { slug: 'sensor', sortOrder: 30 },
+        { slug: 'aist-autonomous', sortOrder: 30 },
         { slug: 'administrative-product', sortOrder: 1 },
-        { slug: 'canary', sortOrder: 10 },
-        { slug: 'flight-controller', sortOrder: 20 },
+        { slug: 'sokol', sortOrder: 10 },
+        { slug: 'aist-basic', sortOrder: 20 },
+        { slug: 'soroka', sortOrder: 40 },
       ],
       DEFAULT_SITE_CONTENT.products,
       CMS_URL,
     );
 
-    expect(products.map((product) => product.slug)).toEqual(['canary', 'flight-controller', 'sensor']);
+    expect(products.map((product) => product.slug)).toEqual(['sokol', 'aist-basic', 'aist-autonomous', 'soroka']);
   });
 });

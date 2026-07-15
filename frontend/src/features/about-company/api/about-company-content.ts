@@ -1,7 +1,6 @@
 import { z } from 'zod';
-
-import { optionalStringListSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import { getMediaUrl } from '@/shared/api/strapi-client';
+import { optionalStringListSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import { nonEmptyStrings } from '@/shared/lib/content-mapping';
 import type { SiteContent } from '@/shared/model/site-content';
 
@@ -19,7 +18,10 @@ export const aboutCompanyCmsSchema = z
 
 export type AboutCompanyCmsDto = z.infer<typeof aboutCompanyCmsSchema>;
 
-function mapCompanyStats(cms: AboutCompanyCmsDto, fallback: SiteContent['about']['stats']): SiteContent['about']['stats'] {
+function mapCompanyStats(
+  cms: AboutCompanyCmsDto,
+  fallback: SiteContent['about']['stats'],
+): SiteContent['about']['stats'] {
   const cmsStats = cms?.stats;
   const hasCmsStats = cmsStats !== undefined && cmsStats.length > 0;
   if (!hasCmsStats) {

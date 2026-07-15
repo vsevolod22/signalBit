@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getMediaUrl } from './strapi-client';
+import { getMediaUrl, getOptionalMediaUrl } from './strapi-client';
 
 describe('getMediaUrl', () => {
   it('supports relative, absolute and fallback media URLs', () => {
@@ -10,5 +10,10 @@ describe('getMediaUrl', () => {
       'https://cdn.example.test/drone.png',
     );
     expect(getMediaUrl({ url: '/uploads/drone.png' }, 'fallback.png', undefined)).toBe('fallback.png');
+  });
+
+  it('omits an optional image instead of producing an empty src', () => {
+    expect(getOptionalMediaUrl(undefined, undefined, 'https://cms.example.test')).toBeUndefined();
+    expect(getOptionalMediaUrl(null, '', 'https://cms.example.test')).toBeUndefined();
   });
 });

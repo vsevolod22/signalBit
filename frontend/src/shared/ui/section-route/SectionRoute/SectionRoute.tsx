@@ -1,19 +1,24 @@
 import type { ReactElement } from 'react';
 
 import { useElementSize } from '@/shared/ui/section-route/hooks/useElementSize';
+import type { ConnectorSide, SectionRouteVariant } from '@/shared/ui/section-route/model/route-paths';
 import {
   createConnectorPath,
   createSectionPath,
   getViewBoxSize,
   hasRenderableSize,
 } from '@/shared/ui/section-route/model/route-paths';
-import type { ConnectorSide } from '@/shared/ui/section-route/model/route-paths';
 
 import './section-route.scss';
 
-export function SectionRoute({ className }: { className: string }): ReactElement {
+interface SectionRouteProps {
+  className: string;
+  variant: SectionRouteVariant;
+}
+
+export function SectionRoute({ className, variant }: SectionRouteProps): ReactElement {
   const [routeRef, size] = useElementSize();
-  const routePath = createSectionPath(className, size.width, size.height);
+  const routePath = createSectionPath(variant, size.width, size.height);
   const canRenderPath = hasRenderableSize(size);
 
   return (
@@ -24,7 +29,7 @@ export function SectionRoute({ className }: { className: string }): ReactElement
       preserveAspectRatio="none"
       aria-hidden="true"
     >
-      {canRenderPath && <path className="route-path" d={routePath} />}
+      {canRenderPath && <path className="section-route__path" d={routePath} />}
     </svg>
   );
 }
@@ -42,7 +47,7 @@ export function RouteConnector({ side }: { side: ConnectorSide }): ReactElement 
       preserveAspectRatio="none"
       aria-hidden="true"
     >
-      {canRenderPath && <path className="route-path" d={path} />}
+      {canRenderPath && <path className="section-route__path" d={path} />}
     </svg>
   );
 }

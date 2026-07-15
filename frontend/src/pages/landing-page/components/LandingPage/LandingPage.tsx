@@ -4,9 +4,10 @@ import { useSiteContent } from '@/app/providers/SiteContentProvider';
 import { AboutCompany } from '@/features/about-company';
 import { Achievements } from '@/features/achievements';
 import { ActivityFields } from '@/features/activity-fields';
-import { ContactSection } from '@/features/contacts';
 import { ContactForm } from '@/features/contact-form';
+import { ContactSection } from '@/features/contacts';
 import { DevelopmentSection } from '@/features/developments';
+import { EducationSection } from '@/features/education';
 import { MainHero } from '@/features/main-hero';
 import { ProductsCarousel } from '@/features/products';
 import { SiteFooter } from '@/features/site-footer';
@@ -22,10 +23,10 @@ export function LandingPage(): ReactElement {
         <MainHero />
         <ActivityFields />
         <DevelopmentSection />
+        <EducationSection />
         <ProductsCarousel />
-        <AboutCompany>
-          <Achievements />
-        </AboutCompany>
+        <AboutCompany />
+        <Achievements />
         <ContactSection>
           <ContactForm />
         </ContactSection>

@@ -30,9 +30,9 @@ afterEach(() => {
 describe('site-content query', () => {
   it('validates partial content and rejects malformed feature media', () => {
     expect(siteContentResponseSchema.safeParse({ data: { products: [{ slug: 'canary' }] } }).success).toBe(true);
+    expect(siteContentResponseSchema.safeParse({ data: { seoSetting: { canonicalUrl: null } } }).success).toBe(true);
     expect(
-      siteContentResponseSchema.safeParse({ data: { products: [{ slug: 'canary', gallery: [{ url: 42 }] }] } })
-        .success,
+      siteContentResponseSchema.safeParse({ data: { products: [{ slug: 'canary', gallery: [{ url: 42 }] }] } }).success,
     ).toBe(false);
   });
 
@@ -41,7 +41,10 @@ describe('site-content query', () => {
   });
 
   it('keeps a transport error available for diagnostics', async () => {
-    vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new TypeError('offline'))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.reject(new TypeError('offline'))),
+    );
     await expect(fetchSiteContent(new AbortController().signal, CMS_URL)).rejects.toBeInstanceOf(StrapiNetworkError);
   });
 
@@ -60,8 +63,62 @@ describe('site-content query', () => {
   });
 
   it('retains the fallback shape after a partial response', () => {
-    const content = mapSiteContent({ products: [{ slug: 'sensor', featured: true }] }, DEFAULT_SITE_CONTENT, CMS_URL);
-    expect(content.products).toHaveLength(3);
+    const content = mapSiteContent(
+      { products: [{ slug: 'aist-autonomous', featured: true }] },
+      DEFAULT_SITE_CONTENT,
+      CMS_URL,
+    );
+    expect(content.products).toHaveLength(4);
     expect(content.navigation).toEqual(DEFAULT_SITE_CONTENT.navigation);
+  });
+
+  it('maps editable SEO metadata and resolves the social image through Strapi', () => {
+    const content = mapSiteContent(
+      {
+        seoSetting: {
+          metaTitle: 'SEO из админки',
+          metaDescription: 'Описание из Strapi',
+          keywords: 'дроны, БАС',
+          socialImage: { url: '/uploads/social.jpg' },
+          organizationName: 'СИГНАЛ-БИТ CMS',
+        },
+      },
+      DEFAULT_SITE_CONTENT,
+      CMS_URL,
+    );
+
+    expect(content.seo).toMatchObject({
+      title: 'SEO из админки',
+      description: 'Описание из Strapi',
+      keywords: 'дроны, БАС',
+      socialImage: `${CMS_URL}/uploads/social.jpg`,
+      organizationName: 'СИГНАЛ-БИТ CMS',
+    });
+    expect(content.seo.legalName).toBe(DEFAULT_SITE_CONTENT.seo.legalName);
+  });
+
+  it('keeps the education navigation item when Strapi still has the previous four-link menu', () => {
+    const content = mapSiteContent(
+      {
+        siteNavigation: {
+          links: [
+            { label: 'CMS сервисы' },
+            { label: 'CMS разработки' },
+            { label: 'CMS продукты' },
+            { label: 'CMS о нас' },
+          ],
+        },
+      },
+      DEFAULT_SITE_CONTENT,
+      CMS_URL,
+    );
+
+    expect(content.navigation.links.map((link) => link.label)).toEqual([
+      'CMS сервисы',
+      'CMS разработки',
+      'Образование',
+      'CMS продукты',
+      'CMS о нас',
+    ]);
   });
 });

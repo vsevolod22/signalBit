@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
-import type { ReactElement } from 'react';
 import { motion } from 'framer-motion';
+import type { ReactElement } from 'react';
+import { useMemo } from 'react';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
 import { createCarouselLayout } from '@/features/products/model/carousel-layout';
@@ -28,13 +28,13 @@ export function ProductsCarousel(): ReactElement {
   };
 
   return (
-    <AnimatedSection className="section-shell products-shell" id="products" ariaLabelledBy="products-title">
-      <SectionRoute className="products-route" />
-      <RouteConnector side="left" />
+    <AnimatedSection className="section-shell products" id="products" ariaLabelledBy="products-title">
+      <SectionRoute className="products__route" variant="left-to-right" />
+      <RouteConnector side="right" />
       <AnimatedSectionHeading id="products-title">{content.productsTitle}</AnimatedSectionHeading>
-      <motion.div className="products-carousel" aria-label="Карусель продуктов" variants={fadeUpVariants}>
-        <div className="carousel-viewport">
-          <div className="carousel-stage">
+      <motion.div className="products__carousel" aria-label="Карусель продуктов" variants={fadeUpVariants}>
+        <div className="products__viewport">
+          <div className="products__stage">
             {carouselProducts.map(({ index, isVisible, offset, placement, product }) => {
               const selectSideProduct = placement === 'side' ? () => selectProduct(index) : undefined;
 
@@ -51,7 +51,25 @@ export function ProductsCarousel(): ReactElement {
             })}
           </div>
         </div>
+        <nav className="products__controls" aria-label="Выбор продукта">
+          {content.products.map((product, index) => {
+            const productName = product.variant === undefined ? product.title : `${product.title} ${product.variant}`;
+
+            return (
+              <button
+                type="button"
+                onClick={() => selectProduct(index)}
+                aria-label={`Показать продукт ${productName}`}
+                aria-current={index === activeProductIndex ? 'true' : undefined}
+                key={product.slug}
+              >
+                <span aria-hidden="true" />
+              </button>
+            );
+          })}
+        </nav>
       </motion.div>
+      <p className="products__note">{content.productsNote}</p>
     </AnimatedSection>
   );
 }
