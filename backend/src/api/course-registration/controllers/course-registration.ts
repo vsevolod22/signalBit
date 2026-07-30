@@ -47,6 +47,21 @@ interface CourseRegistrationData {
   source: string;
 }
 
+async function updateEmailNotificationStatus(
+  strapi,
+  entryId: number | string,
+  emailNotificationSent: boolean,
+  emailNotificationError: string | null,
+): Promise<void> {
+  try {
+    await strapi.entityService.update('api::course-registration.course-registration', entryId, {
+      data: { emailNotificationSent, emailNotificationError },
+    });
+  } catch (error: unknown) {
+    strapi.log.error('Failed to update course registration email status.', error);
+  }
+}
+
 function isCourseAudience(value: string): value is CourseAudience {
   return value === 'children' || value === 'adults';
 }
@@ -164,17 +179,14 @@ export default factories.createCoreController(
       try {
         await sendCourseRegistrationEmail(strapi, registrationData);
         emailNotificationSent = true;
-        await strapi.entityService.update('api::course-registration.course-registration', entry.id, {
-          data: { emailNotificationSent: true, emailNotificationError: null },
-        });
+        await updateEmailNotificationStatus(strapi, entry.id, true, null);
       } catch (error: unknown) {
         const emailNotificationError = error instanceof Error ? error.message : 'Unknown email delivery error.';
         strapi.log.error('Failed to send course registration notification email.', error);
-        await strapi.entityService.update('api::course-registration.course-registration', entry.id, {
-          data: { emailNotificationSent: false, emailNotificationError },
-        });
+        await updateEmailNotificationStatus(strapi, entry.id, false, emailNotificationError);
       }
 
+      ctx.status = 201;
       ctx.body = { data: { id: entry.id, emailNotificationSent } };
     },
   })

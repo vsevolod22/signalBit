@@ -5,6 +5,8 @@ import { HTTP_METHOD } from '@/shared/api/http';
 import { requestStrapi, STRAPI_API_URL } from '@/shared/api/strapi-client';
 import { STRAPI_ENDPOINT } from '@/shared/api/strapi-endpoints';
 
+const FORM_SUBMISSION_TIMEOUT_MS = 30_000;
+
 export interface ContactFormSubmissionResult {
   delivered: boolean;
 }
@@ -49,6 +51,7 @@ export async function submitContactForm(
     apiUrl,
     method: HTTP_METHOD.POST,
     body: { data: toContactRequestPayload(validatedValues) },
+    timeoutMs: FORM_SUBMISSION_TIMEOUT_MS,
   });
 
   return { delivered: true };

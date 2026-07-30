@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { KeyboardEvent, MouseEvent, ReactElement } from 'react';
+import type { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement } from 'react';
 import { useId, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -11,6 +11,11 @@ import {
   type EducationRegistrationValues,
   educationRegistrationSchema,
 } from '@/features/education/registration/model/education-registration-schema';
+import {
+  formatBirthDateInput,
+  formatHttpsUrlInput,
+  formatRussianPhoneInput,
+} from '@/features/education/registration/model/registration-input-masks';
 import { FormCheckboxField, FormTextareaField, FormTextField } from '@/shared/ui/form/FormControls';
 
 import './education-registration-modal.scss';
@@ -63,6 +68,16 @@ export function EducationRegistrationModal({
   } = form;
   const isChildrenCourse = audience === COURSE_AUDIENCE.CHILDREN;
   const isPending = isSubmitting || mutation.isPending;
+  type MaskedFieldName = 'studentBirthDate' | 'studentPhone' | 'studentSocialLink' | 'parentPhone' | 'parentSocialLink';
+
+  const registerMaskedField = (fieldName: MaskedFieldName, formatter: (value: string) => string) =>
+    register(fieldName, {
+      onChange: (event: ChangeEvent<HTMLInputElement>) => {
+        const formattedValue = formatter(event.target.value);
+        event.target.value = formattedValue;
+        form.setValue(fieldName, formattedValue, { shouldDirty: true });
+      },
+    });
 
   const handleOpen = (): void => {
     setStatus('idle');
@@ -150,18 +165,20 @@ export function EducationRegistrationModal({
                     label="Дата рождения обучающегося"
                     placeholder="дд.мм.гггг"
                     inputMode="numeric"
+                    maxLength={10}
                     autoComplete="bday"
                     error={errors.studentBirthDate?.message}
-                    registration={register('studentBirthDate')}
+                    registration={registerMaskedField('studentBirthDate', formatBirthDateInput)}
                   />
                   <FormTextField
                     id={`${dialogId}-student-phone`}
                     label="Номер телефона обучающегося"
                     type="tel"
                     inputMode="tel"
+                    maxLength={18}
                     autoComplete="tel"
                     error={errors.studentPhone?.message}
-                    registration={register('studentPhone')}
+                    registration={registerMaskedField('studentPhone', formatRussianPhoneInput)}
                   />
                   <FormTextField
                     id={`${dialogId}-student-social`}
@@ -169,8 +186,9 @@ export function EducationRegistrationModal({
                     type="url"
                     inputMode="url"
                     placeholder="https://t.me/username"
+                    maxLength={300}
                     error={errors.studentSocialLink?.message}
-                    registration={register('studentSocialLink')}
+                    registration={registerMaskedField('studentSocialLink', formatHttpsUrlInput)}
                   />
 
                   {isChildrenCourse ? (
@@ -206,9 +224,10 @@ export function EducationRegistrationModal({
                         label="Номер телефона родителя/законного представителя"
                         type="tel"
                         inputMode="tel"
+                        maxLength={18}
                         autoComplete="tel"
                         error={errors.parentPhone?.message}
-                        registration={register('parentPhone')}
+                        registration={registerMaskedField('parentPhone', formatRussianPhoneInput)}
                       />
                       <FormTextField
                         containerClassName="education-registration-modal__wide-field"
@@ -217,8 +236,9 @@ export function EducationRegistrationModal({
                         type="url"
                         inputMode="url"
                         placeholder="https://vk.com/username"
+                        maxLength={300}
                         error={errors.parentSocialLink?.message}
-                        registration={register('parentSocialLink')}
+                        registration={registerMaskedField('parentSocialLink', formatHttpsUrlInput)}
                       />
                     </>
                   ) : (

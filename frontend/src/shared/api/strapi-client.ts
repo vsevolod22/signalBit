@@ -37,6 +37,7 @@ interface StrapiRequestOptions {
   body?: unknown;
   method?: HttpMethod;
   signal?: AbortSignal;
+  timeoutMs?: number;
 }
 
 function normalizeApiUrl(value: string | undefined): string | undefined {
@@ -84,12 +85,12 @@ interface RequestSignalContext {
   signal: AbortSignal;
 }
 
-function createRequestSignal(parentSignal: AbortSignal | undefined): RequestSignalContext {
+function createRequestSignal(parentSignal: AbortSignal | undefined, timeoutMs: number): RequestSignalContext {
   const controller = new AbortController();
   const abortFromParent = (): void => controller.abort(parentSignal?.reason);
   const timeout = setTimeout(() => {
     controller.abort(new DOMException('Strapi request timed out.', 'TimeoutError'));
-  }, STRAPI_REQUEST_TIMEOUT_MS);
+  }, timeoutMs);
 
   if (parentSignal?.aborted === true) {
     abortFromParent();
@@ -107,14 +108,20 @@ function createRequestSignal(parentSignal: AbortSignal | undefined): RequestSign
 }
 
 export async function requestStrapi(path: string, options: StrapiRequestOptions = {}): Promise<Response> {
-  const { apiUrl = STRAPI_API_URL, body, method = HTTP_METHOD.GET, signal } = options;
+  const {
+    apiUrl = STRAPI_API_URL,
+    body,
+    method = HTTP_METHOD.GET,
+    signal,
+    timeoutMs = STRAPI_REQUEST_TIMEOUT_MS,
+  } = options;
 
   if (apiUrl === undefined) {
     throw new Error('Strapi CMS URL is not configured.');
   }
 
   try {
-    const requestSignal = createRequestSignal(signal);
+    const requestSignal = createRequestSignal(signal, timeoutMs);
     const hasBody = body !== undefined;
     const headers = hasBody ? JSON_HEADERS : ACCEPT_JSON_HEADERS;
     const serializedBody = hasBody ? JSON.stringify(body) : undefined;

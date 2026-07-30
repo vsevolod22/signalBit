@@ -17,6 +17,21 @@ interface ContactSetting {
   emailAddress?: string;
 }
 
+async function updateEmailNotificationStatus(
+  strapi,
+  entryId: number | string,
+  emailNotificationSent: boolean,
+  emailNotificationError: string | null,
+): Promise<void> {
+  try {
+    await strapi.entityService.update('api::contact-request.contact-request', entryId, {
+      data: { emailNotificationSent, emailNotificationError },
+    });
+  } catch (error: unknown) {
+    strapi.log.error('Failed to update contact request email status.', error);
+  }
+}
+
 async function sendContactRequestEmail(strapi, data: ContactRequestData): Promise<void> {
   const contactSetting = (await strapi.entityService.findMany('api::contact-setting.contact-setting', {
     fields: ['emailAddress'],
@@ -72,17 +87,14 @@ export default factories.createCoreController('api::contact-request.contact-requ
     try {
       await sendContactRequestEmail(strapi, data);
       emailNotificationSent = true;
-      await strapi.entityService.update('api::contact-request.contact-request', entry.id, {
-        data: { emailNotificationSent: true, emailNotificationError: null },
-      });
+      await updateEmailNotificationStatus(strapi, entry.id, true, null);
     } catch (error: unknown) {
       const emailNotificationError = error instanceof Error ? error.message : 'Unknown email delivery error.';
       strapi.log.error('Failed to send contact request notification email.', error);
-      await strapi.entityService.update('api::contact-request.contact-request', entry.id, {
-        data: { emailNotificationSent: false, emailNotificationError },
-      });
+      await updateEmailNotificationStatus(strapi, entry.id, false, emailNotificationError);
     }
 
+    ctx.status = 201;
     ctx.body = { data: { id: entry.id, emailNotificationSent } };
   },
 }));

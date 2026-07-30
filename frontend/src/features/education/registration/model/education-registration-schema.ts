@@ -15,6 +15,15 @@ export const COURSE_NAME_BY_AUDIENCE: Record<CourseAudience, string> = {
 const PHONE_PATTERN = /^[+\d][\d\s()-]{6,19}$/;
 const BIRTH_DATE_PATTERN = /^(\d{2})\.(\d{2})\.(\d{4})$/;
 
+function isValidHttpsUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && url.hostname.includes('.');
+  } catch {
+    return false;
+  }
+}
+
 function isValidBirthDate(value: string): boolean {
   const match = BIRTH_DATE_PATTERN.exec(value);
   if (match === null) {
@@ -63,7 +72,7 @@ export const educationRegistrationSchema = z
     studentSocialLink: z
       .string()
       .trim()
-      .min(3, 'Укажите ссылку на Telegram или ВК обучающегося.')
+      .refine(isValidHttpsUrl, 'Введите полную ссылку на Telegram или ВК.')
       .max(300, 'Ссылка слишком длинная.'),
     studyPlace: z.string().trim().max(500, 'Описание места обучения слишком длинное.'),
     city: z.string().trim().max(120, 'Название города слишком длинное.'),
@@ -91,11 +100,11 @@ export const educationRegistrationSchema = z
           message: 'Введите корректный номер телефона родителя.',
         });
       }
-      if (values.parentSocialLink.length < 3) {
+      if (!isValidHttpsUrl(values.parentSocialLink)) {
         context.addIssue({
           code: 'custom',
           path: ['parentSocialLink'],
-          message: 'Укажите ссылку на Telegram или ВК родителя.',
+          message: 'Введите полную ссылку на Telegram или ВК родителя.',
         });
       }
     }
@@ -113,13 +122,13 @@ export function createEducationRegistrationDefaults(audience: CourseAudience): E
     courseName: COURSE_NAME_BY_AUDIENCE[audience],
     studentFullName: '',
     studentBirthDate: '',
-    studentPhone: '',
-    studentSocialLink: '',
+    studentPhone: '+7',
+    studentSocialLink: 'https://',
     studyPlace: '',
     city: '',
     parentFullName: '',
-    parentPhone: '',
-    parentSocialLink: '',
+    parentPhone: '+7',
+    parentSocialLink: 'https://',
     consent: false,
   };
 }

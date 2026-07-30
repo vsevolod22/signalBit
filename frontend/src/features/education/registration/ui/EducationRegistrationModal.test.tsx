@@ -45,6 +45,28 @@ describe('EducationRegistrationModal', () => {
     expect(screen.queryByLabelText('ФИО родителя/законного представителя')).toBeNull();
   });
 
+  it('форматирует дату, телефон и ссылку во время ввода', () => {
+    render(renderModal(COURSE_AUDIENCE.CHILDREN, 'Школа пилотирования'));
+    fireEvent.click(screen.getByRole('button', { name: 'Оставить заявку' }));
+    const birthDateInput = screen.getByLabelText<HTMLInputElement>('Дата рождения обучающегося');
+    const studentPhoneInput = screen.getByLabelText<HTMLInputElement>('Номер телефона обучающегося');
+    const studentSocialInput = screen.getByLabelText<HTMLInputElement>('Ссылка на Telegram/ВК обучающегося');
+    const parentPhoneInput = screen.getByLabelText<HTMLInputElement>('Номер телефона родителя/законного представителя');
+
+    expect(studentPhoneInput.value).toBe('+7');
+    expect(studentSocialInput.value).toBe('https://');
+
+    fireEvent.change(birthDateInput, { target: { value: '12032000' } });
+    fireEvent.change(studentPhoneInput, { target: { value: '89001234567' } });
+    fireEvent.change(studentSocialInput, { target: { value: 't.me/student' } });
+    fireEvent.change(parentPhoneInput, { target: { value: '79007654321' } });
+
+    expect(birthDateInput.value).toBe('12.03.2000');
+    expect(studentPhoneInput.value).toBe('+7 900 123-45-67');
+    expect(studentSocialInput.value).toBe('https://t.me/student');
+    expect(parentPhoneInput.value).toBe('+7 900 765-43-21');
+  });
+
   it('после отправки показывает согласованное сообщение', async () => {
     const fetchMock = vi.fn<typeof fetch>(() =>
       Promise.resolve(new Response(JSON.stringify({ data: { id: 1 } }), { status: 200 })),
