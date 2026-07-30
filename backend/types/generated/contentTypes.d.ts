@@ -398,6 +398,7 @@ export interface ApiAboutCompanyAboutCompany extends Struct.SingleTypeSchema {
     officialTitle: Schema.Attribute.String & Schema.Attribute.Required;
     paragraphs: Schema.Attribute.JSON & Schema.Attribute.Required;
     photo: Schema.Attribute.Media<'images'>;
+    photoPosition: Schema.Attribute.Component<'common.image-position', false>;
     publishedAt: Schema.Attribute.DateTime;
     stats: Schema.Attribute.Component<'common.stat-item', true>;
     updatedAt: Schema.Attribute.DateTime;
@@ -445,6 +446,7 @@ export interface ApiAchievementAchievement extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     desktopRow: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
     image: Schema.Attribute.Media<'images'>;
+    imagePosition: Schema.Attribute.Component<'common.image-position', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::achievement.achievement'> & Schema.Attribute.Private;
     mobileRow: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
@@ -472,6 +474,7 @@ export interface ApiActivityFieldActivityField extends Struct.CollectionTypeSche
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     image: Schema.Attribute.Media<'images'>;
+    imagePosition: Schema.Attribute.Component<'common.image-position', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::activity-field.activity-field'> &
       Schema.Attribute.Private;
@@ -526,6 +529,8 @@ export interface ApiContactRequestContactRequest extends Struct.CollectionTypeSc
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailNotificationError: Schema.Attribute.Text;
+    emailNotificationSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     fullName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::contact-request.contact-request'> &
@@ -554,6 +559,7 @@ export interface ApiContactSettingContactSetting extends Struct.SingleTypeSchema
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     emailAddress: Schema.Attribute.Email & Schema.Attribute.Required;
     emailIcon: Schema.Attribute.Media<'images'>;
+    emailIconPosition: Schema.Attribute.Component<'common.image-position', false>;
     emailLabel: Schema.Attribute.String & Schema.Attribute.Required;
     formDescription: Schema.Attribute.Text & Schema.Attribute.Required;
     formEyebrow: Schema.Attribute.String & Schema.Attribute.Required;
@@ -567,6 +573,7 @@ export interface ApiContactSettingContactSetting extends Struct.SingleTypeSchema
     questionTitle: Schema.Attribute.String & Schema.Attribute.Required;
     responseText: Schema.Attribute.Text & Schema.Attribute.Required;
     rightImage: Schema.Attribute.Media<'images'>;
+    rightImagePosition: Schema.Attribute.Component<'common.image-position', false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
   };
@@ -584,7 +591,7 @@ export interface ApiCourseRegistrationCourseRegistration extends Struct.Collecti
     draftAndPublish: false;
   };
   attributes: {
-    city: Schema.Attribute.String & Schema.Attribute.Required;
+    city: Schema.Attribute.String;
     courseAudience: Schema.Attribute.Enumeration<
       [
         '\u0414\u0435\u0442\u0441\u043A\u0438\u0435 \u043A\u0443\u0440\u0441\u044B',
@@ -601,6 +608,8 @@ export interface ApiCourseRegistrationCourseRegistration extends Struct.Collecti
       Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    emailNotificationError: Schema.Attribute.Text;
+    emailNotificationSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::course-registration.course-registration'> &
       Schema.Attribute.Private;
@@ -614,6 +623,7 @@ export interface ApiCourseRegistrationCourseRegistration extends Struct.Collecti
     studentFullName: Schema.Attribute.String & Schema.Attribute.Required;
     studentPhone: Schema.Attribute.String & Schema.Attribute.Required;
     studentSocialLink: Schema.Attribute.String & Schema.Attribute.Required;
+    studyPlace: Schema.Attribute.Text;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
   };
@@ -635,11 +645,14 @@ export interface ApiHeroHero extends Struct.SingleTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     leftHand: Schema.Attribute.Media<'images'>;
+    leftHandPosition: Schema.Attribute.Component<'common.image-position', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::hero.hero'> & Schema.Attribute.Private;
     logo: Schema.Attribute.Media<'images'>;
+    logoPosition: Schema.Attribute.Component<'common.image-position', false>;
     publishedAt: Schema.Attribute.DateTime;
     rightHand: Schema.Attribute.Media<'images'>;
+    rightHandPosition: Schema.Attribute.Component<'common.image-position', false>;
     secondaryDescription: Schema.Attribute.Text & Schema.Attribute.Required;
     secondaryTitle: Schema.Attribute.String & Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;
@@ -660,7 +673,11 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    backgroundColor: Schema.Attribute.String;
+    backgroundImage: Schema.Attribute.Media<'images'>;
+    backgroundImagePosition: Schema.Attribute.Component<'common.image-position', false>;
     bodyBlocks: Schema.Attribute.JSON;
+    catalogItems: Schema.Attribute.Component<'product.catalog-item', true>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     ctaLabel: Schema.Attribute.String;
@@ -668,7 +685,11 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     features: Schema.Attribute.Component<'product.feature', true>;
     gallery: Schema.Attribute.Media<'images', true>;
+    galleryPositions: Schema.Attribute.Component<'common.image-position', true>;
     headline: Schema.Attribute.String & Schema.Attribute.Required;
+    kitItems: Schema.Attribute.Component<'product.kit-item', true>;
+    kitTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u0441\u043E\u0441\u0442\u0430\u0432 \u043D\u0430\u0431\u043E\u0440\u0430'>;
     lead: Schema.Attribute.Text;
     leadHighlight: Schema.Attribute.Text;
     leadText: Schema.Attribute.Text;
@@ -682,8 +703,14 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       Schema.Attribute.DefaultTo<'\u0421\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0430'>;
     priceNote: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    slideSubtitle: Schema.Attribute.String;
+    slideType: Schema.Attribute.Enumeration<['standard', 'catalog']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'standard'>;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     sortOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    specItems: Schema.Attribute.Component<'product.spec-item', true>;
+    specsTitle: Schema.Attribute.String & Schema.Attribute.DefaultTo<'\u0422\u0422\u0425'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     video: Schema.Attribute.Media<'videos'>;
@@ -730,6 +757,7 @@ export interface ApiSeoSettingSeoSetting extends Struct.SingleTypeSchema {
         maxLength: 200;
       }>;
     socialImage: Schema.Attribute.Media<'images'>;
+    socialImagePosition: Schema.Attribute.Component<'common.image-position', false>;
     socialTitle: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
@@ -783,6 +811,7 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     image: Schema.Attribute.Media<'images'>;
+    imagePosition: Schema.Attribute.Component<'common.image-position', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::service.service'> & Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
@@ -838,6 +867,7 @@ export interface ApiSiteNavigationSiteNavigation extends Struct.SingleTypeSchema
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::site-navigation.site-navigation'> &
       Schema.Attribute.Private;
     logo: Schema.Attribute.Media<'images'>;
+    logoPosition: Schema.Attribute.Component<'common.image-position', false>;
     productLinks: Schema.Attribute.Component<'common.nav-link', true>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;

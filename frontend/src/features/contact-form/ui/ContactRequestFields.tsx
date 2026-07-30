@@ -2,7 +2,7 @@ import type { ReactElement } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import type { ContactFormValues } from '@/features/contact-form/model/contact-form-schema';
-import { ContactFieldError, FIELD_ERROR_ID, getErrorDescriptionId } from '@/features/contact-form/ui/ContactFieldError';
+import { FormTextareaField, FormTextField } from '@/shared/ui/form/FormControls';
 
 export function ContactRequestFields(): ReactElement {
   const {
@@ -13,45 +13,35 @@ export function ContactRequestFields(): ReactElement {
   return (
     <>
       <div className="contact__row">
-        <div className="contact__field">
-          <label htmlFor="contact-phone">
-            Телефон <span>(необязательно)</span>
-          </label>
-          <input
-            id="contact-phone"
-            type="tel"
-            autoComplete="tel"
-            inputMode="tel"
-            aria-invalid={errors.phone !== undefined}
-            aria-describedby={getErrorDescriptionId(errors.phone !== undefined, FIELD_ERROR_ID.phone)}
-            {...register('phone')}
-          />
-          <ContactFieldError id={FIELD_ERROR_ID.phone} message={errors.phone?.message} />
-        </div>
-        <div className="contact__field">
-          <label htmlFor="contact-subject">Тема обращения</label>
-          <input
-            id="contact-subject"
-            type="text"
-            autoComplete="off"
-            aria-invalid={errors.subject !== undefined}
-            aria-describedby={getErrorDescriptionId(errors.subject !== undefined, FIELD_ERROR_ID.subject)}
-            {...register('subject')}
-          />
-          <ContactFieldError id={FIELD_ERROR_ID.subject} message={errors.subject?.message} />
-        </div>
-      </div>
-      <div className="contact__field">
-        <label htmlFor="contact-message">Сообщение</label>
-        <textarea
-          id="contact-message"
-          rows={6}
-          aria-invalid={errors.message !== undefined}
-          aria-describedby={getErrorDescriptionId(errors.message !== undefined, FIELD_ERROR_ID.message)}
-          {...register('message')}
+        <FormTextField
+          id="contact-phone"
+          label={
+            <>
+              Телефон <span>(необязательно)</span>
+            </>
+          }
+          type="tel"
+          autoComplete="tel"
+          inputMode="tel"
+          error={errors.phone?.message}
+          registration={register('phone')}
         />
-        <ContactFieldError id={FIELD_ERROR_ID.message} message={errors.message?.message} />
+        <FormTextField
+          id="contact-subject"
+          label="Тема обращения"
+          type="text"
+          autoComplete="off"
+          error={errors.subject?.message}
+          registration={register('subject')}
+        />
       </div>
+      <FormTextareaField
+        id="contact-message"
+        label="Сообщение"
+        rows={6}
+        error={errors.message?.message}
+        registration={register('message')}
+      />
     </>
   );
 }

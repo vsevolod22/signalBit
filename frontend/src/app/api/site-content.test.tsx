@@ -68,7 +68,7 @@ describe('site-content query', () => {
       DEFAULT_SITE_CONTENT,
       CMS_URL,
     );
-    expect(content.products).toHaveLength(4);
+    expect(content.products).toHaveLength(5);
     expect(content.navigation).toEqual(DEFAULT_SITE_CONTENT.navigation);
   });
 
@@ -95,6 +95,49 @@ describe('site-content query', () => {
       organizationName: 'СИГНАЛ-БИТ CMS',
     });
     expect(content.seo.legalName).toBe(DEFAULT_SITE_CONTENT.seo.legalName);
+  });
+
+  it('maps image positioning for every visual content group', () => {
+    const content = mapSiteContent(
+      {
+        siteNavigation: { logoPosition: { offsetX: 1, offsetY: 2, scale: 101 } },
+        hero: {
+          rightHandPosition: { offsetX: 3, offsetY: 4, scale: 102 },
+          leftHandPosition: { offsetX: 5, offsetY: 6, scale: 103 },
+        },
+        activityFields: [
+          {
+            title: 'Карточка',
+            description: 'Описание',
+            imagePosition: { offsetX: 7, offsetY: 8, scale: 104 },
+          },
+        ],
+        aboutCompany: { photoPosition: { offsetX: 9, offsetY: 10, scale: 105 } },
+        achievements: [{ imagePosition: { offsetX: 11, offsetY: 12, scale: 106 } }],
+        contactSetting: {
+          emailIconPosition: { offsetX: 13, offsetY: 14, scale: 107 },
+          rightImagePosition: { offsetX: 15, offsetY: 16, scale: 108 },
+          partnerLogos: [
+            {
+              name: 'Партнёр',
+              imagePosition: { offsetX: 17, offsetY: 18, scale: 109 },
+            },
+          ],
+        },
+      },
+      DEFAULT_SITE_CONTENT,
+      CMS_URL,
+    );
+
+    expect(content.navigation.logoPosition).toEqual({ offsetX: 1, offsetY: 2, scale: 101 });
+    expect(content.hero.imagePosition).toEqual({ offsetX: 3, offsetY: 4, scale: 102 });
+    expect(content.hero.arrowImagePosition).toEqual({ offsetX: 5, offsetY: 6, scale: 103 });
+    expect(content.activityCards[0]?.imagePosition).toEqual({ offsetX: 7, offsetY: 8, scale: 104 });
+    expect(content.about.photoPosition).toEqual({ offsetX: 9, offsetY: 10, scale: 105 });
+    expect(content.achievements[0]?.imagePosition).toEqual({ offsetX: 11, offsetY: 12, scale: 106 });
+    expect(content.contacts.emailIconPosition).toEqual({ offsetX: 13, offsetY: 14, scale: 107 });
+    expect(content.contacts.heroImagePosition).toEqual({ offsetX: 15, offsetY: 16, scale: 108 });
+    expect(content.contacts.partners[0]?.imagePosition).toEqual({ offsetX: 17, offsetY: 18, scale: 109 });
   });
 
   it('keeps the education navigation item when Strapi still has the previous four-link menu', () => {

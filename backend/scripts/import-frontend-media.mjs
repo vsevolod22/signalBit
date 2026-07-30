@@ -63,7 +63,10 @@ function collectMediaUrls(content) {
     ...content.activityCards.map((item) => item.image),
     ...content.developments.map((item) => item.image),
     ...content.education.programs.map((item) => item.image),
-    ...content.products.flatMap((item) => item.images),
+    ...content.products.flatMap((item) => [
+      ...item.images,
+      item.backgroundImage,
+    ]),
     content.about.photo,
     ...content.achievements.map((item) => item.image),
     content.contacts.emailIcon,
@@ -73,6 +76,21 @@ function collectMediaUrls(content) {
 }
 
 function mediaSourcePath(url) {
+  if (url.startsWith('data:image/')) {
+    const [metadata, payload] = url.split(',', 2);
+    const mimeType = metadata.slice(5).split(';')[0];
+    const extension = mimeType === 'image/svg+xml' ? '.svg' : `.${mimeType.split('/')[1]}`;
+    const bytes = metadata.includes(';base64')
+      ? Buffer.from(payload, 'base64')
+      : Buffer.from(decodeURIComponent(payload));
+    const digest = createHash('sha256').update(bytes).digest('hex').slice(0, 12);
+    const inlinePath = path.join('/tmp', `signalbit-inline-${digest}${extension}`);
+    if (!fs.existsSync(inlinePath)) {
+      fs.writeFileSync(inlinePath, bytes);
+    }
+    return inlinePath;
+  }
+
   if (!url.startsWith('/src/')) {
     throw new Error(`Unsupported frontend media URL: ${url}`);
   }
@@ -261,7 +279,20 @@ async function syncCollections(strapi, content, mediaByUrl) {
       name: item.title,
       slug: item.slug,
       headline: item.title,
+      slideType: item.slideType ?? 'standard',
+      slideSubtitle: item.variant,
       lead: item.lead,
+      bodyBlocks: item.body,
+      kitTitle: item.kitTitle,
+      kitItems: item.kit?.map((kitItem, kitIndex) => ({
+        ...kitItem,
+        sortOrder: (kitIndex + 1) * 10,
+      })),
+      specsTitle: item.specsTitle,
+      specItems: item.specs?.map((text, specIndex) => ({
+        text,
+        sortOrder: (specIndex + 1) * 10,
+      })),
       price: item.price,
       priceNote: item.priceNote,
       ctaLabel: item.cta,
@@ -271,6 +302,41 @@ async function syncCollections(strapi, content, mediaByUrl) {
         sortOrder: (featureIndex + 1) * 10,
       })),
       gallery: item.images.map((url) => mediaId(mediaByUrl, url)),
+      galleryPositions: item.imagePositions?.map((position, imageIndex) => ({
+        label: `Изображение ${imageIndex + 1}`,
+        offsetX: position?.offsetX ?? 0,
+        offsetY: position?.offsetY ?? 0,
+        scale: position?.scale ?? 100,
+      })),
+      backgroundColor: item.backgroundColor,
+      ...(item.backgroundImage
+        ? { backgroundImage: mediaId(mediaByUrl, item.backgroundImage) }
+        : {}),
+      ...(item.backgroundImagePosition
+        ? { backgroundImagePosition: item.backgroundImagePosition }
+        : {}),
+      catalogItems: item.catalogItems?.map((catalogItem, catalogIndex) => ({
+        code: catalogItem.code,
+        name: catalogItem.name,
+        description: catalogItem.description,
+        kitTitle: catalogItem.kitTitle,
+        kitItems: catalogItem.kit.map((kitItem, kitIndex) => ({
+          ...kitItem,
+          sortOrder: (kitIndex + 1) * 10,
+        })),
+        priceLabel: catalogItem.priceLabel,
+        price: catalogItem.price,
+        characteristicsButtonLabel: catalogItem.characteristicsButtonLabel,
+        characteristicsTitle: catalogItem.characteristicsTitle,
+        characteristicNameLabel: catalogItem.characteristicNameLabel,
+        characteristicValueLabel: catalogItem.characteristicValueLabel,
+        characteristicUnitLabel: catalogItem.characteristicUnitLabel,
+        characteristics: catalogItem.characteristics.map((characteristic, characteristicIndex) => ({
+          ...characteristic,
+          sortOrder: (characteristicIndex + 1) * 10,
+        })),
+        sortOrder: (catalogIndex + 1) * 10,
+      })),
       sortOrder: (index + 1) * 10,
     }))
   );

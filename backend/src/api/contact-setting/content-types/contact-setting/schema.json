@@ -48,10 +48,20 @@
       "multiple": false,
       "allowedTypes": ["images"]
     },
+    "emailIconPosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
+    },
     "rightImage": {
       "type": "media",
       "multiple": false,
       "allowedTypes": ["images"]
+    },
+    "rightImagePosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
     },
     "partnerLogos": {
       "type": "component",

@@ -5,6 +5,7 @@ import { useSiteContent } from '@/app/providers/SiteContentProvider';
 import { cardRevealVariants, fadeUpVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
 import { CARD_HOVER } from '@/shared/lib/motion-presets';
 import { AnimatedSection } from '@/shared/ui/animated-section/AnimatedSection';
+import { PositionedImage } from '@/shared/ui/positioned-image/PositionedImage';
 import { RouteConnector, SectionRoute } from '@/shared/ui/section-route';
 import './achievements.scss';
 
@@ -22,7 +23,13 @@ export function Achievements(): ReactElement {
         <motion.div className="achievements__grid" variants={pageSectionVariants}>
           {content.achievements.map((achievement) => (
             <motion.figure key={achievement.image} variants={cardRevealVariants} whileHover={CARD_HOVER.achievement}>
-              <img src={achievement.image} alt={achievement.title} loading="lazy" decoding="async" />
+              <PositionedImage
+                src={achievement.image}
+                position={achievement.imagePosition}
+                alt={achievement.title}
+                loading="lazy"
+                decoding="async"
+              />
             </motion.figure>
           ))}
         </motion.div>

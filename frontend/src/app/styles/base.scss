@@ -109,6 +109,32 @@ h3,
   text-underline-offset: 4px;
 }
 
+.site-footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-footer__socials a {
+  min-width: 44px;
+  padding: 0 12px;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.site-footer__socials a:hover,
+.site-footer__socials a:focus-visible {
+  border-color: var(--deep-teal);
+  background: var(--deep-teal);
+  color: #ffffff;
+}
+
 .section-shell > :not(.section-route):not(.route-connector) {
   position: relative;
   z-index: 3;
@@ -160,6 +186,10 @@ h3,
   .site-footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .site-footer__socials {
+    flex-wrap: wrap;
   }
 }
 

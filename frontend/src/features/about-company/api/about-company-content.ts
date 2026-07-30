@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { getMediaUrl } from '@/shared/api/strapi-client';
-import { optionalStringListSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
+import {
+  mapStrapiImagePosition,
+  optionalStringListSchema,
+  strapiImagePositionSchema,
+  strapiMediaSchema,
+} from '@/shared/api/strapi-schemas';
 import { nonEmptyStrings } from '@/shared/lib/content-mapping';
 import type { SiteContent } from '@/shared/model/site-content';
 
@@ -9,6 +14,7 @@ export const aboutCompanyCmsSchema = z
     missionTitle: z.string().optional(),
     paragraphs: optionalStringListSchema,
     photo: strapiMediaSchema.nullable().optional(),
+    photoPosition: strapiImagePositionSchema,
     officialTitle: z.string().optional(),
     officialItems: optionalStringListSchema,
     stats: z.array(z.object({ value: z.string().optional(), text: z.string().optional() })).optional(),
@@ -44,6 +50,7 @@ export function mapAboutCompanyContent(
     title: cms?.missionTitle ?? fallback.title,
     paragraphs: nonEmptyStrings(cms?.paragraphs) ?? fallback.paragraphs,
     photo: getMediaUrl(cms?.photo, fallback.photo, apiUrl),
+    photoPosition: mapStrapiImagePosition(cms?.photoPosition) ?? fallback.photoPosition,
     officialTitle: cms?.officialTitle ?? fallback.officialTitle,
     officialItems: nonEmptyStrings(cms?.officialItems) ?? fallback.officialItems,
     stats: mapCompanyStats(cms, fallback.stats),

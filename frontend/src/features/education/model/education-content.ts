@@ -7,6 +7,7 @@ export const DEFAULT_EDUCATION_CONTENT: SiteContent['education'] = {
   ctaLabel: 'Оставить заявку',
   programs: [
     {
+      audience: 'children',
       title: 'Школа пилотирования',
       subtitle: 'твой первый шаг в беспилотный мир',
       theme: 'dark',
@@ -48,6 +49,7 @@ export const DEFAULT_EDUCATION_CONTENT: SiteContent['education'] = {
       ],
     },
     {
+      audience: 'adults',
       title: 'Инженер-оператор БАС',
       subtitle: 'преврати увлечение в профессию',
       theme: 'light',

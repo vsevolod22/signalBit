@@ -141,6 +141,24 @@ function mediaArrayValue(value: unknown): MediaDto[] {
   });
 }
 
+function imagePositionValue(value: unknown): RecordValue | undefined {
+  const position = asRecord(value);
+  if (position === null) {
+    return undefined;
+  }
+
+  return {
+    label: stringValue(position, 'label'),
+    offsetX: numberValue(position, 'offsetX'),
+    offsetY: numberValue(position, 'offsetY'),
+    scale: numberValue(position, 'scale'),
+  };
+}
+
+function imagePositionArrayValue(value: unknown): RecordValue[] {
+  return asRecords(value).map((position) => imagePositionValue(position) ?? {});
+}
+
 function select(record: RecordValue | null, fields: string[]): RecordValue | null {
   if (record === null) {
     return null;
@@ -176,6 +194,21 @@ function selectMedia(record: RecordValue | null, fields: string[]): RecordValue 
     }
   }
 
+
+  for (const field of [
+    'logoPosition',
+    'rightHandPosition',
+    'leftHandPosition',
+    'photoPosition',
+    'emailIconPosition',
+    'rightImagePosition',
+    'socialImagePosition',
+  ]) {
+    if (field in record) {
+      dto[field] = imagePositionValue(record[field]) ?? null;
+    }
+  }
+
   return dto;
 }
 
@@ -184,6 +217,9 @@ function selectCollection(items: RecordValue[], fields: string[], mediaFields: s
     const dto = select(item, fields) ?? {};
     for (const field of mediaFields) {
       dto[field] = mediaValue(item[field]) ?? null;
+    }
+    if ('imagePosition' in item) {
+      dto.imagePosition = imagePositionValue(item.imagePosition) ?? null;
     }
     return dto;
   });
@@ -197,7 +233,46 @@ function selectProducts(items: RecordValue[]): RecordValue[] {
     lead: stringValue(item, 'lead'),
     leadHighlight: stringValue(item, 'leadHighlight'),
     leadText: stringValue(item, 'leadText'),
+    slideType: stringValue(item, 'slideType'),
+    slideSubtitle: stringValue(item, 'slideSubtitle'),
+    catalogItems: asRecords(item.catalogItems).map((catalogItem) => ({
+      code: stringValue(catalogItem, 'code'),
+      name: stringValue(catalogItem, 'name'),
+      description: stringValue(catalogItem, 'description'),
+      kitTitle: stringValue(catalogItem, 'kitTitle'),
+      kitItems: asRecords(catalogItem.kitItems).map((kitItem) => ({
+        title: stringValue(kitItem, 'title'),
+        description: stringValue(kitItem, 'description'),
+        sortOrder: numberValue(kitItem, 'sortOrder'),
+      })),
+      priceLabel: stringValue(catalogItem, 'priceLabel'),
+      price: stringValue(catalogItem, 'price'),
+      characteristicsButtonLabel: stringValue(catalogItem, 'characteristicsButtonLabel'),
+      characteristicsTitle: stringValue(catalogItem, 'characteristicsTitle'),
+      characteristicNameLabel: stringValue(catalogItem, 'characteristicNameLabel'),
+      characteristicValueLabel: stringValue(catalogItem, 'characteristicValueLabel'),
+      characteristicUnitLabel: stringValue(catalogItem, 'characteristicUnitLabel'),
+      characteristics: asRecords(catalogItem.characteristics).map((characteristic) => ({
+        name: stringValue(characteristic, 'name'),
+        value: stringValue(characteristic, 'value'),
+        unit: stringValue(characteristic, 'unit'),
+        section: booleanValue(characteristic, 'section'),
+        sortOrder: numberValue(characteristic, 'sortOrder'),
+      })),
+      sortOrder: numberValue(catalogItem, 'sortOrder'),
+    })),
     bodyBlocks: stringArrayValue(item, 'bodyBlocks'),
+    kitTitle: stringValue(item, 'kitTitle'),
+    kitItems: asRecords(item.kitItems).map((kitItem) => ({
+      title: stringValue(kitItem, 'title'),
+      description: stringValue(kitItem, 'description'),
+      sortOrder: numberValue(kitItem, 'sortOrder'),
+    })),
+    specsTitle: stringValue(item, 'specsTitle'),
+    specItems: asRecords(item.specItems).map((specItem) => ({
+      text: stringValue(specItem, 'text'),
+      sortOrder: numberValue(specItem, 'sortOrder'),
+    })),
     descriptionBlocks: stringArrayValue(item, 'descriptionBlocks'),
     features: asRecords(item.features).map((feature) => ({
       text: stringValue(feature, 'text'),
@@ -208,6 +283,10 @@ function selectProducts(items: RecordValue[]): RecordValue[] {
     ctaLabel: stringValue(item, 'ctaLabel'),
     featured: booleanValue(item, 'featured'),
     gallery: mediaArrayValue(item.gallery),
+    galleryPositions: imagePositionArrayValue(item.galleryPositions),
+    backgroundColor: stringValue(item, 'backgroundColor'),
+    backgroundImage: mediaValue(item.backgroundImage) ?? null,
+    backgroundImagePosition: imagePositionValue(item.backgroundImagePosition) ?? null,
     sortOrder: numberValue(item, 'sortOrder'),
   }));
 }
@@ -221,6 +300,7 @@ function selectContactSetting(record: RecordValue | null): RecordValue | null {
   dto.partnerLogos = asRecords(record.partnerLogos).map((partner) => ({
     name: stringValue(partner, 'name'),
     image: mediaValue(partner.image) ?? null,
+    imagePosition: imagePositionValue(partner.imagePosition) ?? null,
   }));
   return dto;
 }
@@ -229,8 +309,8 @@ async function getSingleType(strapi: StrapiInstance, uid: string, populate: unkn
   return strapi.entityService.findMany(uid, { populate });
 }
 
-async function getCollectionType(strapi: StrapiInstance, uid: string): Promise<unknown> {
-  return strapi.entityService.findMany(uid, { populate: '*', sort: { sortOrder: 'asc' } });
+async function getCollectionType(strapi: StrapiInstance, uid: string, populate: unknown = '*'): Promise<unknown> {
+  return strapi.entityService.findMany(uid, { populate, sort: { sortOrder: 'asc' } });
 }
 
 export default ({ strapi }: { strapi: StrapiInstance }) => ({
@@ -257,8 +337,10 @@ export default ({ strapi }: { strapi: StrapiInstance }) => ({
         getSingleType(strapi, singleTypes.siteFooter),
         getSingleType(strapi, singleTypes.contactSetting, {
           emailIcon: true,
+          emailIconPosition: true,
           rightImage: true,
-          partnerLogos: { populate: { image: true } },
+          rightImagePosition: true,
+          partnerLogos: { populate: { image: true, imagePosition: true } },
         }),
         getSingleType(strapi, singleTypes.activitySetting),
         getSingleType(strapi, singleTypes.serviceSetting),
@@ -266,7 +348,21 @@ export default ({ strapi }: { strapi: StrapiInstance }) => ({
         getSingleType(strapi, singleTypes.seoSetting),
         getCollectionType(strapi, collectionTypes.activityFields),
         getCollectionType(strapi, collectionTypes.services),
-        getCollectionType(strapi, collectionTypes.products),
+        getCollectionType(strapi, collectionTypes.products, {
+          kitItems: true,
+          specItems: true,
+          features: true,
+          gallery: true,
+          galleryPositions: true,
+          backgroundImage: true,
+          backgroundImagePosition: true,
+          catalogItems: {
+            populate: {
+              kitItems: true,
+              characteristics: true,
+            },
+          },
+        }),
         getCollectionType(strapi, collectionTypes.achievements),
       ]);
 

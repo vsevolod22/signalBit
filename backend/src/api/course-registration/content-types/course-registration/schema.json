@@ -38,8 +38,10 @@
       "required": true
     },
     "city": {
-      "type": "string",
-      "required": true
+      "type": "string"
+    },
+    "studyPlace": {
+      "type": "text"
     },
     "parentFullName": {
       "type": "string"
@@ -57,6 +59,13 @@
     "source": {
       "type": "string",
       "default": "Сайт"
+    },
+    "emailNotificationSent": {
+      "type": "boolean",
+      "default": false
+    },
+    "emailNotificationError": {
+      "type": "text"
     }
   }
 }

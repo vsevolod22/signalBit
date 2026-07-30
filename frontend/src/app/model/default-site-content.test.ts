@@ -35,12 +35,13 @@ describe('default landing content', () => {
     ).toEqual(['от винта до кода', 'станешь востребованным', '2 документа государственного образца ']);
   });
 
-  it('contains all four Figma products and the corrected autonomous flight tolerance', () => {
+  it('contains the four original products, the grouped training slide and the corrected flight tolerance', () => {
     expect(DEFAULT_SITE_CONTENT.products.map(({ slug }) => slug)).toEqual([
       'sokol',
       'aist-basic',
       'aist-autonomous',
       'soroka',
+      'training-bas',
     ]);
     expect(DEFAULT_SITE_CONTENT.products[2].specs).toContain('отклонение от траектории полета: до 2 м');
   });

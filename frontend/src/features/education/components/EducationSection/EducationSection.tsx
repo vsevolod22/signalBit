@@ -2,11 +2,11 @@ import { motion } from 'framer-motion';
 import type { ReactElement } from 'react';
 
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
+import { EducationRegistrationModal } from '@/features/education/registration/ui/EducationRegistrationModal';
 import { cardRevealVariants, pageSectionVariants } from '@/shared/lib/landing-motion';
 import type { EducationProgram } from '@/shared/model/site-content';
 import { AnimatedSection } from '@/shared/ui/animated-section/AnimatedSection';
 import { AnimatedSectionHeading } from '@/shared/ui/animated-section/AnimatedSectionHeading';
-import { MotionLink } from '@/shared/ui/link/MotionLink';
 import { RouteConnector, SectionRoute } from '@/shared/ui/section-route';
 import './education-section.scss';
 
@@ -49,9 +49,7 @@ function EducationProgramCard({ program, ctaLabel }: { program: EducationProgram
           </li>
         ))}
       </ul>
-      <MotionLink className="education__cta" href="#contacts" interaction="cta">
-        {ctaLabel}
-      </MotionLink>
+      <EducationRegistrationModal audience={program.audience} courseTitle={program.title} triggerLabel={ctaLabel} />
     </motion.article>
   );
 }

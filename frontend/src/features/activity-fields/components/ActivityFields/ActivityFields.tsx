@@ -7,6 +7,7 @@ import { CARD_HOVER, CARD_TRANSITION } from '@/shared/lib/motion-presets';
 import type { ActivityCard } from '@/shared/model/site-content';
 import { AnimatedSection } from '@/shared/ui/animated-section/AnimatedSection';
 import { AnimatedSectionHeading } from '@/shared/ui/animated-section/AnimatedSectionHeading';
+import { PositionedImage } from '@/shared/ui/positioned-image/PositionedImage';
 import { RouteConnector, SectionRoute } from '@/shared/ui/section-route';
 import './activity-fields.scss';
 
@@ -25,7 +26,14 @@ function ActivityCardView({ card, tone }: ActivityCardViewProps): ReactElement {
     >
       <span className="services__number">{card.number}</span>
       {card.image !== undefined && card.image.length > 0 ? (
-        <img src={card.image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <PositionedImage
+          src={card.image}
+          position={card.imagePosition}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
       ) : null}
       <h3>{card.title}</h3>
       <p>{card.description}</p>

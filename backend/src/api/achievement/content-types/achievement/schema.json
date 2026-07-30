@@ -19,6 +19,11 @@
       "multiple": false,
       "allowedTypes": ["images"]
     },
+    "imagePosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
+    },
     "desktopRow": {
       "type": "integer",
       "default": 1

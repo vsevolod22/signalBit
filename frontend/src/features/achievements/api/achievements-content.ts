@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { getMediaUrl } from '@/shared/api/strapi-client';
-import { optionalSortOrderSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
+import {
+  mapStrapiImagePosition,
+  optionalSortOrderSchema,
+  strapiImagePositionSchema,
+  strapiMediaSchema,
+} from '@/shared/api/strapi-schemas';
 import { sortByOrder } from '@/shared/lib/content-mapping';
 import type { SiteContent } from '@/shared/model/site-content';
 
@@ -10,6 +15,7 @@ export const achievementsCmsSchema = z
     z.object({
       title: z.string().optional(),
       image: strapiMediaSchema.nullable().optional(),
+      imagePosition: strapiImagePositionSchema,
       sortOrder: optionalSortOrderSchema,
     }),
   )
@@ -30,5 +36,6 @@ export function mapAchievementsContent(
   return sorted.map((achievement, index) => ({
     title: achievement.title ?? fallback[index]?.title ?? '',
     image: getMediaUrl(achievement.image, fallback[index]?.image ?? '', apiUrl),
+    imagePosition: mapStrapiImagePosition(achievement.imagePosition) ?? fallback[index]?.imagePosition,
   }));
 }

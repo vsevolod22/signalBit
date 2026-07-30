@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_product_spec_items",
+  "info": {
+    "displayName": "Пункт ТТХ",
+    "description": "Отдельная строка блока технических характеристик"
+  },
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

@@ -154,9 +154,22 @@
     justify-content: center;
     border: 2px dashed currentColor;
     border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
     font-size: 14px;
     font-weight: 800;
     white-space: nowrap;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+    cursor: pointer;
+  }
+
+  &__cta:hover,
+  &__cta:focus-visible {
+    background: #ffffff;
+    color: var(--deep-teal);
   }
 
   &__summary {

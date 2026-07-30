@@ -13,6 +13,7 @@ import sokolCameraGimbal from '../assets/sokol/camera-gimbal.png';
 import sokolOnboardComputer from '../assets/sokol/onboard-computer.png';
 import sorokaOperatorMap from '../assets/soroka/operator-map.png';
 import sorokaThreatModule from '../assets/soroka/threat-module.png';
+import { TRAINING_CATALOG_PRODUCT } from './training-catalog-content';
 
 export const DEFAULT_PRODUCTS_TITLE = 'Продукты';
 export const DEFAULT_PRODUCTS_NOTE =
@@ -186,4 +187,5 @@ export const DEFAULT_PRODUCTS: SiteContent['products'] = [
     images: [aistAutonomous, sorokaOperatorMap, sorokaThreatModule],
     imageLabels: ['Аист. Автономный'],
   },
+  TRAINING_CATALOG_PRODUCT,
 ];

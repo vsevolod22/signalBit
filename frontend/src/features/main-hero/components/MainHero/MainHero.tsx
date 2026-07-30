@@ -4,6 +4,7 @@ import type { ReactElement } from 'react';
 import { useSiteContent } from '@/app/providers/SiteContentProvider';
 import { fadeUpVariants, heroImageVariants, pageSectionVariants, scrollCueVariants } from '@/shared/lib/landing-motion';
 import { MotionLink } from '@/shared/ui/link/MotionLink';
+import { PositionedImage } from '@/shared/ui/positioned-image/PositionedImage';
 import './main-hero.scss';
 
 export function MainHero(): ReactElement {
@@ -29,7 +30,15 @@ export function MainHero(): ReactElement {
         <motion.p variants={fadeUpVariants}>{content.hero.description}</motion.p>
       </motion.div>
       <motion.div className="hero__media" aria-hidden="true" variants={heroImageVariants}>
-        <img src={content.hero.image} alt="" width="814" height="401" decoding="async" {...{ fetchpriority: 'high' }} />
+        <PositionedImage
+          src={content.hero.image}
+          position={content.hero.imagePosition}
+          alt=""
+          width="814"
+          height="401"
+          decoding="async"
+          {...{ fetchpriority: 'high' }}
+        />
       </motion.div>
       <MotionLink
         className="hero__scroll-cue"
@@ -40,7 +49,13 @@ export function MainHero(): ReactElement {
         variants={scrollCueVariants}
         interaction="scrollCue"
       >
-        <img src={content.hero.arrowImage} alt="" width="184" height="92" />
+        <PositionedImage
+          src={content.hero.arrowImage}
+          position={content.hero.arrowImagePosition}
+          alt=""
+          width="184"
+          height="92"
+        />
       </MotionLink>
     </motion.section>
   );

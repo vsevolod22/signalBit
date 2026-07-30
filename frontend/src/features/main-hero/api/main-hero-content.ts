@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { getMediaUrl } from '@/shared/api/strapi-client';
-import { strapiMediaSchema } from '@/shared/api/strapi-schemas';
+import { mapStrapiImagePosition, strapiImagePositionSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import type { SiteContent } from '@/shared/model/site-content';
 
 export const heroCmsSchema = z
@@ -10,7 +10,9 @@ export const heroCmsSchema = z
     secondaryTitle: z.string().optional(),
     secondaryDescription: z.string().optional(),
     rightHand: strapiMediaSchema.nullable().optional(),
+    rightHandPosition: strapiImagePositionSchema,
     leftHand: strapiMediaSchema.nullable().optional(),
+    leftHandPosition: strapiImagePositionSchema,
   })
   .nullable()
   .optional();
@@ -25,6 +27,8 @@ export function mapHeroContent(cms: HeroCmsDto, fallback: SiteContent['hero'], a
     headline: cms?.description ?? fallback.headline,
     description: cms?.secondaryDescription ?? fallback.description,
     image: getMediaUrl(cms?.rightHand, fallback.image, apiUrl),
+    imagePosition: mapStrapiImagePosition(cms?.rightHandPosition) ?? fallback.imagePosition,
     arrowImage: getMediaUrl(cms?.leftHand, fallback.arrowImage, apiUrl),
+    arrowImagePosition: mapStrapiImagePosition(cms?.leftHandPosition) ?? fallback.arrowImagePosition,
   };
 }

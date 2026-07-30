@@ -33,6 +33,11 @@
       "type": "media",
       "multiple": false,
       "allowedTypes": ["images"]
+    },
+    "logoPosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
     }
   }
 }

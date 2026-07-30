@@ -1,0 +1,181 @@
+.education-registration-modal {
+  overflow: hidden;
+  width: min(820px, calc(100vw - 40px));
+  max-width: none;
+  max-height: min(92vh, 900px);
+  padding: 0;
+  border: 0;
+  border-radius: 28px;
+  background: transparent;
+  color: var(--ink);
+}
+
+.education-registration-modal[open] {
+  display: block;
+}
+
+.education-registration-modal::backdrop {
+  background: rgba(0, 35, 48, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.education-registration-modal__surface {
+  display: flex;
+  overflow: hidden;
+  max-height: min(92vh, 900px);
+  flex-direction: column;
+  border-radius: 28px;
+  background: var(--paper);
+  box-shadow: 0 24px 80px rgba(0, 35, 48, 0.38);
+}
+
+.education-registration-modal__header {
+  display: flex;
+  padding: 22px 24px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--deep-teal);
+  color: #ffffff;
+}
+
+.education-registration-modal__header span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.education-registration-modal__header h3 {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1;
+}
+
+.education-registration-modal__header button,
+.education-registration-modal__success button {
+  min-height: 44px;
+  padding: 0 18px;
+  flex: 0 0 auto;
+  border: 2px dashed currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.education-registration-modal__header button:hover,
+.education-registration-modal__header button:focus-visible {
+  background: #ffffff;
+  color: var(--deep-teal);
+}
+
+.education-registration-modal__form {
+  display: grid;
+  overflow: auto;
+  padding: 24px;
+  gap: 18px;
+  overscroll-behavior: contain;
+}
+
+.education-registration-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.education-registration-modal__wide-field {
+  grid-column: 1 / -1;
+}
+
+.education-registration-modal__actions {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.education-registration-modal__actions > button,
+.education-registration-modal__success button {
+  min-height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--deep-teal);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.education-registration-modal__actions > button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.education-registration-modal__actions div {
+  color: #8a1f1f;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.education-registration-modal__success {
+  display: grid;
+  min-height: 320px;
+  padding: 48px 32px;
+  place-items: center;
+  align-content: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.education-registration-modal__success strong {
+  color: var(--deep-teal);
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1;
+}
+
+.education-registration-modal__success p {
+  max-width: 56ch;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+@media (max-width: 620px) {
+  .education-registration-modal {
+    width: calc(100vw - 20px);
+    border-radius: 20px;
+  }
+
+  .education-registration-modal__surface {
+    border-radius: 20px;
+  }
+
+  .education-registration-modal__header {
+    padding: 18px;
+    align-items: flex-start;
+  }
+
+  .education-registration-modal__header button {
+    padding: 0 12px;
+  }
+
+  .education-registration-modal__form {
+    padding: 18px;
+  }
+
+  .education-registration-modal__grid,
+  .education-registration-modal__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .education-registration-modal__actions > button {
+    width: 100%;
+  }
+}

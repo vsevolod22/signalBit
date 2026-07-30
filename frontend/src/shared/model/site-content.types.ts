@@ -3,11 +3,18 @@ export interface MediaContent {
   alternativeText?: string | null;
 }
 
+export interface ImagePosition {
+  offsetX: number;
+  offsetY: number;
+  scale: number;
+}
+
 export interface ActivityCard {
   number: string;
   title: string;
   description: string;
   image?: string;
+  imagePosition?: ImagePosition;
 }
 
 export interface DevelopmentCard {
@@ -16,6 +23,7 @@ export interface DevelopmentCard {
   technologies: string;
   cost: string;
   image?: string;
+  imagePosition?: ImagePosition;
 }
 
 export interface EducationProgramDetail {
@@ -33,6 +41,7 @@ export interface EducationProgramOutcome {
 }
 
 export interface EducationProgram {
+  audience: 'children' | 'adults';
   title: string;
   subtitle: string;
   details: EducationProgramDetail[];
@@ -56,22 +65,53 @@ export interface ProductKitItem {
   description?: string;
 }
 
+export interface ProductCharacteristic {
+  name: string;
+  value?: string;
+  unit?: string;
+  section?: boolean;
+}
+
+export interface ProductCatalogItem {
+  code: string;
+  name: string;
+  description?: string;
+  kitTitle?: string;
+  kit: ProductKitItem[];
+  priceLabel?: string;
+  price?: string;
+  characteristicsButtonLabel?: string;
+  characteristicsTitle?: string;
+  characteristicNameLabel?: string;
+  characteristicValueLabel?: string;
+  characteristicUnitLabel?: string;
+  characteristics: ProductCharacteristic[];
+}
+
 export interface ProductCard {
   slug: string;
   title: string;
   variant?: string;
+  slideType?: 'standard' | 'catalog';
+  catalogItems?: ProductCatalogItem[];
   lead: string;
   body?: string[];
   description: string[];
   price: string;
   priceNote?: string;
   images: string[];
+  imagePositions?: Array<ImagePosition | undefined>;
   imageLabels?: string[];
   kit?: ProductKitItem[];
+  kitTitle?: string;
   specs?: string[];
+  specsTitle?: string;
   theme?: 'deep' | 'teal' | 'ice' | 'sage';
   cta?: string;
   featured?: boolean;
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundImagePosition?: ImagePosition;
 }
 
 export interface StatItem {
@@ -82,6 +122,7 @@ export interface StatItem {
 export interface PartnerLogo {
   name: string;
   image: string;
+  imagePosition?: ImagePosition;
 }
 
 export interface SeoContent {
@@ -103,6 +144,7 @@ export interface SiteContent {
   seo: SeoContent;
   navigation: {
     logo: string;
+    logoPosition?: ImagePosition;
     links: Array<{ label: string; href: string }>;
     contactLabel: string;
   };
@@ -112,7 +154,9 @@ export interface SiteContent {
     headline: string;
     description: string;
     image: string;
+    imagePosition?: ImagePosition;
     arrowImage: string;
+    arrowImagePosition?: ImagePosition;
   };
   activityTitle: string;
   activityCards: ActivityCard[];
@@ -127,11 +171,12 @@ export interface SiteContent {
     paragraphs: string[];
     stats: StatItem[];
     photo: string;
+    photoPosition?: ImagePosition;
     officialTitle: string;
     officialItems: string[];
   };
   achievementsTitle: string;
-  achievements: Array<{ title: string; image: string }>;
+  achievements: Array<{ title: string; image: string; imagePosition?: ImagePosition }>;
   contacts: {
     title: string;
     emailLabel: string;
@@ -139,7 +184,9 @@ export interface SiteContent {
     responseText: string;
     partnersTitle: string;
     emailIcon: string;
+    emailIconPosition?: ImagePosition;
     heroImage: string;
+    heroImagePosition?: ImagePosition;
     partners: PartnerLogo[];
   };
 }

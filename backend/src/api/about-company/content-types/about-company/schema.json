@@ -40,6 +40,11 @@
       "type": "media",
       "multiple": false,
       "allowedTypes": ["images"]
+    },
+    "photoPosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
     }
   }
 }

@@ -7,12 +7,14 @@
     "build": "strapi build",
     "develop": "strapi develop",
     "import:frontend-media": "node scripts/import-frontend-media.mjs",
+    "import:training-catalog": "node scripts/import-training-catalog.mjs",
     "start": "strapi start",
     "strapi": "strapi"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "^5.23.0",
     "@strapi/plugin-users-permissions": "^5.23.0",
+    "@strapi/provider-email-nodemailer": "^5.44.0",
     "@strapi/strapi": "^5.23.0",
     "pg": "^8.13.1",
     "react": "^18.3.1",

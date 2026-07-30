@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 
 import type { ProductCard } from '@/shared/model/site-content';
+import { PositionedImage } from '@/shared/ui/positioned-image/PositionedImage';
 
 export function ProductKit({ product }: { product: ProductCard }): ReactElement | null {
   const kitItems = product.kit;
@@ -12,7 +13,7 @@ export function ProductKit({ product }: { product: ProductCard }): ReactElement 
 
   return (
     <section className="products__technical-block">
-      <strong className="products__vertical-label">состав набора</strong>
+      <strong className="products__vertical-label">{product.kitTitle ?? 'состав набора'}</strong>
       <div className="products__kit">
         {kitItems?.map((item) => (
           <p key={item.title}>
@@ -33,7 +34,7 @@ export function ProductSpecs({ product }: { product: ProductCard }): ReactElemen
 
   return (
     <section className="products__technical-block products__technical-block--specs">
-      <strong className="products__vertical-label">ТТХ</strong>
+      <strong className="products__vertical-label">{product.specsTitle ?? 'ТТХ'}</strong>
       <ul className="products__specs">
         {product.specs.map((specification) => (
           <li key={specification}>{specification}</li>
@@ -48,7 +49,14 @@ export function ProductImages({ product }: { product: ProductCard }): ReactEleme
     <div className={`products__images products__images--${product.slug}`}>
       {product.images.slice(0, 5).map((image, index) => (
         <figure key={`${product.slug}-${image}`}>
-          <img src={image} alt="" aria-hidden="true" decoding="async" loading="lazy" />
+          <PositionedImage
+            src={image}
+            position={product.imagePositions?.[index]}
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            loading="lazy"
+          />
           {product.imageLabels?.[index] !== undefined && <figcaption>{product.imageLabels[index]}</figcaption>}
         </figure>
       ))}

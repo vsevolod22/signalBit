@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_product_kit_items",
+  "info": {
+    "displayName": "Элемент состава набора",
+    "description": "Название и пояснение для блока «Состав набора»"
+  },
+  "attributes": {
+    "title": {
+      "type": "text",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

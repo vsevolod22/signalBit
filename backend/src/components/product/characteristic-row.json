@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_product_characteristic_rows",
+  "info": {
+    "displayName": "Строка таблицы характеристик",
+    "description": "Одна строка модальной таблицы характеристик продукта"
+  },
+  "attributes": {
+    "name": {
+      "type": "text",
+      "required": true
+    },
+    "value": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "section": {
+      "type": "boolean",
+      "default": false
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

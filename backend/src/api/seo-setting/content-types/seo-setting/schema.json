@@ -47,6 +47,11 @@
       "multiple": false,
       "allowedTypes": ["images"]
     },
+    "socialImagePosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
+    },
     "organizationName": {
       "type": "string",
       "required": true

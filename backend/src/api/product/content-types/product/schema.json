@@ -36,8 +36,40 @@
     "lead": {
       "type": "text"
     },
+    "slideType": {
+      "type": "enumeration",
+      "enum": ["standard", "catalog"],
+      "default": "standard",
+      "required": true
+    },
+    "slideSubtitle": {
+      "type": "string"
+    },
+    "catalogItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.catalog-item"
+    },
     "bodyBlocks": {
       "type": "json"
+    },
+    "kitTitle": {
+      "type": "string",
+      "default": "состав набора"
+    },
+    "kitItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.kit-item"
+    },
+    "specsTitle": {
+      "type": "string",
+      "default": "ТТХ"
+    },
+    "specItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.spec-item"
     },
     "descriptionBlocks": {
       "type": "json"
@@ -69,6 +101,24 @@
       "type": "media",
       "multiple": true,
       "allowedTypes": ["images"]
+    },
+    "galleryPositions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.image-position"
+    },
+    "backgroundColor": {
+      "type": "string"
+    },
+    "backgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "backgroundImagePosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
     },
     "video": {
       "type": "media",

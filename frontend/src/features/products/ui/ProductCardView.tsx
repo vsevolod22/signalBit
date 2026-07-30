@@ -1,10 +1,12 @@
-import { animated, config, to, useReducedMotion, useSpring } from '@react-spring/web';
+import { animated, config, useReducedMotion, useSpring } from '@react-spring/web';
 import type { KeyboardEvent, ReactElement } from 'react';
 
 import type { ProductPlacement } from '@/features/products/model/carousel-layout';
 import { ProductDetails, ProductImages, ProductKit, ProductSpecs } from '@/features/products/ui/ProductCardContent';
+import { ProductCatalogSlide } from '@/features/products/ui/ProductCatalogSlide';
 import type { ProductCard } from '@/shared/model/site-content';
 import { MotionLink } from '@/shared/ui/link/MotionLink';
+import { PositionedImage } from '@/shared/ui/positioned-image/PositionedImage';
 
 interface ProductCardViewProps {
   isVisible: boolean;
@@ -16,9 +18,7 @@ interface ProductCardViewProps {
 
 interface ProductCardSpringValues {
   blur: number;
-  offset: number;
   opacity: number;
-  scale: number;
 }
 
 const PRODUCT_CARD_VISUAL_STATE = {
@@ -32,6 +32,18 @@ function getProductCardZIndex(isActive: boolean, isVisible: boolean): number {
   }
 
   return isVisible ? 4 : 1;
+}
+
+function getProductCardLeft(offset: number): string {
+  if (offset < 0) {
+    return 'calc(50% - var(--product-card-step))';
+  }
+
+  if (offset > 0) {
+    return 'calc(50% + var(--product-card-step))';
+  }
+
+  return '50%';
 }
 
 export function ProductCardView({
@@ -55,10 +67,12 @@ export function ProductCardView({
   const interactiveRole = isInteractive ? 'button' : undefined;
   const shouldShowCta = isActive && product.cta !== undefined;
   const springStyle = useSpring<ProductCardSpringValues>({
+    from: {
+      blur: visualState.blur,
+      opacity: visualState.opacity,
+    },
     blur: visualState.blur,
-    offset: limitedOffset,
     opacity: visualState.opacity,
-    scale: visualState.scale,
     immediate: prefersReducedMotion,
     config: springConfig,
   });
@@ -82,13 +96,11 @@ export function ProductCardView({
       className={`products__card products__card--${placement}${featuredClassName}${themeClassName}${productClassName}`}
       aria-hidden={!isVisible}
       style={{
+        backgroundColor: product.backgroundColor,
         filter: springStyle.blur.to((value: number) => `blur(${value}px)`),
+        left: getProductCardLeft(limitedOffset),
         opacity: springStyle.opacity,
-        transform: to(
-          [springStyle.offset, springStyle.scale],
-          (slideOffset, scale) =>
-            `translate3d(calc(-50% + (${slideOffset} * (var(--product-card-size) + var(--product-card-gap)))), 0, 0) scale(${scale})`,
-        ),
+        transform: `translate3d(-50%, 0, 0) scale(${visualState.scale})`,
         zIndex: cardZIndex,
       }}
       tabIndex={interactiveTabIndex}
@@ -96,23 +108,40 @@ export function ProductCardView({
       onClick={onSelect}
       onKeyDown={handleKeyDown}
     >
-      <h3>
-        {product.title}
-        {product.variant !== undefined && <span>{product.variant}</span>}
-      </h3>
-      <p className="products__lead">{product.lead}</p>
-      <div className="products__overview">
-        <ProductImages product={product} />
-        <div className="products__technical">
-          <ProductKit product={product} />
-          <ProductSpecs product={product} />
-        </div>
-      </div>
-      <ProductDetails product={product} />
-      {shouldShowCta && (
-        <MotionLink className="products__cta" href="#contacts" interaction="productCta">
-          {product.cta}
-        </MotionLink>
+      {product.backgroundImage !== undefined && (
+        <PositionedImage
+          className="products__background-image"
+          src={product.backgroundImage}
+          position={product.backgroundImagePosition}
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+          loading="lazy"
+        />
+      )}
+      {product.slideType === 'catalog' ? (
+        <ProductCatalogSlide isInteractive={isActive} product={product} />
+      ) : (
+        <>
+          <h3>
+            {product.title}
+            {product.variant !== undefined && <span>{product.variant}</span>}
+          </h3>
+          <p className="products__lead">{product.lead}</p>
+          <div className="products__overview">
+            <ProductImages product={product} />
+            <div className="products__technical">
+              <ProductKit product={product} />
+              <ProductSpecs product={product} />
+            </div>
+          </div>
+          <ProductDetails product={product} />
+          {shouldShowCta && (
+            <MotionLink className="products__cta" href="#contacts" interaction="productCta">
+              {product.cta}
+            </MotionLink>
+          )}
+        </>
       )}
     </animated.article>
   );

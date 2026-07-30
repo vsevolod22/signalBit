@@ -6,6 +6,7 @@ import { cardRevealVariants, fadeUpVariants, pageSectionVariants } from '@/share
 import { CARD_HOVER } from '@/shared/lib/motion-presets';
 import { AnimatedSection } from '@/shared/ui/animated-section/AnimatedSection';
 import { AnimatedSectionHeading } from '@/shared/ui/animated-section/AnimatedSectionHeading';
+import { PositionedImage } from '@/shared/ui/positioned-image/PositionedImage';
 import { RouteConnector, SectionRoute } from '@/shared/ui/section-route';
 import './about-company.scss';
 
@@ -37,8 +38,9 @@ export function AboutCompany(): ReactElement {
           </motion.dl>
         </motion.div>
         <motion.figure className="about__photo" variants={cardRevealVariants} whileHover={CARD_HOVER.aboutPhoto}>
-          <img
+          <PositionedImage
             src={content.about.photo}
+            position={content.about.photoPosition}
             alt="Демонстрация беспилотной системы СИГНАЛ-БИТ"
             width="424"
             height="277"

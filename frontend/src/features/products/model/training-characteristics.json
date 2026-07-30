@@ -1,0 +1,934 @@
+{
+  "aist": [
+    {
+      "name": "1 Полетный контроллер",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 10
+    },
+    {
+      "name": "1.1 Главный управляющий процессор",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 20
+    },
+    {
+      "name": "1.2.Интерфейсы полетного контроллера",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 30
+    },
+    {
+      "name": "1.3 PWM выходы",
+      "value": "6",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 40
+    },
+    {
+      "name": "1.4 I2C порт",
+      "value": "2",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 50
+    },
+    {
+      "name": "1.5 SPI шина для датчика оптического потока",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 60
+    },
+    {
+      "name": "1.6 UART порт",
+      "value": "4",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 70
+    },
+    {
+      "name": "1.7 SWD порт",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 80
+    },
+    {
+      "name": "1.8 GPIO порт",
+      "value": "3",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 90
+    },
+    {
+      "name": "1.9 Порт для подключения GPS модуля (VCC, TX, RX, SCL, SDA, GND)",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 100
+    },
+    {
+      "name": "1.10 Память процессора полетного контроллера",
+      "value": "128",
+      "unit": "КБ",
+      "section": false,
+      "sortOrder": 110
+    },
+    {
+      "name": "1.11 Тактовая частота полетного контроллера",
+      "value": "170",
+      "unit": "МГц",
+      "section": false,
+      "sortOrder": 120
+    },
+    {
+      "name": "1.12 Система питания полетного контроллера:",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 130
+    },
+    {
+      "name": "1.12.1 независимый вход 5V 2A",
+      "value": "3",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 140
+    },
+    {
+      "name": "1.12.2 выход 5V 200mA",
+      "value": "5",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 150
+    },
+    {
+      "name": "1.12.3 выход 3.3V 100mA",
+      "value": "2",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 160
+    },
+    {
+      "name": "1.13 Габариты полетного контроллера",
+      "value": "54х33х15",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 170
+    },
+    {
+      "name": "2 Выносной блок инерциальной навигационной системы",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 180
+    },
+    {
+      "name": "2.1 3-х осевой акселерометр",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 190
+    },
+    {
+      "name": "2.2 3-х осевой гироскоп",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 200
+    },
+    {
+      "name": "2.3.Барометр",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 210
+    },
+    {
+      "name": "2.4 Размер памяти",
+      "value": "32",
+      "unit": "КБ",
+      "section": false,
+      "sortOrder": 220
+    },
+    {
+      "name": "2.5 Время доступа",
+      "value": "900",
+      "unit": "нс",
+      "section": false,
+      "sortOrder": 230
+    },
+    {
+      "name": "2.6 Габариты выносного блока инерциальной навигационной системы",
+      "value": "23х33х3",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 240
+    },
+    {
+      "name": "3 Плата распределения питания",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 250
+    },
+    {
+      "name": "3.1 Питание",
+      "value": "34",
+      "unit": "В",
+      "section": false,
+      "sortOrder": 260
+    },
+    {
+      "name": "3.2 Максимальный рабочий ток",
+      "value": "200",
+      "unit": "А",
+      "section": false,
+      "sortOrder": 270
+    },
+    {
+      "name": "3.3 Силовые выходы",
+      "value": "4",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 280
+    },
+    {
+      "name": "3.4 Питающие выходы",
+      "value": "2",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 290
+    },
+    {
+      "name": "3.5 Допуск выходного напряжения",
+      "value": "2",
+      "unit": "%",
+      "section": false,
+      "sortOrder": 300
+    },
+    {
+      "name": "3.6 Эффективность преобразования",
+      "value": "90",
+      "unit": "%",
+      "section": false,
+      "sortOrder": 310
+    },
+    {
+      "name": "3.7 Габариты платы распределения питания",
+      "value": "56х42х6,5",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 320
+    },
+    {
+      "name": "4 Регуляторы скорости",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 330
+    },
+    {
+      "name": "4.1 Ток",
+      "value": "30",
+      "unit": "А",
+      "section": false,
+      "sortOrder": 340
+    },
+    {
+      "name": "4.2 Частота",
+      "value": "20",
+      "unit": "кГц",
+      "section": false,
+      "sortOrder": 350
+    },
+    {
+      "name": "4.3 Порт PWM (50-333 Hz)",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 360
+    },
+    {
+      "name": "5 Рама квадрокоптера",
+      "value": "1",
+      "unit": "шт",
+      "section": true,
+      "sortOrder": 370
+    },
+    {
+      "name": "5.1 Длина",
+      "value": "320",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 380
+    },
+    {
+      "name": "5.2 Ширина",
+      "value": "320",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 390
+    },
+    {
+      "name": "5.3 Высота",
+      "value": "60",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 400
+    },
+    {
+      "name": "6 Аккумулятор",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 410
+    },
+    {
+      "name": "7 Зарядное устройство",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 420
+    },
+    {
+      "name": "8 Встроенное программное обеспечение полётного контроллера",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 430
+    },
+    {
+      "name": "8.1. Возможность использовать дрон в режиме ACRO или Stabilize",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 440
+    },
+    {
+      "name": "8.2 Возможность функционировать дрону в более агрессивном режиме, исключая большую часть вибрационных помех от корпуса и двигателей;",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 450
+    },
+    {
+      "name": "8.3 Возможность в режиме Stabilize автоматически выставляет угол наклона, задаваемый пользователем во время полёта",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 460
+    },
+    {
+      "name": "8.4 Автоматическая остановка и посадка при подключении дополнительного датчика оптического потока и дальномера;",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 470
+    },
+    {
+      "name": "8.5 Возможность автономного полёта по маршруту с использованием глобальной навигационной системой GPS/GLONASS;",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 480
+    },
+    {
+      "name": "8.6 Возможность маневрирования в помещении в локальной системе координат при наличии дополнительных систем позиционирования;",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 490
+    },
+    {
+      "name": "8.7 Возможность программно задествовать вспомогательное оборудование, закреплённое на дроне, используя стандартные протоколы управления и активировать при нахождении в заданной точке глобальных или локальных координат",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 500
+    },
+    {
+      "name": "9 Взлетная масса",
+      "value": "900",
+      "unit": "гр",
+      "section": true,
+      "sortOrder": 510
+    },
+    {
+      "name": "10 Аппаратура управления",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 520
+    },
+    {
+      "name": "10.1 Радиопротокол",
+      "value": "ELRS",
+      "section": false,
+      "sortOrder": 530
+    },
+    {
+      "name": "10.2 Частота сигнала управления",
+      "value": "2,4",
+      "unit": "ГГц",
+      "section": false,
+      "sortOrder": 540
+    },
+    {
+      "name": "10.3 Количество каналов управления",
+      "value": "8",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 550
+    },
+    {
+      "name": "11 Приемник",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 560
+    },
+    {
+      "name": "11.1 Радиопротокол",
+      "value": "ELRS",
+      "section": false,
+      "sortOrder": 570
+    },
+    {
+      "name": "11.2 Частота сигнала управления",
+      "value": "2,4",
+      "unit": "ГГц",
+      "section": false,
+      "sortOrder": 580
+    },
+    {
+      "name": "11.3 Количество каналов управления",
+      "value": "8",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 590
+    },
+    {
+      "name": "11.4 Передача телеметрии",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 600
+    },
+    {
+      "name": "11.5 Программный протокол",
+      "value": "CRSF (Crossfire)",
+      "section": false,
+      "sortOrder": 610
+    },
+    {
+      "name": "12 Набор FPV: (Шлем/приемник+ +передатчик)",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 620
+    },
+    {
+      "name": "13 Камера",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 630
+    }
+  ],
+  "colibri": [
+    {
+      "name": "1 Полетный контроллер",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 10
+    },
+    {
+      "name": "1.1 Интерфейсы полетного контроллера",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 20
+    },
+    {
+      "name": "1.2 PWM выходы",
+      "value": "4",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 30
+    },
+    {
+      "name": "1.3 I2C порт",
+      "value": "0",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 40
+    },
+    {
+      "name": "1.4 SPI шина для датчик оптического потока",
+      "value": "0",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 50
+    },
+    {
+      "name": "1.5 UART порт",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 60
+    },
+    {
+      "name": "1.6 SWD порт",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 70
+    },
+    {
+      "name": "1.7 GPIO порт",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 80
+    },
+    {
+      "name": "1.8 Порт для подключения радиоприемного модуля, поддеживающий втандарты FrSky, PPM, SBUS, CSRF с возможностью снятия показаний RSSI",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 90
+    },
+    {
+      "name": "1.9 Память процессора полетного контроллера",
+      "value": "128",
+      "unit": "КБ",
+      "section": false,
+      "sortOrder": 100
+    },
+    {
+      "name": "1.10 Тактовая частота полетного контроллера",
+      "value": "170",
+      "unit": "МГц",
+      "section": false,
+      "sortOrder": 110
+    },
+    {
+      "name": "1.11 Объем оперативной памяти",
+      "value": "32",
+      "unit": "КБ",
+      "section": false,
+      "sortOrder": 120
+    },
+    {
+      "name": "1.12 Поддержка лазерного дальномера модуля оптического позиционирования",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 130
+    },
+    {
+      "name": "1.13 Поддержка модуля оптического позиционирования квадрокоптера",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 140
+    },
+    {
+      "name": "1.14 Стабилизация в разных полетных режимах по угловой скорости, ориентации, позиции",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 150
+    },
+    {
+      "name": "1.15 Встроенный датчик давления",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 160
+    },
+    {
+      "name": "1.16 3-х осевой акселерометр",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 170
+    },
+    {
+      "name": "1.17 3-х осевой гироскоп",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 180
+    },
+    {
+      "name": "1.18 Система питания полетного контроллера:",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 190
+    },
+    {
+      "name": "1.18.1 независимый вход 5V",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 200
+    },
+    {
+      "name": "1.18.2 выходов для питания от аккумулятора",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 210
+    },
+    {
+      "name": "1.19 Габариты полетного контроллера",
+      "value": "40,4х40,4х5",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 220
+    },
+    {
+      "name": "2 Коллекторные моторы",
+      "value": "4",
+      "unit": "шт",
+      "section": true,
+      "sortOrder": 230
+    },
+    {
+      "name": "3 Диаметр винтов",
+      "value": "55",
+      "unit": "мм",
+      "section": true,
+      "sortOrder": 240
+    },
+    {
+      "name": "4 Количество оборотов моторов на вольт ECS2",
+      "value": "35000",
+      "unit": "КВ",
+      "section": true,
+      "sortOrder": 250
+    },
+    {
+      "name": "5 Число каналов связи",
+      "value": "12",
+      "unit": "шт",
+      "section": true,
+      "sortOrder": 260
+    },
+    {
+      "name": "6 Рама квадрокоптера",
+      "value": "1",
+      "unit": "шт",
+      "section": true,
+      "sortOrder": 270
+    },
+    {
+      "name": "6.1 Длина",
+      "value": "120",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 280
+    },
+    {
+      "name": "6.2 Ширина",
+      "value": "120",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 290
+    },
+    {
+      "name": "6.3 Высота",
+      "value": "40",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 300
+    },
+    {
+      "name": "7 Аккумулятор",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 310
+    },
+    {
+      "name": "8 Зарядное устройство",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 320
+    },
+    {
+      "name": "9 Встроенное программное обеспечение полётного контроллера",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 330
+    },
+    {
+      "name": "9.1 Возможность использовать дрон в режиме ACRO или Stabilize",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 340
+    },
+    {
+      "name": "9.2 Возможность функционировать дрону в более агрессивном режиме, исключая большую часть вибрационных помех от корпуса и двигателей",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 350
+    },
+    {
+      "name": "9.3 Возможность в режиме Stabilize автоматически выставляет угол наклона, задаваемый пользователем во время полёта",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 360
+    },
+    {
+      "name": "9.4 Автоматическая остановка и посадка при подключении дополнительного датчика оптического потока и дальномера",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 370
+    },
+    {
+      "name": "9.5 Возможность маневрирования в помещении в локальной системе координат при наличии дополнительных систем позиционирования",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 380
+    }
+  ],
+  "colibriFpv": [
+    {
+      "name": "1 Полетный контроллер",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 10
+    },
+    {
+      "name": "1.1 Интерфейсы полетного контроллера",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 20
+    },
+    {
+      "name": "1.2 PWM выходы",
+      "value": "4",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 30
+    },
+    {
+      "name": "1.3 I2C порт",
+      "value": "0",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 40
+    },
+    {
+      "name": "1.4 SPI шина для датчик оптического потока",
+      "value": "0",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 50
+    },
+    {
+      "name": "1.5 UART порт",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 60
+    },
+    {
+      "name": "1.6 SWD порт",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 70
+    },
+    {
+      "name": "1.7 GPIO порт",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 80
+    },
+    {
+      "name": "1.8 Порт для подключения радиоприемного модуля, поддеживающий втандарты FrSky, PPM, SBUS, CSRF с возможностью снятия показаний RSSI",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 90
+    },
+    {
+      "name": "1.9 Память процессора полетного контроллера",
+      "value": "128",
+      "unit": "КБ",
+      "section": false,
+      "sortOrder": 100
+    },
+    {
+      "name": "1.10 Тактовая частота полетного контроллера",
+      "value": "170",
+      "unit": "МГц",
+      "section": false,
+      "sortOrder": 110
+    },
+    {
+      "name": "1.11 Объем оперативной памяти",
+      "value": "32",
+      "unit": "КБ",
+      "section": false,
+      "sortOrder": 120
+    },
+    {
+      "name": "1.12 Поддержка лазерного дальномера модуля оптического позиционирования",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 130
+    },
+    {
+      "name": "1.13 Поддержка модуля оптического позиционирования",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 140
+    },
+    {
+      "name": "1.14 Стабилизация в разных полетных режимах по угловой скорости, ориентации, позиции",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 150
+    },
+    {
+      "name": "1.15 Встроенный датчик давления",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 160
+    },
+    {
+      "name": "1.16 3-х осевой акселерометр",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 170
+    },
+    {
+      "name": "1.17 3-х осевой гироскоп",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 180
+    },
+    {
+      "name": "1.18 Система питания полетного контроллера:",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 190
+    },
+    {
+      "name": "1.18.1 независимый вход 5V",
+      "value": "1",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 200
+    },
+    {
+      "name": "1.18.2 выходов для аккумулятора",
+      "value": "2",
+      "unit": "шт",
+      "section": false,
+      "sortOrder": 210
+    },
+    {
+      "name": "1.19 Габариты полетного контроллера",
+      "value": "40,4х40,4х5",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 220
+    },
+    {
+      "name": "2 Коллекторные моторы",
+      "value": "4",
+      "unit": "шт",
+      "section": true,
+      "sortOrder": 230
+    },
+    {
+      "name": "3 Диаметр винтов",
+      "value": "55",
+      "unit": "мм",
+      "section": true,
+      "sortOrder": 240
+    },
+    {
+      "name": "4 Количество оборотов моторов на вольт ECS2",
+      "value": "35000",
+      "unit": "КВ",
+      "section": true,
+      "sortOrder": 250
+    },
+    {
+      "name": "5 Число каналов связи",
+      "value": "12",
+      "unit": "шт",
+      "section": true,
+      "sortOrder": 260
+    },
+    {
+      "name": "6 Дальность связи",
+      "value": "1",
+      "unit": "км",
+      "section": true,
+      "sortOrder": 270
+    },
+    {
+      "name": "7 Рама квадрокоптера",
+      "value": "1",
+      "unit": "шт",
+      "section": true,
+      "sortOrder": 280
+    },
+    {
+      "name": "7.1 Длина",
+      "value": "120",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 290
+    },
+    {
+      "name": "7.2 Ширина",
+      "value": "120",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 300
+    },
+    {
+      "name": "7.3 Высота",
+      "value": "40",
+      "unit": "мм",
+      "section": false,
+      "sortOrder": 310
+    },
+    {
+      "name": "8 Аккумулятор",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 320
+    },
+    {
+      "name": "9 Зарядное устройство",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 330
+    },
+    {
+      "name": "10 Встроенное программное обеспечение полётного контроллера",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 340
+    },
+    {
+      "name": "10.1 Возможность использовать дрон в режиме ACRO или Stabilize",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 350
+    },
+    {
+      "name": "10.1 Возможность функционировать дрону в более агрессивном режиме, исключая большую часть вибрационных помех от корпуса и двигателей;",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 360
+    },
+    {
+      "name": "10.2 Возможность в режиме Stabilize автоматически выставляет угол наклона, задаваемый пользователем во время полёта",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 370
+    },
+    {
+      "name": "10.3 Автоматическая остановка и посадка при подключении дополнительного датчика оптического потока и дальномера",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 380
+    },
+    {
+      "name": "10.4 Возможность маневрирования в помещении в локальной системе координат при наличии дополнительных систем позиционирования",
+      "value": "наличие",
+      "section": false,
+      "sortOrder": 390
+    },
+    {
+      "name": "11 Набор FPV: (шлем/приемник+передатчик)",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 400
+    },
+    {
+      "name": "12 Камера",
+      "value": "наличие",
+      "section": true,
+      "sortOrder": 410
+    }
+  ]
+}

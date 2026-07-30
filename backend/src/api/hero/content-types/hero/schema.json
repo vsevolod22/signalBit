@@ -32,15 +32,30 @@
       "multiple": false,
       "allowedTypes": ["images"]
     },
+    "logoPosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
+    },
     "rightHand": {
       "type": "media",
       "multiple": false,
       "allowedTypes": ["images"]
     },
+    "rightHandPosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
+    },
     "leftHand": {
       "type": "media",
       "multiple": false,
       "allowedTypes": ["images"]
+    },
+    "leftHandPosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
     }
   }
 }

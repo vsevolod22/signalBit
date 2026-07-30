@@ -1,0 +1,64 @@
+{
+  "collectionName": "components_product_catalog_items",
+  "info": {
+    "displayName": "Продукт группового слайда",
+    "description": "Продукт внутри нового группового вида слайда"
+  },
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "kitTitle": {
+      "type": "string",
+      "default": "состав набора"
+    },
+    "kitItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.kit-item"
+    },
+    "priceLabel": {
+      "type": "string",
+      "default": "Стоимость"
+    },
+    "price": {
+      "type": "string"
+    },
+    "characteristicsButtonLabel": {
+      "type": "string",
+      "default": "Подробные характеристики"
+    },
+    "characteristicsTitle": {
+      "type": "string"
+    },
+    "characteristicNameLabel": {
+      "type": "string",
+      "default": "Наименование характеристики"
+    },
+    "characteristicValueLabel": {
+      "type": "string",
+      "default": "Значение"
+    },
+    "characteristicUnitLabel": {
+      "type": "string",
+      "default": "Ед. изм."
+    },
+    "characteristics": {
+      "type": "component",
+      "repeatable": true,
+      "component": "product.characteristic-row"
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

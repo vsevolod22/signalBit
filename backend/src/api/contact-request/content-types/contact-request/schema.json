@@ -29,6 +29,13 @@
     "source": {
       "type": "string",
       "default": "Сайт"
+    },
+    "emailNotificationSent": {
+      "type": "boolean",
+      "default": false
+    },
+    "emailNotificationError": {
+      "type": "text"
     }
   }
 }

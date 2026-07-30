@@ -1,12 +1,13 @@
 import { z } from 'zod';
 import { getMediaUrl } from '@/shared/api/strapi-client';
-import { strapiMediaSchema } from '@/shared/api/strapi-schemas';
+import { mapStrapiImagePosition, strapiImagePositionSchema, strapiMediaSchema } from '@/shared/api/strapi-schemas';
 import type { SiteContent } from '@/shared/model/site-content';
 
 export const siteNavigationCmsSchema = z
   .object({
     contactLabel: z.string().optional(),
     logo: strapiMediaSchema.nullable().optional(),
+    logoPosition: strapiImagePositionSchema,
     links: z.array(z.object({ label: z.string().optional(), sectionIndex: z.number().int().optional() })).optional(),
   })
   .nullable()
@@ -45,6 +46,7 @@ export function mapSiteNavigationContent(
   return {
     ...fallback,
     logo: getMediaUrl(cms?.logo, fallback.logo, apiUrl),
+    logoPosition: mapStrapiImagePosition(cms?.logoPosition) ?? fallback.logoPosition,
     contactLabel: cms?.contactLabel ?? fallback.contactLabel,
     links: mapNavigationLinks(cms, fallback.links),
   };

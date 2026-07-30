@@ -32,6 +32,11 @@
       "multiple": false,
       "allowedTypes": ["images"]
     },
+    "imagePosition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.image-position"
+    },
     "sortOrder": {
       "type": "integer",
       "default": 0
