@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME:-signalbit}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD is required}
     volumes:
-      - signalbit_postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-signalbit} -d ${DATABASE_NAME:-signalbit_cms}"]
       interval: 10s
@@ -16,7 +16,8 @@ services:
 
   strapi:
     build:
-      context: ./backend
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
       postgres:
@@ -31,8 +32,7 @@ services:
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:?TRANSFER_TOKEN_SALT is required}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
       ENCRYPTION_KEY: ${ENCRYPTION_KEY:?ENCRYPTION_KEY is required}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5174,http://localhost:4174}
-      CORS_ALLOW_VERCEL_PREVIEWS: ${CORS_ALLOW_VERCEL_PREVIEWS:-false}
+      STRAPI_TELEMETRY_DISABLED: "true"
       DATABASE_CLIENT: postgres
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
@@ -40,7 +40,8 @@ services:
       DATABASE_USERNAME: ${DATABASE_USERNAME:-signalbit}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD is required}
       DATABASE_SSL: "false"
-      STRAPI_TELEMETRY_DISABLED: "true"
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+      CORS_ALLOW_VERCEL_PREVIEWS: ${CORS_ALLOW_VERCEL_PREVIEWS:-false}
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_PORT: ${SMTP_PORT:-465}
       SMTP_SECURE: ${SMTP_SECURE:-true}
@@ -51,7 +52,7 @@ services:
     ports:
       - "${STRAPI_BIND_ADDRESS:-0.0.0.0}:${STRAPI_PORT:-1337}:1337"
     volumes:
-      - signalbit_uploads:/app/public/uploads
+      - strapi_uploads:/app/public/uploads
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:1337/_health >/dev/null || exit 1"]
       interval: 10s
@@ -60,5 +61,6 @@ services:
       retries: 12
 
 volumes:
-  signalbit_postgres_data:
-  signalbit_uploads:
+  postgres_data:
+  strapi_uploads:
+

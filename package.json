@@ -42,7 +42,8 @@
     "backend:start": "pnpm --dir backend start",
     "backend:import-media": "pnpm --dir backend import:frontend-media",
     "backend:import-training-catalog": "pnpm --dir backend import:training-catalog",
-    "deploy:cms": "bash scripts/deploy-cms.sh"
+    "deploy:cms": "bash scripts/deploy-cms.sh",
+    "deploy:stack": "bash scripts/deploy-stack.sh"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",

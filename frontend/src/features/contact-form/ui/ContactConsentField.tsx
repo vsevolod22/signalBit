@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import type { ContactFormValues } from '@/features/contact-form/model/contact-form-schema';
 import { FormCheckboxField } from '@/shared/ui/form/FormControls';
+import { PersonalDataConsentLink } from '@/shared/ui/link/PersonalDataConsentLink';
 
 export function ContactConsentField(): ReactElement {
   const {
@@ -13,7 +14,11 @@ export function ContactConsentField(): ReactElement {
   return (
     <FormCheckboxField
       id="contact-consent"
-      label="Я согласен на обработку данных для ответа на обращение."
+      label={
+        <span>
+          Я согласен на <PersonalDataConsentLink /> для ответа на обращение.
+        </span>
+      }
       error={errors.consent?.message}
       registration={register('consent')}
     />

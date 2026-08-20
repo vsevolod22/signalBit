@@ -2,9 +2,11 @@
   "name": "signalbit-cms",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.10.0",
   "description": "Strapi CMS for SignalBit editable website content",
   "scripts": {
     "build": "strapi build",
+    "deploy:server": "bash deploy.sh",
     "develop": "strapi develop",
     "import:frontend-media": "node scripts/import-frontend-media.mjs",
     "import:training-catalog": "node scripts/import-training-catalog.mjs",

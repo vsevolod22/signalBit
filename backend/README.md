@@ -18,15 +18,30 @@ To import the frontend fallback images and video into the local Strapi Media Lib
 pnpm backend:import-media
 ```
 
-## Deploy to server
+## Standalone deploy to a server
 
-The production deploy uses Docker Compose with PostgreSQL and Strapi containers.
+The production deployment files in this directory are self-contained, so the backend can be used as a separate Git repository. Run the deploy directly from that repository:
 
 ```bash
-pnpm deploy:cms user@server /opt/signalbit
+chmod +x deploy.sh
+./deploy.sh root@203.0.113.10 /opt/signalbit-backend https://example.ru,https://www.example.ru
 ```
 
-Requirements on the server: Docker and Docker Compose plugin. The script creates `backend/.env` on the server if it does not exist, generates secrets, builds the Strapi image, starts PostgreSQL and exposes Strapi at `http://server:1337/admin`.
+Or through the backend package script:
+
+```bash
+pnpm run deploy:server root@203.0.113.10 /opt/signalbit-backend https://example.ru
+```
+
+Arguments are `user@server`, optional server directory, and optional comma-separated CORS origins. Use `*` as the third argument to allow every frontend and eliminate browser CORS restrictions:
+
+```bash
+./deploy.sh root@203.0.113.10 /opt/signalbit-backend '*'
+```
+
+The script only uploads this backend repository. It installs Docker on Debian/Ubuntu when necessary, generates `.env` with Strapi and database secrets on the server, and starts PostgreSQL plus Strapi from `docker-compose.prod.yml`. The generated `.env`, PostgreSQL data, and uploaded files survive subsequent deployments.
+
+For a manually managed production environment, copy `.env.production.example` to `.env`, replace every placeholder, and set `CORS_ORIGINS` to `*` or to the exact frontend domains. The deploy script never uploads or overwrites an existing server `.env`.
 
 ## Env for Strapi Cloud and Vercel
 

@@ -1,0 +1,17 @@
+.git
+.agents
+.DS_Store
+.env*
+.pnpm-store
+.vite
+node_modules
+**/node_modules
+dist
+dist-*
+**/build
+**/dist
+**/.cache
+**/.tmp
+backend/public/uploads
+backend/transfer_*.log
+

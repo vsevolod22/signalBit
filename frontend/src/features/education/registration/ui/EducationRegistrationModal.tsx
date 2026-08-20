@@ -17,6 +17,7 @@ import {
   formatRussianPhoneInput,
 } from '@/features/education/registration/model/registration-input-masks';
 import { FormCheckboxField, FormTextareaField, FormTextField } from '@/shared/ui/form/FormControls';
+import { PersonalDataConsentLink } from '@/shared/ui/link/PersonalDataConsentLink';
 
 import './education-registration-modal.scss';
 
@@ -255,7 +256,11 @@ export function EducationRegistrationModal({
 
                 <FormCheckboxField
                   id={`${dialogId}-consent`}
-                  label="Я согласен на обработку персональных данных для регистрации на обучение."
+                  label={
+                    <span>
+                      Я согласен на <PersonalDataConsentLink /> для регистрации на обучение.
+                    </span>
+                  }
                   error={errors.consent?.message}
                   registration={register('consent')}
                 />

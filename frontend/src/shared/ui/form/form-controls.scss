@@ -100,6 +100,23 @@
   align-items: flex-start;
 }
 
+.form-checkbox__document-link {
+  color: var(--deep-teal);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.form-checkbox__document-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.form-checkbox__document-link:focus-visible {
+  border-radius: 3px;
+  outline: 3px solid #16a6ad;
+  outline-offset: 2px;
+}
+
 .form-checkbox input:focus-visible {
   outline: 3px solid #16a6ad;
   outline-offset: 3px;
