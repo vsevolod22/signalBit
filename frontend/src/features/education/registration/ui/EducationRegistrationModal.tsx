@@ -16,8 +16,11 @@ import {
   formatHttpsUrlInput,
   formatRussianPhoneInput,
 } from '@/features/education/registration/model/registration-input-masks';
+import { getCaptchaSubmissionError } from '@/shared/api/captcha-errors';
+import { CAPTCHA_MESSAGE, getSmartCaptchaSiteKey } from '@/shared/lib/smart-captcha';
 import { FormCheckboxField, FormTextareaField, FormTextField } from '@/shared/ui/form/FormControls';
 import { PersonalDataConsentLink } from '@/shared/ui/link/PersonalDataConsentLink';
+import { SmartCaptchaField } from '@/shared/ui/smart-captcha/SmartCaptchaField';
 
 import './education-registration-modal.scss';
 
@@ -29,6 +32,7 @@ type SubmissionStatus = 'idle' | 'success' | 'error';
 interface EducationRegistrationModalProps {
   apiUrl?: string;
   audience: CourseAudience;
+  captchaSiteKey?: string;
   courseTitle: string;
   triggerLabel: string;
 }
@@ -48,6 +52,7 @@ function closeDialog(dialog: HTMLDialogElement | null): void {
 export function EducationRegistrationModal({
   apiUrl,
   audience,
+  captchaSiteKey,
   courseTitle,
   triggerLabel,
 }: EducationRegistrationModalProps): ReactElement {
@@ -55,6 +60,10 @@ export function EducationRegistrationModal({
   const dialogId = useId();
   const titleId = useId();
   const [status, setStatus] = useState<SubmissionStatus>('idle');
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaResetKey, setCaptchaResetKey] = useState(0);
+  const [captchaError, setCaptchaError] = useState('');
+  const submissionLockRef = useRef(false);
   const defaultValues = createEducationRegistrationDefaults(audience);
   const form = useForm<EducationRegistrationValues>({
     resolver: zodResolver(educationRegistrationSchema),
@@ -69,6 +78,7 @@ export function EducationRegistrationModal({
   } = form;
   const isChildrenCourse = audience === COURSE_AUDIENCE.CHILDREN;
   const isPending = isSubmitting || mutation.isPending;
+  const siteKey = getSmartCaptchaSiteKey(captchaSiteKey);
   type MaskedFieldName = 'studentBirthDate' | 'studentPhone' | 'studentSocialLink' | 'parentPhone' | 'parentSocialLink';
 
   const registerMaskedField = (fieldName: MaskedFieldName, formatter: (value: string) => string) =>
@@ -82,6 +92,9 @@ export function EducationRegistrationModal({
 
   const handleOpen = (): void => {
     setStatus('idle');
+    setCaptchaToken('');
+    setCaptchaError('');
+    setCaptchaResetKey((value) => value + 1);
     form.reset(defaultValues);
     openDialog(dialogRef.current);
   };
@@ -101,12 +114,35 @@ export function EducationRegistrationModal({
 
   const onSubmit = async (values: EducationRegistrationValues): Promise<void> => {
     setStatus('idle');
+
+    if (submissionLockRef.current || isPending) {
+      return;
+    }
+    if (siteKey === undefined) {
+      setCaptchaError(CAPTCHA_MESSAGE.missing);
+      return;
+    }
+    if (captchaToken === '') {
+      setCaptchaError(CAPTCHA_MESSAGE.required);
+      return;
+    }
+
+    submissionLockRef.current = true;
     try {
-      await mutation.mutateAsync(values);
+      await mutation.mutateAsync({ smartCaptchaToken: captchaToken, values });
       form.reset(defaultValues);
       setStatus('success');
-    } catch {
-      setStatus('error');
+    } catch (error: unknown) {
+      const captchaSubmissionError = getCaptchaSubmissionError(error);
+      if (captchaSubmissionError === undefined) {
+        setStatus('error');
+      } else {
+        setCaptchaError(captchaSubmissionError);
+      }
+    } finally {
+      setCaptchaToken('');
+      setCaptchaResetKey((value) => value + 1);
+      submissionLockRef.current = false;
     }
   };
 
@@ -265,8 +301,22 @@ export function EducationRegistrationModal({
                   registration={register('consent')}
                 />
 
+                <SmartCaptchaField
+                  key={captchaResetKey}
+                  siteKey={captchaSiteKey}
+                  error={captchaError}
+                  onSuccess={(token) => {
+                    setCaptchaToken(token);
+                    setCaptchaError('');
+                  }}
+                  onError={(message) => {
+                    setCaptchaToken('');
+                    setCaptchaError(message);
+                  }}
+                />
+
                 <div className="education-registration-modal__actions">
-                  <button type="submit" disabled={isPending}>
+                  <button type="submit" disabled={siteKey === undefined || isPending}>
                     {isPending ? 'Отправляем…' : 'Отправить заявку'}
                   </button>
                   <div aria-live="polite">

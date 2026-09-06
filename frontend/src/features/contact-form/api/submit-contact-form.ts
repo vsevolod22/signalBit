@@ -16,6 +16,12 @@ interface ContactRequestPayload {
   email: string;
   contactMethod: string;
   question: string;
+  smartCaptchaToken: string;
+}
+
+export interface ContactFormSubmissionInput {
+  smartCaptchaToken: string;
+  values: ContactFormValues;
 }
 
 export const contactFormMutationKeys = {
@@ -28,17 +34,19 @@ function getPreferredContactMethod(values: ContactFormValues): string {
   return hasPhoneNumber ? `Телефон: ${values.phone}` : `Email: ${values.email}`;
 }
 
-function toContactRequestPayload(values: ContactFormValues): ContactRequestPayload {
+function toContactRequestPayload(values: ContactFormValues, smartCaptchaToken: string): ContactRequestPayload {
   return {
     fullName: values.name,
     email: values.email,
     contactMethod: getPreferredContactMethod(values),
     question: `Тема: ${values.subject}\n\n${values.message}`,
+    smartCaptchaToken,
   };
 }
 
 export async function submitContactForm(
   values: ContactFormValues,
+  smartCaptchaToken: string,
   apiUrl = STRAPI_API_URL,
 ): Promise<ContactFormSubmissionResult> {
   const validatedValues = contactFormSchema.parse(values);
@@ -50,7 +58,7 @@ export async function submitContactForm(
   await requestStrapi(STRAPI_ENDPOINT.CONTACT_REQUEST_SUBMIT, {
     apiUrl,
     method: HTTP_METHOD.POST,
-    body: { data: toContactRequestPayload(validatedValues) },
+    body: { data: toContactRequestPayload(validatedValues, smartCaptchaToken) },
     timeoutMs: FORM_SUBMISSION_TIMEOUT_MS,
   });
 
@@ -58,8 +66,8 @@ export async function submitContactForm(
 }
 
 export function useContactFormMutation(apiUrl = STRAPI_API_URL) {
-  return useMutation<ContactFormSubmissionResult, Error, ContactFormValues>({
+  return useMutation<ContactFormSubmissionResult, Error, ContactFormSubmissionInput>({
     mutationKey: contactFormMutationKeys.submit(),
-    mutationFn: (values) => submitContactForm(values, apiUrl),
+    mutationFn: ({ smartCaptchaToken, values }) => submitContactForm(values, smartCaptchaToken, apiUrl),
   });
 }

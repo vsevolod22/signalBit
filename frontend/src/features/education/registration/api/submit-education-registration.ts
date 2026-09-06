@@ -24,6 +24,12 @@ interface EducationRegistrationPayload {
   parentPhone: string;
   parentSocialLink: string;
   personalDataConsent: boolean;
+  smartCaptchaToken: string;
+}
+
+export interface EducationRegistrationSubmissionInput {
+  smartCaptchaToken: string;
+  values: EducationRegistrationValues;
 }
 
 export interface EducationRegistrationResult {
@@ -35,7 +41,7 @@ export const educationRegistrationMutationKeys = {
   submit: () => [...educationRegistrationMutationKeys.all, 'submit'] as const,
 };
 
-function toPayload(values: EducationRegistrationValues): EducationRegistrationPayload {
+function toPayload(values: EducationRegistrationValues, smartCaptchaToken: string): EducationRegistrationPayload {
   return {
     courseAudience: values.courseAudience,
     courseName: values.courseName,
@@ -49,11 +55,13 @@ function toPayload(values: EducationRegistrationValues): EducationRegistrationPa
     parentPhone: values.parentPhone,
     parentSocialLink: values.parentSocialLink,
     personalDataConsent: values.consent,
+    smartCaptchaToken,
   };
 }
 
 export async function submitEducationRegistration(
   values: EducationRegistrationValues,
+  smartCaptchaToken: string,
   apiUrl = STRAPI_API_URL,
 ): Promise<EducationRegistrationResult> {
   const validatedValues = educationRegistrationSchema.parse(values);
@@ -64,7 +72,7 @@ export async function submitEducationRegistration(
   await requestStrapi(STRAPI_ENDPOINT.COURSE_REGISTRATION_SUBMIT, {
     apiUrl,
     method: HTTP_METHOD.POST,
-    body: { data: toPayload(validatedValues) },
+    body: { data: toPayload(validatedValues, smartCaptchaToken) },
     timeoutMs: FORM_SUBMISSION_TIMEOUT_MS,
   });
 
@@ -72,8 +80,8 @@ export async function submitEducationRegistration(
 }
 
 export function useEducationRegistrationMutation(apiUrl = STRAPI_API_URL) {
-  return useMutation<EducationRegistrationResult, Error, EducationRegistrationValues>({
+  return useMutation<EducationRegistrationResult, Error, EducationRegistrationSubmissionInput>({
     mutationKey: educationRegistrationMutationKeys.submit(),
-    mutationFn: (values) => submitEducationRegistration(values, apiUrl),
+    mutationFn: ({ smartCaptchaToken, values }) => submitEducationRegistration(values, smartCaptchaToken, apiUrl),
   });
 }

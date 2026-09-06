@@ -41,6 +41,8 @@ pnpm deploy:stack root@203.0.113.10 /opt/signalbit http://203.0.113.10
 
 ```env
 VITE_STRAPI_API_URL=https://your-strapi-domain
+VITE_SMARTCAPTCHA_CLIENT_KEY=ysc1_your_client_key
 ```
 
-Указывай домен Strapi без `/api` в конце.
+Указывай домен Strapi без `/api` в конце. Для SmartCaptcha нужен только публичный клиентский ключ с префиксом
+`ysc1_`; серверный ключ во frontend-конфигурацию добавлять нельзя.

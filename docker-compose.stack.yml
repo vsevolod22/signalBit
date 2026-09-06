@@ -65,6 +65,7 @@ services:
         VITE_STRAPI_API_URL: ${PUBLIC_URL:?PUBLIC_URL is required}
         VITE_SITE_URL: ${PUBLIC_URL:?PUBLIC_URL is required}
         VITE_CONTACT_FORM_ENDPOINT: ${VITE_CONTACT_FORM_ENDPOINT:-}
+        VITE_SMARTCAPTCHA_CLIENT_KEY: ${VITE_SMARTCAPTCHA_CLIENT_KEY:-}
     restart: unless-stopped
     depends_on:
       strapi:
@@ -81,4 +82,3 @@ services:
 volumes:
   postgres_data:
   strapi_uploads:
-

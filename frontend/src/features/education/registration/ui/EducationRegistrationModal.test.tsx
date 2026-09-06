@@ -4,8 +4,17 @@ import type { ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { COURSE_AUDIENCE } from '@/features/education/registration/model/education-registration-schema';
+import { CAPTCHA_MESSAGE } from '@/shared/lib/smart-captcha';
 
 import { EducationRegistrationModal } from './EducationRegistrationModal';
+
+vi.mock('@yandex/smart-captcha', () => ({
+  SmartCaptcha: ({ onSuccess }: { onSuccess?: (token: string) => void }) => (
+    <button type="button" onClick={() => onSuccess?.('education-captcha-token')}>
+      Пройти проверку
+    </button>
+  ),
+}));
 
 afterEach(() => {
   cleanup();
@@ -19,11 +28,26 @@ function renderModal(audience: 'children' | 'adults', courseTitle: string): Reac
       <EducationRegistrationModal
         apiUrl="https://cms.example.test"
         audience={audience}
+        captchaSiteKey="ysc1_test_client_key"
         courseTitle={courseTitle}
         triggerLabel="Оставить заявку"
       />
     </QueryClientProvider>
   );
+}
+
+function fillValidAdultRegistration(): HTMLFormElement {
+  fireEvent.change(screen.getByLabelText('ФИО обучающегося'), { target: { value: 'Петров Пётр Петрович' } });
+  fireEvent.change(screen.getByLabelText('Дата рождения обучающегося'), { target: { value: '21.08.1998' } });
+  fireEvent.change(screen.getByLabelText('Номер телефона обучающегося'), { target: { value: '+7 900 111-22-33' } });
+  fireEvent.change(screen.getByLabelText('Ссылка на Telegram/ВК обучающегося'), {
+    target: { value: 'https://t.me/adult' },
+  });
+  fireEvent.change(screen.getByLabelText('Город проживания'), { target: { value: 'Таганрог' } });
+  fireEvent.click(screen.getByLabelText('Я согласен на обработку персональных данных для регистрации на обучение.'));
+  const form = screen.getByRole('dialog', { name: 'Инженер-оператор БАС' }).querySelector('form');
+  expect(form).not.toBeNull();
+  return form as HTMLFormElement;
 }
 
 describe('EducationRegistrationModal', () => {
@@ -74,22 +98,26 @@ describe('EducationRegistrationModal', () => {
     vi.stubGlobal('fetch', fetchMock);
     render(renderModal(COURSE_AUDIENCE.ADULTS, 'Инженер-оператор БАС'));
     fireEvent.click(screen.getByRole('button', { name: 'Оставить заявку' }));
-    fireEvent.change(screen.getByLabelText('ФИО обучающегося'), { target: { value: 'Петров Пётр Петрович' } });
-    fireEvent.change(screen.getByLabelText('Дата рождения обучающегося'), { target: { value: '21.08.1998' } });
-    fireEvent.change(screen.getByLabelText('Номер телефона обучающегося'), { target: { value: '+7 900 111-22-33' } });
-    fireEvent.change(screen.getByLabelText('Ссылка на Telegram/ВК обучающегося'), {
-      target: { value: 'https://t.me/adult' },
-    });
-    fireEvent.change(screen.getByLabelText('Город проживания'), { target: { value: 'Таганрог' } });
-    fireEvent.click(screen.getByLabelText('Я согласен на обработку персональных данных для регистрации на обучение.'));
-    const form = screen.getByRole('dialog', { name: 'Инженер-оператор БАС' }).querySelector('form');
-    expect(form).not.toBeNull();
-    fireEvent.submit(form as HTMLFormElement);
+    const form = fillValidAdultRegistration();
+    fireEvent.click(screen.getByRole('button', { name: 'Пройти проверку' }));
+    fireEvent.submit(form);
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
     const status = await screen.findByRole('status');
     expect(status.textContent).toContain(
       'Спасибо за вашу заинтересованность в обучении! Наш сотрудник свяжется с вами в течение рабочего дня, чтобы ответить на все вопросы',
     );
+  });
+
+  it('не отправляет регистрацию без пройденной капчи', async () => {
+    const fetchMock = vi.fn<typeof fetch>();
+    vi.stubGlobal('fetch', fetchMock);
+    render(renderModal(COURSE_AUDIENCE.ADULTS, 'Инженер-оператор БАС'));
+    fireEvent.click(screen.getByRole('button', { name: 'Оставить заявку' }));
+
+    fireEvent.submit(fillValidAdultRegistration());
+
+    await waitFor(() => expect(screen.getByRole('alert').textContent).toContain(CAPTCHA_MESSAGE.required));
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

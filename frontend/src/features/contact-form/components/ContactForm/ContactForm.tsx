@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import type { ReactElement } from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useContactFormMutation } from '@/features/contact-form/api/submit-contact-form';
@@ -11,7 +11,10 @@ import { ContactFormFields } from '@/features/contact-form/ui/ContactFormFields'
 import { ContactFormIntro } from '@/features/contact-form/ui/ContactFormIntro';
 import type { SubmissionStatus } from '@/features/contact-form/ui/ContactFormStatus';
 import { ContactFormStatus } from '@/features/contact-form/ui/ContactFormStatus';
+import { getCaptchaSubmissionError } from '@/shared/api/captcha-errors';
 import { fadeUpVariants, pageSectionVariants, revealViewport } from '@/shared/lib/landing-motion';
+import { CAPTCHA_MESSAGE, getSmartCaptchaSiteKey } from '@/shared/lib/smart-captcha';
+import { SmartCaptchaField } from '@/shared/ui/smart-captcha/SmartCaptchaField';
 
 import './contact-form.scss';
 
@@ -24,25 +27,63 @@ const DEFAULT_VALUES: ContactFormValues = {
   consent: false,
 };
 
-export function ContactForm(): ReactElement {
+interface ContactFormProps {
+  apiUrl?: string;
+  captchaSiteKey?: string;
+}
+
+export function ContactForm({ apiUrl, captchaSiteKey }: ContactFormProps = {}): ReactElement {
   const [status, setStatus] = useState<SubmissionStatus>('idle');
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaResetKey, setCaptchaResetKey] = useState(0);
+  const [captchaError, setCaptchaError] = useState('');
+  const submissionLockRef = useRef(false);
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: DEFAULT_VALUES,
     mode: 'onSubmit',
     reValidateMode: 'onBlur',
   });
-  const contactFormMutation = useContactFormMutation();
+  const contactFormMutation = useContactFormMutation(apiUrl);
   const isSubmitPending = form.formState.isSubmitting || contactFormMutation.isPending;
+  const siteKey = getSmartCaptchaSiteKey(captchaSiteKey);
+
+  const handleCaptchaError = (message: string): void => {
+    setCaptchaToken('');
+    setCaptchaError(message);
+  };
 
   const onSubmit = async (values: ContactFormValues): Promise<void> => {
     setStatus('idle');
+
+    if (submissionLockRef.current || isSubmitPending) {
+      return;
+    }
+    if (siteKey === undefined) {
+      setCaptchaError(CAPTCHA_MESSAGE.missing);
+      return;
+    }
+    if (captchaToken === '') {
+      setCaptchaError(CAPTCHA_MESSAGE.required);
+      return;
+    }
+
+    submissionLockRef.current = true;
     try {
-      await contactFormMutation.mutateAsync(values);
+      await contactFormMutation.mutateAsync({ smartCaptchaToken: captchaToken, values });
       form.reset(DEFAULT_VALUES);
       setStatus('success');
-    } catch {
-      setStatus('error');
+    } catch (error: unknown) {
+      const captchaSubmissionError = getCaptchaSubmissionError(error);
+      if (captchaSubmissionError === undefined) {
+        setStatus('error');
+      } else {
+        setCaptchaError(captchaSubmissionError);
+      }
+    } finally {
+      setCaptchaToken('');
+      setCaptchaResetKey((value) => value + 1);
+      submissionLockRef.current = false;
     }
   };
 
@@ -65,7 +106,17 @@ export function ContactForm(): ReactElement {
           variants={fadeUpVariants}
         >
           <ContactFormFields />
-          <ContactFormStatus isPending={isSubmitPending} status={status} />
+          <SmartCaptchaField
+            key={captchaResetKey}
+            siteKey={captchaSiteKey}
+            error={captchaError}
+            onSuccess={(token) => {
+              setCaptchaToken(token);
+              setCaptchaError('');
+            }}
+            onError={handleCaptchaError}
+          />
+          <ContactFormStatus isDisabled={siteKey === undefined} isPending={isSubmitPending} status={status} />
         </motion.form>
       </FormProvider>
     </motion.div>

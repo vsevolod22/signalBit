@@ -8,6 +8,7 @@ import {
 import { submitEducationRegistration } from './submit-education-registration';
 
 const CMS_URL = 'https://cms.example.test';
+const CAPTCHA_TOKEN = 'smart-captcha-token';
 
 afterEach(() => {
   vi.useRealTimers();
@@ -33,11 +34,14 @@ describe('education registration request', () => {
       consent: true,
     };
 
-    await expect(submitEducationRegistration(values, CMS_URL)).resolves.toEqual({ saved: true });
+    await expect(submitEducationRegistration(values, CAPTCHA_TOKEN, CMS_URL)).resolves.toEqual({ saved: true });
     const request = fetchMock.mock.calls[0]?.[1];
     const body = String(request?.body);
     expect(body).toContain('"studentBirthDate":"2010-04-15"');
     expect(body).toContain('"studyPlace":"МОБУ СОШ № 38, 10А"');
+    const requestBody = JSON.parse(body);
+    expect(requestBody.data.smartCaptchaToken).toBe(CAPTCHA_TOKEN);
+    expect(requestBody).not.toHaveProperty('smartCaptchaToken');
   });
 
   it('дожидается ответа backend дольше общего четырёхсекундного тайм-аута', async () => {
@@ -69,7 +73,7 @@ describe('education registration request', () => {
       city: 'Таганрог',
       consent: true,
     };
-    const submission = submitEducationRegistration(values, CMS_URL);
+    const submission = submitEducationRegistration(values, CAPTCHA_TOKEN, CMS_URL);
 
     await vi.advanceTimersByTimeAsync(5_000);
 

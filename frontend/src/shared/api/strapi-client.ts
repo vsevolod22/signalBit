@@ -6,7 +6,10 @@ export const STRAPI_API_URL = normalizeApiUrl(import.meta.env.VITE_STRAPI_API_UR
 const STRAPI_REQUEST_TIMEOUT_MS = 4_000;
 
 export class StrapiHttpError extends Error {
-  public constructor(public readonly status: number) {
+  public constructor(
+    public readonly status: number,
+    public readonly serverMessage?: string,
+  ) {
     super(`Strapi responded with HTTP ${status}.`);
     this.name = 'StrapiHttpError';
   }
@@ -80,6 +83,27 @@ function isAbortError(error: unknown): boolean {
   return error instanceof DOMException && error.name === 'AbortError';
 }
 
+function getNestedErrorMessage(payload: unknown): string | undefined {
+  if (typeof payload !== 'object' || payload === null) {
+    return undefined;
+  }
+
+  const message = Reflect.get(payload, 'message');
+  if (typeof message === 'string') {
+    return message;
+  }
+
+  return getNestedErrorMessage(Reflect.get(payload, 'error'));
+}
+
+async function readErrorMessage(response: Response): Promise<string | undefined> {
+  try {
+    return getNestedErrorMessage(await response.json());
+  } catch {
+    return undefined;
+  }
+}
+
 interface RequestSignalContext {
   cleanup: () => void;
   signal: AbortSignal;
@@ -138,7 +162,7 @@ export async function requestStrapi(path: string, options: StrapiRequestOptions 
     }
 
     if (!response.ok) {
-      throw new StrapiHttpError(response.status);
+      throw new StrapiHttpError(response.status, await readErrorMessage(response));
     }
 
     return response;

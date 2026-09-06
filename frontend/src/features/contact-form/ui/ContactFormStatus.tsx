@@ -9,9 +9,11 @@ const SUBMISSION_STATUS_MESSAGE: Record<SubmissionStatus, string> = {
 };
 
 export function ContactFormStatus({
+  isDisabled,
   isPending,
   status,
 }: {
+  isDisabled: boolean;
   isPending: boolean;
   status: SubmissionStatus;
 }): ReactElement {
@@ -19,7 +21,7 @@ export function ContactFormStatus({
 
   return (
     <div className="contact__actions">
-      <button type="submit" disabled={isPending}>
+      <button type="submit" disabled={isDisabled || isPending}>
         {submitButtonLabel}
       </button>
       <div className="contact__status" aria-live="polite" aria-atomic="true">
